@@ -63,10 +63,12 @@ model Service {
   status              Status                @default(ACTIVE)
   estimatedDuration   Int // Store duration in minutes (e.g., 60 for 1 hour)
   serviceAvailability ServiceAvailability[]
-  Appointment         Appointment[] // select all the appointments for reminders
-  Reminder            Reminder[]
-  Resource            Resource?             @relation(fields: [resourceId], references: [id])
-  resourceId          String?
+  appointments        Appointment[] // select all the appointments for reminders
+  eminders            Reminder[]
+  resources           Resource[]
+
+  BusinessDetail   BusinessDetail? @relation(fields: [businessDetailId], references: [id])
+  businessDetailId String?
 }
 
 model ServiceAvailability {
@@ -241,7 +243,7 @@ model BusinessDetail {
   id                         String            @id @default(cuid())
   name                       String
   industry                   String
-  email                      String
+  email                      String            @unique
   phone                      String
   website                    String?
   address                    BusinessAddress[] // Business can have multiple branches
@@ -254,8 +256,9 @@ model BusinessDetail {
 
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
-  SupportBusinessDetail SupportBusinessDetail?
-  Resource              Resource[]
+  supportBusinessDetail SupportBusinessDetail?
+  resources             Resource[]
+  services              Service[]
 }
 
 model BusinessAddress {
@@ -322,7 +325,7 @@ enum BusinessStatus {
 model SupportBusinessDetail {
   id                  String                 @id @default(cuid())
   supportBusinessName String
-  supportEmail        String
+  supportEmail        String                 @unique
   supportPhone        String
   supportAddress      String
   supportGoogleMap    String?
@@ -405,7 +408,10 @@ enum TicketCategory {
 model Resource {
   id         String         @id @default(cuid())
   name       String // Name of the staff (e.g., Doctor, Barber, Stylist)
+  email      String         @unique
+  phone      String
   role       String // Role of the staff (e.g., Doctor, Barber, Stylist)
+  address    String?
   businessId String // Reference to the business this staff belongs to
   business   BusinessDetail @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
