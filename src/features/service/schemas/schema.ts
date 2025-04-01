@@ -39,4 +39,5 @@ export const serviceSchema = z.object({
       })
     )
     .optional(),
+  businessDetailId: z.string().min(1, "Business ID is required"),
 })

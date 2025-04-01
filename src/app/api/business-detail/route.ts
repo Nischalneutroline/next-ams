@@ -1,190 +1,292 @@
-import { NextRequest, NextResponse } from "next/server";
-import { businessDetailSchema } from "@/features/business-detail/schemas/schema";
-import { BusinessDetail } from "@/features/business-detail/types/types";
-import { ZodError } from "zod";
+import { NextRequest, NextResponse } from "next/server"
+import { businessDetailSchema } from "@/features/business-detail/schemas/schema"
+import { BusinessDetail } from "@/features/business-detail/types/types"
+import { ZodError } from "zod"
 import {
   BusinessStatus,
   WeekDays,
   HolidayType,
   AvailabilityType,
-} from "@/features/business-detail/types/types";
-
-const businessDetails: BusinessDetail[] = [
-  {
-    id: "business-id-123",
-    name: "Tech Solutions Pvt. Ltd.",
-    industry: "IT Services",
-    email: "contact@techsolutions.com",
-    phone: "+977 1 4002000",
-    website: "https://www.techsolutions.com",
-    businessRegistrationNumber: "BRN-12345",
-    status: BusinessStatus.ACTIVE,
-    address: [
-      {
-        id: "address-id-1",
-        street: "123 Main Street",
-        city: "Kathmandu",
-        country: "Nepal",
-        zipCode: "44600",
-        googleMap: "https://goo.gl/maps/1234xyz",
-      },
-      {
-        id: "address-id-2",
-        street: "456 Secondary Street",
-        city: "Pokhara",
-        country: "Nepal",
-        zipCode: "33700",
-        googleMap: "https://goo.gl/maps/abcd1234",
-      },
-    ],
-    businessAvailability: [
-      {
-        id: "availability-id-1",
-        weekDay: WeekDays.MONDAY,
-        type: AvailabilityType.GENERAL, // Only 'GENERAL' for Business
-        timeSlots: [
-          {
-            id: "time-slot-id-1",
-            startTime: "2025-03-01T09:00:00Z",
-            endTime: "2025-03-01T17:00:00Z",
-          },
-          {
-            id: "time-slot-id-2",
-            startTime: "2025-03-02T09:00:00Z",
-            endTime: "2025-03-02T17:00:00Z",
-          },
-        ],
-      },
-    ],
-    holiday: [
-      {
-        id: "holiday-id-1",
-        holiday: WeekDays.SATURDAY,
-        type: HolidayType.GENERAL, // Only 'GENERAL' for Business Holidays
-        date: "2025-04-15T00:00:00Z",
-      },
-    ],
-  },
-];
+} from "@/features/business-detail/types/types"
+import { prisma } from "@/lib/prisma"
+import { getBusinessDetailById } from "@/db/businessDetail"
 
 // Create a new business detail
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const parsedData = businessDetailSchema.parse(body);
+    const body = await req.json()
+    const parsedData = businessDetailSchema.parse(body)
 
-    // Use prisma logic
-   
+    // create business in prisma
 
+    const existingBusiness = await prisma.businessDetail.findUnique({
+      where: { email: parsedData.email },
+    })
+
+    if (existingBusiness) {
+      return NextResponse.json(
+        { error: "Business with this email already exists!" },
+        { status: 400 }
+      )
+    }
+
+    const newBusiness = await prisma.businessDetail.create({
+      data: {
+        name: parsedData.name,
+        industry: parsedData.industry,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        website: parsedData.website,
+        businessRegistrationNumber: parsedData.businessRegistrationNumber,
+        status: parsedData.status,
+        address: {
+          create: parsedData.address,
+        },
+        businessAvailability: {
+          create: parsedData.businessAvailability.map((availability) => ({
+            weekDay: availability.weekDay,
+            type: availability.type,
+            timeSlots: {
+              create: availability.timeSlots.map((timeSlot) => ({
+                startTime: timeSlot.startTime,
+                endTime: timeSlot.endTime,
+              })),
+            },
+          })),
+        },
+        holiday: {
+          create: parsedData.holiday.map((holiday) => ({
+            holiday: holiday.holiday,
+            type: holiday.type,
+            date: holiday.date,
+          })),
+        },
+      },
+      include: {
+        address: true,
+        businessAvailability: {
+          include: {
+            timeSlots: true,
+          },
+        },
+        holiday: true,
+      },
+    })
+
+    if (!newBusiness) {
+      return NextResponse.json(
+        { error: "Failed to create business" },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json(
-      { message: "Business created successfully" },
+      { message: "Business created successfully!", business: newBusiness },
       { status: 201 }
-    );
+    )
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: "Validation failed", details: error.errors[0].message },
         { status: 400 }
-      );
+      )
     }
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", detail: error },
       { status: 500 }
-    );
+    )
   }
 }
 
 // Fetch all business details
 export async function GET() {
   try {
+    const businessDetails = await prisma.businessDetail.findMany()
+
     if (businessDetails.length === 0) {
       return NextResponse.json(
         { error: "No business details found" },
         { status: 404 }
-      );
+      )
     }
-    return NextResponse.json(businessDetails, { status: 200 });
+
+    return NextResponse.json(businessDetails, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch business details" },
       { status: 500 }
-    );
+    )
   }
 }
 
 // Update an existing business detail
 export async function PUT(req: NextRequest) {
   try {
-    const body = await req.json();
-    const parsedData = businessDetailSchema.parse(body);
+    const body = await req.json()
+    const { id } = body
 
-    //replace with prisma logic
-    const { id } = body;
-    const businessIndex = businessDetails.findIndex(
-      (business) => business.id === id
-    );
-
-    if (businessIndex === -1) {
+    if (!id) {
       return NextResponse.json(
-        { error: "Business not found" },
-        { status: 404 }
-      );
+        { error: "Business ID is required" },
+        { status: 400 }
+      )
     }
 
-    
-    //use prisma logic to update in db
-      
+    const parsedData = businessDetailSchema.parse(body)
+
+    // Log parsed data for debugging
+    console.log("Parsed Data:", JSON.stringify(parsedData, null, 2))
+
+    const updatedBusiness = await prisma.businessDetail.update({
+      where: { id },
+      data: {
+        name: parsedData.name,
+        industry: parsedData.industry,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        website: parsedData.website,
+        businessRegistrationNumber: parsedData.businessRegistrationNumber,
+        status: parsedData.status,
+
+        // Handle addresses
+        address: {
+          upsert: parsedData.address.map((addr) => ({
+            where: { id: addr.id || "" }, // Use empty string as fallback if no ID
+            update: {
+              street: addr.street,
+              city: addr.city,
+              country: addr.country,
+              zipCode: addr.zipCode,
+              googleMap: addr.googleMap,
+            },
+            create: {
+              street: addr.street,
+              city: addr.city,
+              country: addr.country,
+              zipCode: addr.zipCode,
+              googleMap: addr.googleMap,
+            },
+          })),
+        },
+
+        // Handle business availability
+        businessAvailability: {
+          upsert: parsedData.businessAvailability.map((availability) => ({
+            where: { id: availability.id || "" },
+            update: {
+              weekDay: availability.weekDay,
+              type: availability.type,
+              timeSlots: {
+                upsert: availability.timeSlots.map((slot) => ({
+                  where: { id: slot.id || "" },
+                  update: {
+                    startTime: slot.startTime,
+                    endTime: slot.endTime,
+                  },
+                  create: {
+                    startTime: slot.startTime,
+                    endTime: slot.endTime,
+                  },
+                })),
+              },
+            },
+            create: {
+              weekDay: availability.weekDay,
+              type: availability.type,
+              timeSlots: {
+                create: availability.timeSlots.map((slot) => ({
+                  startTime: slot.startTime,
+                  endTime: slot.endTime,
+                })),
+              },
+            },
+          })),
+        },
+
+        // Handle holidays
+        holiday: {
+          upsert: parsedData.holiday.map((holiday) => ({
+            where: { id: holiday.id || "" },
+            update: {
+              holiday: holiday.holiday,
+              type: holiday.type,
+              date: holiday.date,
+            },
+            create: {
+              holiday: holiday.holiday,
+              type: holiday.type,
+              date: holiday.date,
+            },
+          })),
+        },
+      },
+      include: {
+        address: true,
+        businessAvailability: {
+          include: {
+            timeSlots: true,
+          },
+        },
+        holiday: true,
+      },
+    })
 
     return NextResponse.json(
-      { message: "Business updated successfully",  },
+      { message: "Business updated successfully", data: updatedBusiness },
       { status: 200 }
-    );
+    )
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: "Validation failed", details: error.errors[0].message },
         { status: 400 }
-      );
+      )
     }
+    console.error("Prisma Error:", error) // Log the full error for debugging
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", detail: error },
       { status: 500 }
-    );
+    )
   }
 }
 
 // Delete a business detail
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const { id } = await req.json()
 
-    //replace with prisma logic
-    const businessIndex = businessDetails.findIndex(
-      (business) => business.id === id
-    );
-
-    if (businessIndex === -1) {
+    if (!id) {
       return NextResponse.json(
-        { error: "Business not found" },
-        { status: 404 }
-      );
+        { error: "Business ID is required" },
+        { status: 400 }
+      )
     }
 
-    businessDetails.splice(businessIndex, 1);
+    const existingBusiness = await getBusinessDetailById(id)
+
+    if (!existingBusiness) {
+      return NextResponse.json({ error: "Business not found" }, { status: 404 })
+    }
+
+    const deletedBusiness = await prisma.businessDetail.delete({
+      where: { id },
+    })
+
+    if (!deletedBusiness) {
+      return NextResponse.json(
+        { error: "Business couldn't be deleted" },
+        { status: 404 }
+      )
+    }
 
     return NextResponse.json(
       { message: "Business deleted successfully" },
       { status: 200 }
-    );
+    )
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete business" },
+      { error: "Failed to delete business", detail: error },
       { status: 500 }
-    );
+    )
   }
 }
-function generateId(): any {
-    throw new Error("Function not implemented.");
-}
-

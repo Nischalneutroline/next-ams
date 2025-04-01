@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { serviceSchema } from "@/features/service/schemas/schema"
-import { Service, Status, WeekDays } from "@/features/service/types/types"
+import { Service } from "@/features/service/types/types"
 import { ZodError } from "zod"
 import { prisma } from "@/lib/prisma"
 import { getServiceById } from "@/db/service"
@@ -16,21 +16,28 @@ export async function POST(req: NextRequest) {
         title: parsedData.title,
         description: parsedData.description,
         estimatedDuration: parsedData.estimatedDuration,
-        status: parsedData.status,
+        status: parsedData.status || "ACTIVE", // Fallback to default if undefined
         serviceAvailability: {
           create: parsedData.serviceAvailability?.map((availability) => ({
             weekDay: availability.weekDay,
             timeSlots: {
               create: availability.timeSlots?.map((timeSlot) => ({
-                startTime: timeSlot.startTime,
-                endTime: timeSlot.endTime,
+                startTime: new Date(timeSlot.startTime), // Explicitly convert to Date
+                endTime: new Date(timeSlot.endTime), // Explicitly convert to Date
               })),
             },
           })),
         },
+        businessDetailId: parsedData.businessDetailId,
       },
     })
 
+    if (!newService) {
+      return NextResponse.json(
+        { error: "Failed to create service" },
+        { status: 500 }
+      )
+    }
     return NextResponse.json(
       { message: "New Service created successfully", service: newService },
       { status: 201 }
@@ -38,7 +45,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { error: "Validation failed", details: error.errors[0].message },
+        { error: "Validation failed", details: error },
         { status: 400 }
       )
     }
@@ -97,6 +104,7 @@ export async function PUT(req: NextRequest) {
         description: parsedData.description,
         estimatedDuration: parsedData.estimatedDuration,
         status: parsedData.status,
+        businessDetailId: parsedData.businessDetailId,
         serviceAvailability: {
           create: parsedData.serviceAvailability?.map((availability) => ({
             weekDay: availability.weekDay,
