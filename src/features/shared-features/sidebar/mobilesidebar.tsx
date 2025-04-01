@@ -14,17 +14,19 @@ export interface SideBarProps {
   menus: SidebarMenusProps[];
 }
 
-const Sidebar = (props: SideBarProps) => {
+const MobileSidebar = (props: SideBarProps) => {
   const { title, menus } = props;
   const pathname = usePathname();
   return (
-    <div className="absolute top-[12px] left-[20px] h-[calc(100vh-20px)] min-w-[265px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col gap-20">
-      <div className="text-black font-bold text-[23px] leading-[150%] ">
+    <div className="absolute top-[12px] left-[20px] h-[calc(100vh-20px)] max-w-[60px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col gap-20 z-[10]">
+      {/* <div className="text-black font-bold text-[23px] leading-[150%] ">
         {title}
-      </div>
-      <div className="flex flex-col gap-10">
+      </div> */}
+      <div className="flex flex-col gap-10 mt-20 items-center">
         {menus?.map((menu: SidebarMenusProps, index: number) => {
           const isActive = pathname === menu.path;
+          console.log(isActive);
+          console.log(pathname, menu.path);
           return (
             <nav className="flex " key={index}>
               <Link
@@ -34,7 +36,6 @@ const Sidebar = (props: SideBarProps) => {
                 }`}
               >
                 {menu.icon}
-                <span className="">{menu.menu}</span>
               </Link>
             </nav>
           );
@@ -44,4 +45,4 @@ const Sidebar = (props: SideBarProps) => {
   );
 };
 
-export default Sidebar;
+export default MobileSidebar;
