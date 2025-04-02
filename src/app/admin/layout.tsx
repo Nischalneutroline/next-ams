@@ -1,16 +1,9 @@
 "use client";
 import { useState } from "react";
-import Header from "./component/header";
-import Sidebar, { SideBarProps } from "./component/sidebar";
+
 import HomeIcon from "@mui/icons-material/Home";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import {
-  ExitToApp,
-  HelpOutline,
-  PersonOutline,
-  SettingsOutlined,
-} from "@mui/icons-material";
-import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
+
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import GroupIcon from "@mui/icons-material/Group";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
@@ -18,7 +11,10 @@ import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
-import MobileSidebar from "./component/mobileSidebar";
+import Header from "@/features/shared-features/header/header";
+import { SideBarProps } from "@/features/shared-features/sidebar/mobilesidebar";
+import ResponsiveSidebar from "@/features/shared-features/sidebar/responsivesidebar";
+import UserForm from "@/features/form-components/forms/admin/UserForm";
 
 export default function AdminLayout({
   children,
@@ -76,18 +72,22 @@ export default function AdminLayout({
     ],
   };
   return (
-    <div className="h-screen w-screen relative">
-      <Header
-        icon={<HomeIcon className="text-white" />}
-        pageTitle="Dashboard"
-        onToggleMenu={onToggleMenu}
-      />
-      {openSidebar ? (
-        <Sidebar title={sidebarData.title} menus={sidebarData.menus} />
-      ) : (
-        <MobileSidebar title={sidebarData.title} menus={sidebarData.menus} />
-      )}
-      {children}
+    <div className="h-screen w-screen relative flex">
+      <ResponsiveSidebar title={sidebarData.title} menus={sidebarData.menus} />
+      <div className="flex-1 overflow-auto">
+        <Header
+          icon={<HomeIcon className="text-white" />}
+          pageTitle="Dashboard"
+          onToggleMenu={onToggleMenu}
+        />
+        <UserForm />
+        <div
+          className="absolute  min-h-[calc(100vh-376px)]  ml-[85px] lg:ml-[325px]
+        min-w-[calc(100vw-85px)] lg:min-w-[calc(100vw-325px)] p-2"
+        >
+          {children}
+        </div>
+      </div>
     </div>
   );
 }
