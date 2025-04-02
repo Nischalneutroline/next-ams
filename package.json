@@ -12,15 +12,18 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^5.0.0",
     "@mui/icons-material": "^7.0.1",
     "@prisma/client": "^6.5.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@svgr/webpack": "^8.1.0",
     "country-flag-icons": "^1.5.18",
+    "framer-motion": "^12.6.3",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
+    "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0",
     "zod": "^3.24.2"
   },

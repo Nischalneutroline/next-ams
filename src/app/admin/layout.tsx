@@ -1,9 +1,5 @@
-"use client";
-import { useState } from "react";
-
 import HomeIcon from "@mui/icons-material/Home";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import GroupIcon from "@mui/icons-material/Group";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
@@ -14,18 +10,13 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import Header from "@/features/shared-features/header/header";
 import { SideBarProps } from "@/features/shared-features/sidebar/mobilesidebar";
 import ResponsiveSidebar from "@/features/shared-features/sidebar/responsivesidebar";
-import UserForm from "@/features/form-components/forms/admin/UserForm";
+import AddUserForm from "@/features/form-components/form-method/add/AddUserForm";
 
 export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [openSidebar, setOpenSidebar] = useState(true);
-  const onToggleMenu = () => {
-    console.log("seen toggle menu");
-    setOpenSidebar(true);
-  };
   const sidebarData: SideBarProps = {
     title: "Customer Name ",
     menus: [
@@ -78,9 +69,8 @@ export default function AdminLayout({
         <Header
           icon={<HomeIcon className="text-white" />}
           pageTitle="Dashboard"
-          onToggleMenu={onToggleMenu}
         />
-        <UserForm />
+        {/* <AddUserForm /> */}
         <div
           className="absolute  min-h-[calc(100vh-376px)]  ml-[85px] lg:ml-[325px]
         min-w-[calc(100vw-85px)] lg:min-w-[calc(100vw-325px)] p-2"

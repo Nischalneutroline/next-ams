@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
