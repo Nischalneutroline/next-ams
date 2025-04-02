@@ -87,13 +87,16 @@ const AddUserForm = () => {
       ...remaining,
     },
     password: { common: passwordProps({}), ...remaining },
-    business_days: { common: dayInputProps({}), ...remaining },
   };
   return (
     <CenterSection>
-      <div className="h-screen w-[80%] sm:h-[75%] sm:w-[65%] lg:w-[35%] p-2 sm:p-4 sm:px-6 py-4 lg:p-4 2xl:p-5 bg-white rounded-2xl shadow-xl flex flex-col gap-4 overflow-y-auto">
-        <div className="flex flex-col text-black justify-center border-b-[1px] border-b-gray-500 pb-4 gap-2">
-          <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0">
+      <div
+        // p-4 sm:p-4 sm:px-6 py-4 lg:p-4 2xl:p-5
+        className="h-[80%] w-[90%] sm:h-[75%] sm:w-[65%] lg:w-[35%] 
+       bg-white rounded-2xl shadow-xl flex flex-col gap-4 overflow-y-auto"
+      >
+        <div className="bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-center  pb-4 gap-2 ">
+          <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0 pt-3">
             <PersonAddAltIcon
               sx={{
                 fontSize: {
@@ -108,7 +111,7 @@ const AddUserForm = () => {
               New User
             </div>
           </div>
-          <div className="flex justify-center text-[10px] text-[#455A64]">
+          <div className="flex justify-center text-center text-[10px] text-[#455A64]">
             You’re creating an account on behalf of a user. Please ensure
             accuracy. ⚠️
           </div>

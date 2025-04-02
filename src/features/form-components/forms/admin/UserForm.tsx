@@ -12,13 +12,13 @@ import React from "react";
 
 const UserForm = (props: any) => {
   const { formObj, form } = props;
-
+  console.log(formObj.isActive.form.setValue ? "Available" : "Disabled");
   const { handleSubmit, onSubmit } = form;
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative h-full flex flex-col gap-1 sm:gap-4"
+      className="relative h-full flex flex-col gap-2 sm:gap-4"
     >
       <TextInput {...formObj.full_name} />
 
@@ -29,9 +29,8 @@ const UserForm = (props: any) => {
       <SelectInput {...formObj.role} />
       <SwitchInput {...formObj.isActive} />
       <PasswordInput {...formObj.password} />
-      <DaysSelection {...formObj.business_days} />
 
-      <div className="absolute flex mt-4 w-full justify-center bottom-4">
+      <div className=" flex mb-4 w-full justify-center bottom-4">
         <Button {...addUserBtnProps} />
       </div>
     </form>

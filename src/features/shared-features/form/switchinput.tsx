@@ -20,6 +20,7 @@ export default function SwitchInput(props: InputSchema) {
 
   // Props variables
   const { input, label, defaultValue } = common;
+
   const { register, errors, setValue, watch } = form;
   const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } = actions!;
   const { divCss, labelCss, inputCss } = css!;

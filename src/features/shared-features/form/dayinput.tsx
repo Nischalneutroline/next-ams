@@ -19,7 +19,6 @@ const daysOfWeek = [
 export default function DaysSelection(props: InputSchema) {
   // Props
   const { common, form, css } = props;
-
   // Props variables
   const { input, label } = common;
   const { setValue, errors } = form;
