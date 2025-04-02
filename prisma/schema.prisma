@@ -132,7 +132,7 @@ model Reminder {
 }
 
 model ReminderOffset {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   sendOffset  Int // The offset in minutes (e.g., 2880 for 48 hours)
   scheduledAt DateTime // The actual time for this reminder
   sendBefore  Boolean // True for reminders before the appointment, false for after
