@@ -10,21 +10,6 @@ import { ZodError } from "zod"
 import { prisma } from "@/lib/prisma"
 import { getAnnouncementOrOfferById } from "@/db/announcement-offer"
 
-// Dummy data (for now, we will store announcements in this array)
-let announcements: AnnouncementOrOffer[] = [
-  {
-    id: "1",
-    title: "Special Offer: 20% Off All Services!", // Required
-    description: "Get 20% off on all our services for a limited time.", // Optional
-    message: "Use code '20OFF' to claim your discount.", // Optional
-    audience: TargetAudience.ALL, // Required (Target audience)
-    isImmediate: true, // Required (If the offer is immediate)
-    scheduledAt: "2025-04-10T10:00:00Z", // Required (Scheduled date/time in ISO format)
-    showOn: Showon.BANNER, // Required (Where the offer will show, e.g., on a banner)
-    expiredAt: ExpirationDuration.THIRTY_DAYS, // Required (Expiration duration or "never")
-  },
-]
-
 // Create a new announcement or offer
 export async function POST(req: NextRequest) {
   try {
@@ -71,7 +56,7 @@ export async function GET() {
   try {
     const announcementOrOffers = await prisma.announcementOrOffer.findMany()
 
-    if (announcements.length === 0) {
+    if (announcementOrOffers.length === 0) {
       return NextResponse.json(
         { error: "No announcements found" },
         { status: 404 }
