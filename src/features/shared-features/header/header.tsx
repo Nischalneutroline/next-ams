@@ -1,21 +1,28 @@
+"use client";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import CountryFlag from "./countryflag";
 import HeaderSearch from "./headersearch";
 import HeaderTitle from "./headertitle";
 import UserProfile from "./userprofile";
+import { RootState, useAppSelector } from "@/state/store";
 
 interface HeaderProps {
   icon: React.ReactNode;
   pageTitle: string;
-  onToggleMenu: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-  const { icon, pageTitle, onToggleMenu } = props;
+  const { isFlag } = useAppSelector(
+    (state: RootState) => state.admin.admin.sidebar.add
+  );
   return (
     <div className="relative min-h-[376px] bg-[#287AFF] rounded-b-[12px] ">
-      <div className="flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 max-w-[calc(100vw-85px)]  lg:max-w-[calc(100vw-325px)] xl:pl-2 xl:pr-12">
+      <div
+        className={`"flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 ${
+          isFlag ? "max-w-[calc(100vw-85px)]" : "max-w-100vw"
+        }  lg:max-w-[calc(100vw-325px)] xl:pl-2 xl:pr-12"`}
+      >
         <div className="flex h-[60px] w-full items-center justify-between">
           <HeaderTitle
             icon={
@@ -24,7 +31,6 @@ const Header = (props: HeaderProps) => {
                 className="text-white"
               />
             }
-            onToggleMenu={onToggleMenu}
             pageTitle={"Dashboard"}
           />
           <div className="flex gap-6 items-center">

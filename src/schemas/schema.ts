@@ -1,3 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import {
+  TitleSchema,
+  HandleActionSchema,
+  HrefSchema,
+  FlagSchema,
+  IconSchema,
+  ChildrenSchema,
+  LabelSchema,
+  ColorSchema,
+  SrcSchema,
+  OptionSchema,
+  OtherChildrenSchema,
+  ButtonNameSchema,
+} from "./GlobalSchema";
+
 export type FormSchema = {
   form: {
     register: any;
@@ -6,6 +24,7 @@ export type FormSchema = {
     control?: any;
     handleSubmit?: any;
     onSubmit?: any;
+    trigger?: any;
   };
 };
 
@@ -22,6 +41,7 @@ export type CommonInputSchema = {
   common: {
     input: string;
     label?: string;
+    type?: string;
     defaultValue?: any;
     placeholder?: string;
     showForgotPassword?: boolean;
@@ -53,3 +73,50 @@ export type CssSchema = {
     imgCss?: string;
   };
 };
+
+// buttons
+export interface ButtonSchema
+  extends TitleSchema,
+    HandleActionSchema,
+    CssSchema,
+    HrefSchema,
+    FlagSchema,
+    IconSchema {}
+
+//  disconut cards
+export interface DiscountCardSchema
+  extends ChildrenSchema,
+    CssSchema,
+    TitleSchema,
+    IconSchema,
+    LabelSchema,
+    ColorSchema {}
+
+// cards
+
+// images
+export interface CustomImageProps extends SrcSchema, CssSchema {
+  alt: string;
+}
+
+// forms
+
+export interface InputSchema
+  extends CssSchema,
+    ErrorMsgSchema,
+    FormSchema,
+    FormActionsSchema,
+    CommonInputSchema {}
+
+export interface SelectInputSchema extends InputSchema {
+  options: OptionSchema[];
+}
+
+export interface AuthFormContainerSchema
+  extends ChildrenSchema,
+    OtherChildrenSchema,
+    HandleActionSchema,
+    TitleSchema,
+    SrcSchema,
+    ButtonNameSchema,
+    FlagSchema {}

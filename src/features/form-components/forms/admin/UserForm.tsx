@@ -1,14 +1,36 @@
-import CenterSection from '@/features/shared-features/section/centersection'
-import React from 'react'
+"use client";
+import Button from "@/features/shared-features/common/button";
+import { addUserBtnProps } from "@/features/shared-features/form/formporps";
 
-const UserForm = () => {
+import TextInput from "@/features/shared-features/form/inputtext";
+import InputPhone from "@/features/shared-features/form/phoneinput";
+import SelectInput from "@/features/shared-features/form/selectinput";
+import SwitchInput from "@/features/shared-features/form/switchinput";
+import React from "react";
+
+const UserForm = (props: any) => {
+  const { formObj, form } = props;
+
+  const { handleSubmit, onSubmit } = form;
+
   return (
-    <CenterSection>
-      <form>
-        
-      </form>
-    </CenterSection>
-  )
-}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="relative h-full flex flex-col gap-1 sm:gap-4"
+    >
+      <TextInput {...formObj.full_name} />
 
-export default UserForm
+      <TextInput {...formObj.email} />
+
+      <InputPhone {...formObj.phone_number} />
+
+      <SelectInput {...formObj.role} />
+      <SwitchInput {...formObj.isActive} />
+      <div className="absolute flex mt-4 w-full justify-center bottom-4">
+        <Button {...addUserBtnProps} />
+      </div>
+    </form>
+  );
+};
+
+export default UserForm;
