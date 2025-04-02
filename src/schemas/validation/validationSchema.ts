@@ -1,4 +1,16 @@
 import { z } from "zod";
+import libphonenumber from "google-libphonenumber";
+export const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
+
+const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
 // Define your validation rules
 
@@ -10,9 +22,32 @@ export const adminUserSchema = z.object({
     .min(1, { message: "Email is required" })
     .email({ message: "Please enter a valid email address" }),
 
-  phone_number: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-    message: "Invalid phone number format. Example: +1234567890",
-  }),
+  phone_number: z
+    .string()
+    .min(1, { message: "Phone Number is required" })
+    .refine(
+      (number: any) => {
+        try {
+          const phoneNumber = phoneUtil.parse(number);
+          return phoneUtil.isValidNumber(phoneNumber);
+        } catch (error) {
+          return false;
+        }
+      },
+      { message: "Invalid mobile number" }
+    ),
+  role: z.string().min(1, { message: "Role is required" }),
+
+  isActive: z.boolean(),
+
+  password: z
+    .string()
+    .min(8, { message: "Password must be 8 character long." }),
+
+  business_days: z
+    .array(z.enum(daysOfWeek))
+    .min(1, "At least one day must be selected.")
+    .default([]),
 
   // password: z
   //   .string({ required_error: "Password is required" })

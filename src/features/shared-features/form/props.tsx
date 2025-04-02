@@ -1,8 +1,11 @@
 export const formDivCss =
   " relative h-[75px] pt-1 flex flex-col gap-1 text-[11px] text-dark-100 w-11/12 w-full px-2";
-export const formLabelCss = "font-semibold flex gap-2 text-sm px-2";
+export const formSwitchDivCss =
+  " relative h-[40px]  flex gap-3 text-[11px] text-dark-100 w-11/12 w-full px-2";
+export const formLabelCss =
+  "font-semibold flex gap-2 text-sm px-2 text-gray-400";
 export const formInputCss =
-  "bg-input-100 rounded-md relative h-[36px] flex px-2 gap-1 text-[13px] text-dark-100 justify-text-start w-full";
+  "bg-input-100 rounded-md relative h-[36px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
 
 // Icon inside input
 export const formDivIconCss = "absolute top-9 right-2 text-sm";

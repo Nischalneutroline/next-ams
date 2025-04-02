@@ -9,9 +9,11 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   commonActions,
+  dayInputProps,
   emailProps,
   fullNameProps,
   isActiveProps,
+  passwordProps,
   phoneProps,
   roleProps,
 } from "@/features/shared-features/form/formporps";
@@ -34,11 +36,11 @@ const AddUserForm = () => {
     formState: { errors },
     reset,
     setValue,
+    watch,
     getValues,
     trigger,
     control,
   } = useForm({
-    mode: "onChange",
     resolver: zodResolver(adminUserSchema),
   });
 
@@ -48,6 +50,7 @@ const AddUserForm = () => {
     errors,
     onSubmit,
     setValue,
+    watch,
     getValues,
     control,
     trigger,
@@ -83,10 +86,12 @@ const AddUserForm = () => {
       common: isActiveProps({}),
       ...remaining,
     },
+    password: { common: passwordProps({}), ...remaining },
+    business_days: { common: dayInputProps({}), ...remaining },
   };
   return (
     <CenterSection>
-      <div className="h-[80%] w-[80%] sm:h-[75%] sm:w-[65%] lg:w-[35%] p-2 sm:p-4 sm:px-6 py-4 lg:p-4 2xl:p-5 bg-white rounded-2xl shadow-xl flex flex-col gap-4 ">
+      <div className="h-screen w-[80%] sm:h-[75%] sm:w-[65%] lg:w-[35%] p-2 sm:p-4 sm:px-6 py-4 lg:p-4 2xl:p-5 bg-white rounded-2xl shadow-xl flex flex-col gap-4 overflow-y-auto">
         <div className="flex flex-col text-black justify-center border-b-[1px] border-b-gray-500 pb-4 gap-2">
           <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0">
             <PersonAddAltIcon

@@ -1,8 +1,10 @@
 "use client";
 import Button from "@/features/shared-features/common/button";
+import DaysSelection from "@/features/shared-features/form/dayinput";
 import { addUserBtnProps } from "@/features/shared-features/form/formporps";
 
 import TextInput from "@/features/shared-features/form/inputtext";
+import PasswordInput from "@/features/shared-features/form/passwordinput";
 import InputPhone from "@/features/shared-features/form/phoneinput";
 import SelectInput from "@/features/shared-features/form/selectinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
@@ -22,10 +24,13 @@ const UserForm = (props: any) => {
 
       <TextInput {...formObj.email} />
 
-      <InputPhone {...formObj.phone_number} />
+      <TextInput {...formObj.phone_number} />
 
       <SelectInput {...formObj.role} />
       <SwitchInput {...formObj.isActive} />
+      <PasswordInput {...formObj.password} />
+      <DaysSelection {...formObj.business_days} />
+
       <div className="absolute flex mt-4 w-full justify-center bottom-4">
         <Button {...addUserBtnProps} />
       </div>
