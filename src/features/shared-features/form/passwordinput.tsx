@@ -92,7 +92,9 @@ export default function PasswordInput(props: InputSchema) {
           )}
         </div>
       </div>
-      {errorMsg && <FormSpanError {...errorProps} />}
+      <div className="-translate-y-17">
+        {errorMsg && <FormSpanError {...errorProps} />}
+      </div>
     </div>
   );
 }

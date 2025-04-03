@@ -9,7 +9,17 @@ export const fullNameProps = ({ defaultValue }: any) => ({
   showImportant: true,
   defaultValue: defaultValue ?? "",
   icon: (
-    <PersonOutlineIcon className="text-gray-400" sx={{ fontSize: "20px" }} />
+    <PersonOutlineIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
   ),
 });
 export const emailProps = ({ defaultValue }: any) => ({
@@ -19,7 +29,19 @@ export const emailProps = ({ defaultValue }: any) => ({
   placeholder: "Enter Email Address",
   showImportant: true,
   defaultValue: defaultValue ?? "",
-  icon: <MailOutlineIcon className="text-gray-400" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <MailOutlineIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 export const phoneProps = ({ defaultValue }: any) => ({
   input: "phone_number",
@@ -28,7 +50,19 @@ export const phoneProps = ({ defaultValue }: any) => ({
   placeholder: "Enter Phone Number (+9779867373778)",
   showImportant: true,
   defaultValue: defaultValue ?? "",
-  icon: <LocalPhoneIcon className="text-gray-400" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 export const roleProps = ({ defaultValue }: any) => ({
   input: "role",
@@ -37,14 +71,38 @@ export const roleProps = ({ defaultValue }: any) => ({
   placeholder: "Select Role",
   showImportant: true,
   defaultValue: defaultValue ?? "user",
-  icon: <LocalPhoneIcon className="text-gray-400" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 export const isActiveProps = ({ defaultValue }: any) => ({
   input: "isActive",
   label: "isActive",
   showImportant: true,
   defaultValue: defaultValue ?? false,
-  icon: <LocalPhoneIcon className="text-black" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <LocalPhoneIcon
+      className="text-black"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 export const passwordProps = ({ defaultValue }: any) => ({
   input: "password",
@@ -53,7 +111,19 @@ export const passwordProps = ({ defaultValue }: any) => ({
   placeholder: "Enter your password",
   showForgotPassword: false,
   defaultValue: defaultValue ?? "",
-  icon: <LocalPhoneIcon className="text-black" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <LocalPhoneIcon
+      className="text-black"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 export const dayInputProps = ({ defaultValue }: any) => ({
   input: "business_days",
@@ -62,7 +132,19 @@ export const dayInputProps = ({ defaultValue }: any) => ({
   // placeholder: "Enter your password",
   // showForgotPassword: false,
   defaultValue: defaultValue ?? "",
-  icon: <LocalPhoneIcon className="text-black" sx={{ fontSize: "20px" }} />,
+  icon: (
+    <LocalPhoneIcon
+      className="text-black"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
 });
 
 export const commonActions = {

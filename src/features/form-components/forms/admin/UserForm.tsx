@@ -12,13 +12,13 @@ import React from "react";
 
 const UserForm = (props: any) => {
   const { formObj, form } = props;
-  console.log(formObj.isActive.form.setValue ? "Available" : "Disabled");
+
   const { handleSubmit, onSubmit } = form;
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative h-full flex flex-col gap-2 sm:gap-4"
+      className="relative flex flex-col gap-2 sm:gap-4 px-4"
     >
       <TextInput {...formObj.full_name} />
 

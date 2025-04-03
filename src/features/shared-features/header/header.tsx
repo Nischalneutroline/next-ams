@@ -50,13 +50,13 @@ const Header = (props: HeaderProps) => {
       <motion.div
         className=" flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 lg:max-w-[calc(100vw-325px)] xl:pl-2 xl:pr-12"
         initial={false}
-        animate={{
-          maxWidth: isSmallScreen
-            ? isFlag
-              ? "calc(100vw - 85px)"
-              : "100vw"
-            : "calc(100vw-325px)",
-        }}
+        // animate={{
+        //   maxWidth: isSmallScreen
+        //     ? isFlag
+        //       ? "calc(100vw - 85px)"
+        //       : "100vw"
+        //     : "calc(100vw-325px)",
+        // }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         variants={headerVariants}
       >
