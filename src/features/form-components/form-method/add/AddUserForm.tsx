@@ -124,9 +124,9 @@ const AddUserForm = () => {
         <CenterSection>
           <motion.div
             ref={formRef}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            initial={{ y: 50, scale: 0.9 }}
+            animate={{ y: 0, scale: [0.9, 1.02, 1] }}
+            exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="w-[90%] sm:w-[75%] lg:w-[45%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto"
           >
