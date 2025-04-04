@@ -47,7 +47,7 @@ const businessAddressSchema = z.object({
   city: z.string(),
   country: z.string(),
   zipCode: z.string(),
-  googleMap: z.string(),
+  googleMap: z.string().optional(),
 })
 
 // Zod schema for BusinessDetail

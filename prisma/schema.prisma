@@ -132,7 +132,7 @@ model Reminder {
 }
 
 model ReminderOffset {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   sendOffset  Int // The offset in minutes (e.g., 2880 for 48 hours)
   scheduledAt DateTime // The actual time for this reminder
   sendBefore  Boolean // True for reminders before the appointment, false for after
@@ -262,25 +262,27 @@ model BusinessDetail {
 }
 
 model BusinessAddress {
-  id         String         @id @default(cuid())
+  id         String                 @id @default(cuid())
   street     String
   city       String
   country    String
   zipCode    String
   googleMap  String
-  business   BusinessDetail @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  businessId String
+  business   BusinessDetail?        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId String?
+  support    SupportBusinessDetail? @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  supportId  String?
 }
 
 // Can also be helpful for support avaiability
 model BusinessAvailability {
   id                      String                 @id @default(cuid())
-  business                BusinessDetail         @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  businessId              String
+  business                BusinessDetail?        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId              String?
   weekDay                 WeekDays
   type                    AvailabilityType       @default(GENERAL) // Add this to distinguish between general and support hours
   timeSlots               BusinessTime[]
-  SupportBusinessDetail   SupportBusinessDetail? @relation(fields: [supportBusinessDetailId], references: [id])
+  SupportBusinessDetail   SupportBusinessDetail? @relation(fields: [supportBusinessDetailId], references: [id], onDelete: Cascade)
   supportBusinessDetailId String?
 }
 
@@ -300,8 +302,8 @@ model BusinessTime {
 // Can also be used for support holiday
 model Holiday {
   id                      String                 @id @default(cuid())
-  business                BusinessDetail         @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  businessId              String
+  business                BusinessDetail?        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  businessId              String?
   holiday                 WeekDays
   type                    HolidayType            @default(GENERAL) // Differentiates between general business and support holidays
   date                    DateTime?
@@ -327,10 +329,10 @@ model SupportBusinessDetail {
   supportBusinessName String
   supportEmail        String                 @unique
   supportPhone        String
-  supportAddress      String
   supportGoogleMap    String?
   supportAvailability BusinessAvailability[] // Separate business availability for support
   supportHoliday      Holiday[] // Holiday for support team (if different from general business holidays)
+  supportAddress      BusinessAddress[]
 
   business   BusinessDetail @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId String         @unique // Link to the main business
