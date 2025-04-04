@@ -1,11 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AdminSliceSchema,
   InitialServiceData,
-//   AdminUserFormSchema,
-//   ServiceType,
-//   APiType,
+  //   AdminUserFormSchema,
+  //   ServiceType,
+  //   APiType,
 } from "./admin";
+
+const API_URL = process.env.DATABASE_URL;
+
+export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
+  const response = await fetch(`${API_URL}/users`); // ✅ Use API URL
+  return await response.json();
+});
 
 const initialState: AdminSliceSchema = {
   platform: {
@@ -64,6 +71,11 @@ const adminSlice = createSlice({
     setOpenSidebarTrue: (state, action) => {
       state.admin.sidebar.add.isFlag = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.platform.user._view_UserForm.details = action.payload;
+    });
   },
 });
 

@@ -23,7 +23,7 @@ const CustomerPageHeader = () => {
             Today
           </div>
         </div>
-        <div className="text-[#667085] text-[13px] sm:text-md lg:text-lg tracking-wider">
+        <div className="text-[#667085] text-[13px] sm:text-sm lg:text-md tracking-wide">
           View and Manage Your Customer here.
         </div>
       </div>

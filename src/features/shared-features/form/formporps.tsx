@@ -1,6 +1,7 @@
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+
 export const fullNameProps = ({ defaultValue }: any) => ({
   input: "full_name",
   label: "Full Name",
@@ -162,3 +163,12 @@ export const addUserBtnProps = {
       "px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm",
   },
 };
+export const cancelBtnProps = (handleClick: () => void) => ({
+  title: "Cancel",
+  type: "button",
+  handleAction: handleClick,
+  css: {
+    customCss:
+      "px-4 py-2 flex gap-1 justify-center items-center bg-gradient-to-l from-gray-500 to-gray-600 text-white font-[700] text-[14px] rounded-sm",
+  },
+});

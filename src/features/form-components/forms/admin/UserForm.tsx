@@ -9,11 +9,20 @@ import InputPhone from "@/features/shared-features/form/phoneinput";
 import SelectInput from "@/features/shared-features/form/selectinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import React from "react";
+import { cancelBtnProps } from "../../../shared-features/form/formporps";
+import { setAddUserFormTrue } from "@/state/admin/AdminSlice";
+import { useDispatch } from "react-redux";
 
 const UserForm = (props: any) => {
   const { formObj, form } = props;
 
   const { handleSubmit, onSubmit } = form;
+
+  const dispatch = useDispatch();
+
+  const handleCancleButton = () => {
+    dispatch(setAddUserFormTrue(false));
+  };
 
   return (
     <form
@@ -30,7 +39,9 @@ const UserForm = (props: any) => {
       <SwitchInput {...formObj.isActive} />
       <PasswordInput {...formObj.password} />
 
-      <div className=" flex mb-4 w-full justify-center bottom-4">
+      <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
+        <Button {...cancelBtnProps(handleCancleButton)} />
+
         <Button {...addUserBtnProps} />
       </div>
     </form>

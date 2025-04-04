@@ -41,24 +41,6 @@ const AddUserForm = () => {
   //  Ref for closing modal on outside click
   const formRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (formRef.current && !formRef.current.contains(event.target as Node)) {
-        dispatch(setAddUserFormTrue(false)); // Close modal
-      }
-    };
-
-    if (isFlag) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isFlag, dispatch]);
-
   // React-hook-form with Zod validation
   const {
     register,
@@ -71,6 +53,7 @@ const AddUserForm = () => {
     trigger,
     control,
   } = useForm({
+    mode: "onSubmit",
     resolver: zodResolver(adminUserSchema),
   });
 
@@ -118,6 +101,23 @@ const AddUserForm = () => {
     },
     password: { common: passwordProps({}), ...remaining },
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
+        reset();
+        dispatch(setAddUserFormTrue(false));
+      }
+    };
+    if (isFlag) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFlag, dispatch]);
   return (
     <AnimatePresence>
       {isFlag && (
@@ -128,7 +128,7 @@ const AddUserForm = () => {
             animate={{ y: 0, scale: [0.9, 1.02, 1] }}
             exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="w-[90%] sm:w-[75%] lg:w-[45%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto"
+            className="h-[90%] sm:h-[80%] lg:h-[95%] w-[90%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto"
           >
             <div className="relative h-[120px] lg:h-[140px] bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-items-center  py-2 gap-2 px-4">
               <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0 pt-3">

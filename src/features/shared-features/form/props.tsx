@@ -12,7 +12,7 @@ export const formDivIconCss = "absolute top-9 right-2 text-sm";
 export const formLabelIconCss = "absolute top-9 right-2 text-sm";
 // Button
 export const formButtonCss =
-  "flex gap-2 justify-center items-center w-[140px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md";
+  "flex gap-2 justify-center items-center w-[140px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer";
 
 // Error
 export const formErrorCss =

@@ -38,16 +38,16 @@ export const adminUserSchema = z.object({
     ),
   role: z.string().min(1, { message: "Role is required" }),
 
-  isActive: z.boolean(),
+  isActive: z.boolean().optional(),
 
   password: z
     .string()
     .min(8, { message: "Password must be 8 character long." }),
 
-  business_days: z
-    .array(z.enum(daysOfWeek))
-    .min(1, "At least one day must be selected.")
-    .default([]),
+  // business_days: z
+  //   .array(z.enum(daysOfWeek))
+  //   .min(1, "At least one day must be selected.")
+  //   .default([]),
 
   // password: z
   //   .string({ required_error: "Password is required" })
