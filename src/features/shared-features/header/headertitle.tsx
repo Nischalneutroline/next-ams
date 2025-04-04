@@ -18,9 +18,9 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
       <span className="flex items-end text-[19px] text-white font-[600] leading-[30px] -tracking-[2%]">
         {pageTitle}
       </span>
-      {/* <div onClick={() => onToggleMenu()}>
+      <div onClick={() => onToggleMenu()}>
         <MenuIcon sx={{ fontSize: "24px" }} className="text-white" />
-      </div> */}
+      </div>
     </div>
   );
 };
