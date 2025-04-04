@@ -46,10 +46,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(
-      {
-        message: "Reminder created successfully",
-        timestamp: body.triggeredAt /* reminder: newReminder  */,
-      },
+      { message: "Reminder created successfully", reminder: newReminder },
       { status: 201 }
     )
   } catch (error) {
