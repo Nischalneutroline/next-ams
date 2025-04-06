@@ -59,3 +59,14 @@ export type FormSchema = {
   params: any;
   handleCloseAction?: () => void;
 };
+
+export type User = {
+  id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  totalAppointments: number;
+  lastAppointment: string;
+  createdBy: string;
+};

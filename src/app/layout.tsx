@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Poppins } from "next/font/google";
+import { Provider } from "react-redux";
+import { store } from "@/state/store";
+import StoreProvider from "@/state/StoreProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,12 +33,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <Provider store={store}>
     <html lang="en" className={poppins.variable}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
+    // </Provider>
   );
 }

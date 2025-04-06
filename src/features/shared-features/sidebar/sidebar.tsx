@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -31,7 +30,7 @@ const Sidebar = (props: SideBarProps) => {
                 href={menu.path}
                 className={`flex items-center gap-3 font-semibold ${
                   isActive ? "text-[#287AFF]" : " text-gray-500"
-                }`}
+                } hover:text-[#287AFF]`}
               >
                 {menu.icon}
                 <span className="">{menu.menu}</span>
