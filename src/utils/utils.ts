@@ -5,3 +5,10 @@ export function capitalizeFirstChar(word: string): string {
 
 export const getFormErrorMsg = (errors: any, inputName: string) =>
   errors && errors[inputName] && errors[inputName]?.message.toString();
+
+  import { type ClassValue, clsx } from "clsx";
+  import { twMerge } from "tailwind-merge";
+
+  export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+  }

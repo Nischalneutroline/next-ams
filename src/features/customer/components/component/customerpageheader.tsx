@@ -28,7 +28,7 @@ const CustomerPageHeader = () => {
         </div>
       </div>
       <div className="flex gap-4">
-        <div className="flex gap-4 items-center">
+        {/* <div className="flex gap-4 items-center">
           <div className="flex gap-2 text-sm items-center text-[#344054]">
             <DeleteOutlineIcon
               className="text-[#344054]"
@@ -57,7 +57,7 @@ const CustomerPageHeader = () => {
             />
             <span>Filters</span>
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center">
           <Button
             css={{}}

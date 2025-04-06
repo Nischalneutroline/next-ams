@@ -65,15 +65,15 @@ export default function AdminLayout({
   return (
     <div className="h-screen w-screen relative flex">
       <ResponsiveSidebar title={sidebarData.title} menus={sidebarData.menus} />
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 ">
         <Header
           icon={<HomeIcon className="text-white" />}
           pageTitle="Dashboard"
         />
         <AddUserForm />
         <div
-          className="absolute  min-h-[calc(100vh-376px)]   lg:ml-[325px]
-        min-w-[100vw] lg:min-w-[calc(100vw-325px)] p-2"
+          className="absolute  min-h-[calc(100vh-376px)] lg:ml-[325px]
+        min-w-screen lg:min-w-[calc(100vw-325px)] p-2 px-4"
         >
           {children}
         </div>
