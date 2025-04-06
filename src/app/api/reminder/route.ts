@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ReminderSchema } from "@/features/reminder/schemas/schema" // Adjust the path accordingly
 import { ZodError } from "zod"
-import {
-  Reminder,
-  ReminderType,
-  Notification,
-  NotificationMethod,
-} from "@/features/reminder/types/types"
 import { prisma } from "@/lib/prisma"
 import { getReminderById } from "@/db/reminder"
 
+//
 // Create a new reminder
 export async function POST(req: NextRequest) {
   try {
@@ -50,6 +45,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     )
   } catch (error) {
+    console.error("Error in POST /api/reminder:", error);
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: "Validation failed", details: error.errors },
@@ -119,7 +115,7 @@ export async function PUT(req: NextRequest) {
         },
         reminderOffset: {
           upsert: parsedData.reminderOffset.map((reminderOffset) => ({
-            where: { id: reminderOffset.id }, // If ID exists, update, otherwise create
+            where: { id: Number(reminderOffset.id) }, // If ID exists, update, otherwise create
             update: {
               sendOffset: reminderOffset.sendOffset,
               scheduledAt: new Date(reminderOffset.scheduledAt),

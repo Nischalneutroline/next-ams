@@ -162,7 +162,7 @@ const reminderDummy = {
   reminderOffset: [
     {
       sendOffset: 1440,
-      scheduledAt: "2025-04-02T10:00:00Z",
+      scheduledAt: "2025-04-06T12:34:56.789Z",
       sendBefore: true,
     },
     {
