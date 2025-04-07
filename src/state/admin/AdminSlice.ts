@@ -54,10 +54,52 @@ const initialState: AdminSliceSchema = {
         details: [],
       },
     },
+    appointment: {
+      _add_UserForm: {
+        id: null,
+        input: {
+          full_name: "",
+          email: "",
+          phone_number: "",
+          service: "",
+          date: "",
+          time: "",
+          message: "",
+        },
+        details: [],
+      },
+      _edit_UserForm: {
+        id: null,
+        input: {
+          full_name: "",
+          email: "",
+          phone_number: "",
+          service: "",
+          date: "",
+          time: "",
+          message: "",
+        },
+        details: [],
+      },
+      _view_UserForm: {
+        id: null,
+        input: {
+          full_name: "",
+          email: "",
+          phone_number: "",
+          service: "",
+          date: "",
+          time: "",
+          message: "",
+        },
+        details: [],
+      },
+    },
   },
   admin: {
     user: InitialServiceData,
     sidebar: InitialServiceData,
+    appointment: InitialServiceData,
   },
 };
 
@@ -67,6 +109,9 @@ const adminSlice = createSlice({
   reducers: {
     setAddUserFormTrue: (state, action) => {
       state.admin.user.add.isFlag = action.payload;
+    },
+    setAddAppointmentFormTrue: (state, action) => {
+      state.admin.appointment.add.isFlag = action.payload;
     },
     setOpenSidebarTrue: (state, action) => {
       state.admin.sidebar.add.isFlag = action.payload;
@@ -79,5 +124,9 @@ const adminSlice = createSlice({
   },
 });
 
-export const { setAddUserFormTrue, setOpenSidebarTrue } = adminSlice.actions;
+export const {
+  setAddUserFormTrue,
+  setOpenSidebarTrue,
+  setAddAppointmentFormTrue,
+} = adminSlice.actions;
 export default adminSlice.reducer;

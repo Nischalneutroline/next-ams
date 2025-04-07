@@ -7,7 +7,7 @@ export const expenseSchema = z.object({
   label: z.string(),
   note: z.string(),
   category: z.string(),
-  type: z.enum(["income", "expense"]),
+  type: z.string(),
   amount: z.number(),
   date: z.string(),
 });
@@ -27,19 +27,11 @@ export type User = {
 
 export const UserSchema = z.object({
   id: z.string(),
-  fullName: z.string().min(1, "Full Name is required"),
-  email: z.string().email("Invalid email address"),
-  phoneNumber: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number can't exceed 15 digits"),
-  dateOfBirth: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
-  totalAppointments: z.number().nonnegative("Must be 0 or more"),
-  lastAppointment: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
-  createdBy: z.string().min(1, "Creator is required"),
+  fullName: z.string(),
+  email: z.string(),
+  phoneNumber: z.string(),
+  dateOfBirth: z.string(),
+  totalAppointments: z.number(),
+  lastAppointment: z.string(),
 });
 export type User1 = z.infer<typeof UserSchema>;

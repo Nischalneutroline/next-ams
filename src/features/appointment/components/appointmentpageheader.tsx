@@ -1,30 +1,29 @@
 "use client";
 import React, { ReactEventHandler } from "react";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import FilterListIcon from "@mui/icons-material/FilterList";
+
 import Button from "@/features/shared-features/common/button";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
-import { setAddUserFormTrue } from "@/state/admin/AdminSlice";
+import { setAddAppointmentFormTrue } from "@/state/admin/AdminSlice";
 
-const CustomerPageHeader = () => {
+const AppointmentPageHeader = () => {
   const dispatch = useDispatch();
 
   const handleButtonClick = (e: ReactEventHandler) => {
-    dispatch(setAddUserFormTrue(true));
+    dispatch(setAddAppointmentFormTrue(true));
   };
 
   return (
     <div className="w-full flex justify-between lg:max-w-[calc(100vw-370px)]">
       <div className=" flex flex-col">
         <div className=" flex gap-4 items-center">
-          <div className="font-semibold text-lg">Customers</div>
+          <div className="font-semibold text-lg">Appointment</div>
           <div className="flex items-center px-2 h-[25px] bg-blue-50 text-blue-400 text-sm rounded-xl">
             Today
           </div>
         </div>
         <div className="text-[#667085] text-[13px] sm:text-sm lg:text-md tracking-wide">
-          View and Manage Your Customer here.
+          View and Manage Your Appointment here.
         </div>
       </div>
       <div className="flex gap-4">
@@ -60,8 +59,11 @@ const CustomerPageHeader = () => {
         </div> */}
         <div className="flex items-center">
           <Button
-            css={{}}
-            title="Add Customer"
+            css={{
+              customCss:
+                "flex gap-2 justify-center items-center w-[170px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer",
+            }}
+            title="Add Appointment"
             icon={
               <AddIcon
                 className="text-white"
@@ -83,4 +85,4 @@ const CustomerPageHeader = () => {
   );
 };
 
-export default CustomerPageHeader;
+export default AppointmentPageHeader;

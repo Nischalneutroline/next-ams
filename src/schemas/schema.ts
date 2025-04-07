@@ -20,6 +20,7 @@ export type FormSchema = {
   form: {
     register: any;
     errors: any;
+    setValue?: any;
     reset?: any;
     control?: any;
     handleSubmit?: any;
@@ -49,13 +50,19 @@ export type CommonInputSchema = {
     icon?: any;
     restCommon?: any;
     handleOnChange?: any;
+    ref?: any;
   };
 };
+
+type inputPropsSchema = { inputProps?: any };
+type inputRefSchema = { inputRef?: any };
 
 export type ErrorMsgSchema = { errorMsg?: string };
 
 export interface InputSchema
   extends CssSchema,
+    inputRefSchema,
+    inputPropsSchema,
     ErrorMsgSchema,
     FormSchema,
     FormActionsSchema,
