@@ -36,7 +36,7 @@ export default function RootLayout({
     // <Provider store={store}>
     <html lang="en" className={poppins.variable}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden `}
       >
         <StoreProvider>{children}</StoreProvider>
       </body>

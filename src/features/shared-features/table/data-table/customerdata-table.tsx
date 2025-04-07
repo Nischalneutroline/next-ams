@@ -23,17 +23,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./components/ui/table";
+} from "../components/ui/table";
 
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "../data-table-pagination";
+import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function CustomerDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -68,8 +68,8 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="space-y-4">
-      <DataTableToolbar table={table} />
+    <div className="space-y-4 lg:max-w-[calc(100vw-370px)]">
+      <CustomerDataTableToolbar table={table} />
       <div className="overflow-y-auto rounded-md border">
         <Table>
           <TableHeader>
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
-                    className="px-4 py-2"
+                    className="px-2 py-2"
                     key={header.id}
                     colSpan={header.colSpan}
                   >
@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-4 py-2" key={cell.id}>
+                    <TableCell className="px-2 py-2" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

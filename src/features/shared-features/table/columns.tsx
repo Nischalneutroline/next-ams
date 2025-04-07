@@ -13,6 +13,7 @@ import { Button } from "./components/ui/button";
 export const columns: ColumnDef<Expense>[] = [
   {
     id: "select",
+    accessorKey: "select",
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -46,6 +47,7 @@ export const columns: ColumnDef<Expense>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+
   {
     accessorKey: "note",
     header: ({ column }) => (
@@ -189,25 +191,35 @@ export const UserColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "phoneNumber",
-    header: "Phone Number",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone Number" />
+    ),
   },
   {
     accessorKey: "dateOfBirth",
-    header: "Date of Birth",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date of Birth" />
+    ),
     cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
   },
   {
     accessorKey: "totalAppointments",
-    header: "Total Appointments",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total Appointment" />
+    ),
   },
   {
     accessorKey: "lastAppointment",
-    header: "Last Appointment",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Appointment" />
+    ),
     cell: ({ row }) => format(new Date(row.original.lastAppointment), "PPP"),
   },
   {
     accessorKey: "createdBy",
-    header: "Created By",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created By" />
+    ),
   },
   {
     id: "actions",

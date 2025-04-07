@@ -11,6 +11,7 @@ import Header from "@/features/shared-features/header/header";
 import { SideBarProps } from "@/features/shared-features/sidebar/mobilesidebar";
 import ResponsiveSidebar from "@/features/shared-features/sidebar/responsivesidebar";
 import AddUserForm from "@/features/form-components/form-method/add/AddUserForm";
+import AddAppointmentForm from "@/features/form-components/form-method/add/AddAppointmentForm";
 
 export default function AdminLayout({
   children,
@@ -70,6 +71,7 @@ export default function AdminLayout({
           icon={<HomeIcon className="text-white" />}
           pageTitle="Dashboard"
         />
+        <AddAppointmentForm />
         <AddUserForm />
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[325px]
