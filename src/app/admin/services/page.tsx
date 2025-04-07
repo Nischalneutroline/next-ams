@@ -1,5 +1,4 @@
 "use client";
-import CustomerPageHeader from "@/features/customer/components/customerpageheader";
 
 import { usersData } from "@/features/shared-features/table/data";
 import React from "react";
@@ -17,7 +16,7 @@ const page = () => {
   );
   return (
     <div className="w-full flex flex-col gap-4 ">
-      <CustomerPageHeader />
+      {/* <CustomerPageHeader /> */}
 
       {view ? (
         <CustomerDataTable data={usersData} columns={UserColumns} />

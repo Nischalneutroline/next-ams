@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AdminSliceSchema,
   InitialServiceData,
-  //   AdminUserFormSchema,
+  //   AdminCustomerFormSchema,
   //   ServiceType,
   //   APiType,
 } from "./admin";
@@ -17,7 +17,7 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
 const initialState: AdminSliceSchema = {
   platform: {
     user: {
-      _add_UserForm: {
+      _add_CustomerForm: {
         id: null,
         input: {
           full_name: "",
@@ -29,7 +29,7 @@ const initialState: AdminSliceSchema = {
         },
         details: [],
       },
-      _edit_UserForm: {
+      _edit_CustomerForm: {
         id: null,
         input: {
           full_name: "",
@@ -41,7 +41,7 @@ const initialState: AdminSliceSchema = {
         },
         details: [],
       },
-      _view_UserForm: {
+      _view_CustomerForm: {
         id: null,
         input: {
           full_name: "",
@@ -55,7 +55,7 @@ const initialState: AdminSliceSchema = {
       },
     },
     appointment: {
-      _add_UserForm: {
+      _add_AppointmentForm: {
         id: null,
         input: {
           full_name: "",
@@ -68,7 +68,7 @@ const initialState: AdminSliceSchema = {
         },
         details: [],
       },
-      _edit_UserForm: {
+      _edit_AppointmentForm: {
         id: null,
         input: {
           full_name: "",
@@ -81,7 +81,7 @@ const initialState: AdminSliceSchema = {
         },
         details: [],
       },
-      _view_UserForm: {
+      _view_AppointmentForm: {
         id: null,
         input: {
           full_name: "",
@@ -107,7 +107,7 @@ const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    setAddUserFormTrue: (state, action) => {
+    setAddCustomerFormTrue: (state, action) => {
       state.admin.user.add.isFlag = action.payload;
     },
     setAddAppointmentFormTrue: (state, action) => {
@@ -116,16 +116,24 @@ const adminSlice = createSlice({
     setOpenSidebarTrue: (state, action) => {
       state.admin.sidebar.add.isFlag = action.payload;
     },
+    setCustomerView: (state, action) => {
+      state.admin.user.viewType.view = action.payload;
+    },
+    setAppointmentView: (state, action) => {
+      state.admin.appointment.viewType.view = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.platform.user._view_UserForm.details = action.payload;
+      state.platform.user._view_CustomerForm.details = action.payload;
     });
   },
 });
 
 export const {
-  setAddUserFormTrue,
+  setAppointmentView,
+  setCustomerView,
+  setAddCustomerFormTrue,
   setOpenSidebarTrue,
   setAddAppointmentFormTrue,
 } = adminSlice.actions;

@@ -75,7 +75,7 @@ export default function AdminLayout({
         <AddUserForm />
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[325px]
-        min-w-screen lg:min-w-[calc(100vw-325px)] p-2 px-4"
+        min-w-screen lg:min-w-[calc(100vw-325px)] p-2 px-4 overflow-hidden"
         >
           {children}
         </div>

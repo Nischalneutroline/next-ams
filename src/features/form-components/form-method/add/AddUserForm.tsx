@@ -22,7 +22,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppSelector } from "@/state/store";
 import { useDispatch } from "react-redux";
-import { setAddUserFormTrue } from "@/state/admin/AdminSlice";
+import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
 
 const AddUserForm = () => {
@@ -105,7 +105,7 @@ const AddUserForm = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
         reset();
-        dispatch(setAddUserFormTrue(false));
+        dispatch(setAddCustomerFormTrue(false));
       }
     };
     if (isFlag) {
@@ -152,7 +152,7 @@ const AddUserForm = () => {
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setAddUserFormTrue(false))}
+                onClick={(e: any) => dispatch(setAddCustomerFormTrue(false))}
               >
                 <CloseIcon />
               </div>

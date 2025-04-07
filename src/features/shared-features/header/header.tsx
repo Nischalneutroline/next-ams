@@ -87,7 +87,7 @@ const Header = (props: HeaderProps) => {
                   className="text-[#FFA412]"
                 />
               </div>
-              <UserProfile userName="musfiq" role="admin" />
+              <UserProfile />
             </div>
           </div>
         </div>
