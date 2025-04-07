@@ -56,7 +56,7 @@ const CustomerCardView = ({ user }: CustomerCardViewProps) => {
     >
       {user?.map((user: any, index: number) => {
         return (
-          <Grid item xs={12} sm={6} md={4} component="div" key={index}>
+          <Grid component="div" key={index}>
             <Card
               sx={{
                 minWidth: "100%",
