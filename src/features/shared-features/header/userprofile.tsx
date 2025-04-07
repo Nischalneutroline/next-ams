@@ -1,18 +1,23 @@
+"use client";
 import { capitalizeFirstChar } from "@/utils/utils";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { KeyboardArrowDownRounded } from "@mui/icons-material";
+import UserDetails from "./userdetails";
 
-interface UserProps {
-  userName: string;
-  role: string;
-}
-const UserProfile = (props: UserProps) => {
-  const { userName, role } = props;
-  const updatedUserName = capitalizeFirstChar(userName);
-  const updatedRole = capitalizeFirstChar(role);
+const UserProfile = () => {
   return (
     <div className="flex items-center gap-4">
-      <Image
+      {/* <Image
         className="rounded-2xl w-13 md:w-14 lg:w-16 xl:w-16"
         src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
         alt="Musfiq"
@@ -39,7 +44,42 @@ const UserProfile = (props: UserProps) => {
             padding: "0px",
           }}
         />
-      </div>
+      </div> */}
+      <SignedOut>
+        <div className="flex gap-2">
+          <SignInButton>
+            <motion.button
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0px 0px 12px rgba(0, 112, 255, 0.6)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="flex gap-2 justify-center items-center w-[80px] h-[36px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer border border-black"
+            >
+              Sign In
+            </motion.button>
+          </SignInButton>
+          <SignUpButton>
+            <motion.button
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0px 0px 12px rgba(0, 112, 255, 0.6)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="flex gap-2 justify-center items-center w-[80px] h-[36px] bg-green-500 font-medium text-white text-[14px] rounded-md cursor-pointer border border-green-500"
+            >
+              Sign Up
+            </motion.button>
+          </SignUpButton>
+        </div>
+      </SignedOut>
+      <SignedIn>
+        <UserButton>
+          <UserDetails />
+        </UserButton>
+      </SignedIn>
     </div>
   );
 };
