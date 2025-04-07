@@ -1,21 +1,29 @@
 "use client";
-import React, { ReactEventHandler } from "react";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import React, { ReactEventHandler, useState } from "react";
 import Button from "@/features/shared-features/common/button";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
-import { setAddUserFormTrue } from "@/state/admin/AdminSlice";
+import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
 
-const CustomerPageHeader = () => {
+import { RootState, useAppSelector } from "@/state/store";
+
+import { setCustomerView } from "@/state/admin/AdminSlice";
+import { IdCard, Sheet } from "lucide-react";
+import { Button1 } from "@/features/shared-features/table/components/ui/button";
+const ServicePageHeader = () => {
+  const [selectedView, setSelectedView] = useState<String>("");
   const dispatch = useDispatch();
+  const { view } = useAppSelector(
+    (state: RootState) => state.admin.admin.user?.viewType
+  );
 
   const handleButtonClick = (e: ReactEventHandler) => {
-    dispatch(setAddUserFormTrue(true));
+    dispatch(setAddCustomerFormTrue(true));
   };
 
   return (
     <div className="w-full flex justify-between lg:max-w-[calc(100vw-370px)]">
+      {/* Page Header Title */}
       <div className=" flex flex-col">
         <div className=" flex gap-4 items-center">
           <div className="font-semibold text-lg">Customers</div>
@@ -27,40 +35,28 @@ const CustomerPageHeader = () => {
           View and Manage Your Customer here.
         </div>
       </div>
-      <div className="flex gap-4">
-        {/* <div className="flex gap-4 items-center">
-          <div className="flex gap-2 text-sm items-center text-[#344054]">
-            <DeleteOutlineIcon
-              className="text-[#344054]"
-              sx={{
-                fontSize: {
-                  xs: "20px",
-                  sm: "22px",
-                  lg: "24px",
-                  xl: "28px",
-                },
-              }}
-            />
-            <span>Delete</span>
-          </div>
-          <div className="flex gap-2 text-sm items-center text-[#344054]">
-            <FilterListIcon
-              className="text-[#344054]"
-              sx={{
-                fontSize: {
-                  xs: "20px",
-                  sm: "22px",
-                  lg: "24px",
-                  xl: "28px",
-                },
-              }}
-            />
-            <span>Filters</span>
-          </div>
-        </div> */}
+
+      {/* Page Header View and Post Form*/}
+
+      <div className="flex gap-4 justify-between items-center">
+        <Button1
+          variant="outline"
+          size="sm"
+          onClick={() => dispatch(setCustomerView(!view))}
+        >
+          {view ? (
+            <Sheet className="mr-2 size-4" />
+          ) : (
+            <IdCard className="mr-2 size-5" />
+          )}
+          {view ? "Card" : "Table"} View
+        </Button1>
         <div className="flex items-center">
           <Button
-            css={{}}
+            css={{
+              customCss:
+                "flex gap-2 justify-center items-center w-[170px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer",
+            }}
             title="Add Customer"
             icon={
               <AddIcon
@@ -83,4 +79,4 @@ const CustomerPageHeader = () => {
   );
 };
 
-export default CustomerPageHeader;
+export default ServicePageHeader;

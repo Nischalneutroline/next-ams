@@ -26,7 +26,6 @@ import {
 } from "../components/ui/table";
 
 import { DataTablePagination } from "../data-table-pagination";
-import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 import { AppointmentDataTableToolbar } from "../data-table-toolbar/appointmentdata-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
@@ -71,14 +70,15 @@ export function AppointmentDataTable<TData, TValue>({
   return (
     <div className="space-y-4 lg:max-w-[calc(100vw-370px)]">
       <AppointmentDataTableToolbar table={table} />
-      <div className="overflow-y-auto rounded-md border">
-        <Table>
-          <TableHeader>
+
+      <div className="overflow-y-auto max-h-[390px] rounded-md border scrollbar ">
+        <Table className="min-w-full  ">
+          <TableHeader className=" z-20 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
-                    className="px-2 py-2"
+                    className="px-2 py-2 text-center"
                     key={header.id}
                     colSpan={header.colSpan}
                   >
@@ -93,7 +93,7 @@ export function AppointmentDataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className=" ">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -101,7 +101,7 @@ export function AppointmentDataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-2 py-2" key={cell.id}>
+                    <TableCell className="px-2 py-2 text-center" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

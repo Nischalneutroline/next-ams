@@ -4,10 +4,19 @@ import React, { ReactEventHandler } from "react";
 import Button from "@/features/shared-features/common/button";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
-import { setAddAppointmentFormTrue } from "@/state/admin/AdminSlice";
+import {
+  setAddAppointmentFormTrue,
+  setAppointmentView,
+} from "@/state/admin/AdminSlice";
+import { Button1 } from "@/features/shared-features/table/components/ui/button";
+import { RootState, useAppSelector } from "@/state/store";
+import { IdCard, Sheet } from "lucide-react";
 
 const AppointmentPageHeader = () => {
   const dispatch = useDispatch();
+  const { view } = useAppSelector(
+    (state: RootState) => state.admin.admin.appointment.viewType
+  );
 
   const handleButtonClick = (e: ReactEventHandler) => {
     dispatch(setAddAppointmentFormTrue(true));
@@ -27,58 +36,42 @@ const AppointmentPageHeader = () => {
         </div>
       </div>
       <div className="flex gap-4">
-        {/* <div className="flex gap-4 items-center">
-          <div className="flex gap-2 text-sm items-center text-[#344054]">
-            <DeleteOutlineIcon
-              className="text-[#344054]"
-              sx={{
-                fontSize: {
-                  xs: "20px",
-                  sm: "22px",
-                  lg: "24px",
-                  xl: "28px",
-                },
+        <div className="flex gap-4 justify-between items-center">
+          <Button1
+            variant="outline"
+            size="sm"
+            onClick={() => dispatch(setAppointmentView(!view))}
+          >
+            {view ? (
+              <Sheet className="mr-2 size-4" />
+            ) : (
+              <IdCard className="mr-2 size-5" />
+            )}
+            {view ? "Card" : "Table"} View
+          </Button1>
+          <div className="flex items-center">
+            <Button
+              css={{
+                customCss:
+                  "flex gap-2 justify-center items-center w-[170px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer",
               }}
+              title="Add Appointment"
+              icon={
+                <AddIcon
+                  className="text-white"
+                  sx={{
+                    fontSize: {
+                      xs: "18px",
+                      sm: "20px",
+                      lg: "22px",
+                      xl: "24px",
+                    },
+                  }}
+                />
+              }
+              handleAction={handleButtonClick}
             />
-            <span>Delete</span>
           </div>
-          <div className="flex gap-2 text-sm items-center text-[#344054]">
-            <FilterListIcon
-              className="text-[#344054]"
-              sx={{
-                fontSize: {
-                  xs: "20px",
-                  sm: "22px",
-                  lg: "24px",
-                  xl: "28px",
-                },
-              }}
-            />
-            <span>Filters</span>
-          </div>
-        </div> */}
-        <div className="flex items-center">
-          <Button
-            css={{
-              customCss:
-                "flex gap-2 justify-center items-center w-[170px] h-[38px] bg-[#0070FF] font-medium text-white text-[14px] rounded-md cursor-pointer",
-            }}
-            title="Add Appointment"
-            icon={
-              <AddIcon
-                className="text-white"
-                sx={{
-                  fontSize: {
-                    xs: "18px",
-                    sm: "20px",
-                    lg: "22px",
-                    xl: "24px",
-                  },
-                }}
-              />
-            }
-            handleAction={handleButtonClick}
-          />
         </div>
       </div>
     </div>

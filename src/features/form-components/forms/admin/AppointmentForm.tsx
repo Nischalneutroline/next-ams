@@ -12,7 +12,7 @@ import React from "react";
 import { cancelBtnProps } from "../../../shared-features/form/formporps";
 import {
   setAddAppointmentFormTrue,
-  setAddUserFormTrue,
+  setAddCustomerFormTrue,
 } from "@/state/admin/AdminSlice";
 import { useDispatch } from "react-redux";
 import { DateInput, TimeInput } from "@/features/shared-features/form/dayinput";

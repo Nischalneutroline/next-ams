@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/features/shared-features/common/button";
-import DaysSelection from "@/features/shared-features/form/dayinput";
+
 import { addUserBtnProps } from "@/features/shared-features/form/formporps";
 
 import TextInput from "@/features/shared-features/form/inputtext";
@@ -10,7 +10,7 @@ import SelectInput from "@/features/shared-features/form/selectinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import React from "react";
 import { cancelBtnProps } from "../../../shared-features/form/formporps";
-import { setAddUserFormTrue } from "@/state/admin/AdminSlice";
+import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
 import { useDispatch } from "react-redux";
 
 const UserForm = (props: any) => {
@@ -21,7 +21,7 @@ const UserForm = (props: any) => {
   const dispatch = useDispatch();
 
   const handleCancleButton = () => {
-    dispatch(setAddUserFormTrue(false));
+    dispatch(setAddCustomerFormTrue(false));
   };
 
   return (

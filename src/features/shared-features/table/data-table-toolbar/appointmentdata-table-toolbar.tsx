@@ -1,18 +1,25 @@
 "use client";
 
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { Cross2Icon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
+import { useState } from "react";
 
-// import { DataTableViewOptions } from "./components/ui/data-table-view-options";
-
-import { ReactEventHandler, useState } from "react";
 import { Input } from "../components/ui/input";
-import { incomeType, categories } from "../data";
-import { DataTableFacetedFilter } from "../data-table-faceted-filter";
-import { TrashIcon } from "lucide-react";
-import { CalendarDatePicker } from "../../common/calender-date-picker";
-import { DataTableViewOptions } from "../data-table-view-options";
 import { Button } from "../components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger, // ✅ Now from Shadcn-style import
+} from "../components/ui/dropdown-menu"; // ✅ Local path, not @radix-ui
+import { TrashIcon } from "lucide-react";
+
+import { CalendarDatePicker } from "../../common/calender-date-picker";
+import { incomeType, categories, totalAppointment } from "../data";
+import { DataTableFacetedFilter } from "../data-table-faceted-filter";
+import { DataTableViewOptions } from "../data-table-view-options";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -22,7 +29,7 @@ export function AppointmentDataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
-
+  const [selectedFilters, setSelectedFilters] = useState<String[]>([]);
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: new Date(new Date().getFullYear(), 0, 1),
     to: new Date(),
@@ -30,35 +37,99 @@ export function AppointmentDataTableToolbar<TData>({
 
   const handleDateSelect = ({ from, to }: { from: Date; to: Date }) => {
     setDateRange({ from, to });
-    // Filter table data based on selected date range
     table.getColumn("date")?.setFilterValue([from, to]);
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-between">
-      <div className="flex flex-1 flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center gap-2 flex-1">
         <Input
           placeholder="Filter labels..."
-          value={(table.getColumn("label")?.getFilterValue() as string) ?? ""}
-          onChange={(event: any) => {
-            table.getColumn("label")?.setFilterValue(event.target.value);
+          value={
+            (table.getColumn("fullName")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) => {
+            table.getColumn("fullName")?.setFilterValue(event.target.value);
           }}
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("category") && (
+
+        {/* Faceted Filters */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 hidden h-8 lg:flex"
+            >
+              <MixerHorizontalIcon className="mr-2 h-4 w-4" />
+              Filter by
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-[180px]">
+            <DropdownMenuLabel>Select Filters</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {/* <DropdownMenuCheckboxItem
+              checked={selectedFilter === "phoneNumber"}
+              onSelect={() => setSelectedFilter("phoneNumber")}
+            >
+              Category
+            </DropdownMenuCheckboxItem> */}
+            <DropdownMenuCheckboxItem
+              checked={selectedFilters.includes("createdBy")}
+              onCheckedChange={(checked) => {
+                setSelectedFilters((prev) =>
+                  checked
+                    ? [...prev, "createdBy"]
+                    : prev.filter((f) => f !== "createdBy")
+                );
+              }}
+            >
+              Created By
+            </DropdownMenuCheckboxItem>
+
+            <DropdownMenuCheckboxItem
+              checked={selectedFilters.includes("totalAppointments")}
+              onCheckedChange={(checked) => {
+                setSelectedFilters((prev) =>
+                  checked
+                    ? [...prev, "totalAppointments"]
+                    : prev.filter((f) => f !== "totalAppointments")
+                );
+              }}
+            >
+              Total Appointments
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Conditionally Render Filters */}
+        {/* {selectedFilter === "phoneNumber" && table.getColumn("phoneNumber") && (
           <DataTableFacetedFilter
-            column={table.getColumn("category")}
-            title="Categories"
+            column={table.getColumn("phoneNumber")}
+            title="Phone Number"
             options={categories}
           />
-        )}
-        {table.getColumn("type") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("type")}
-            title="Income Type"
-            options={incomeType}
-          />
-        )}
+        )} */}
+        {selectedFilters.includes("createdBy") &&
+          table.getColumn("createdBy") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("createdBy")}
+              title="Created By"
+              options={categories}
+            />
+          )}
+
+        {selectedFilters.includes("totalAppointments") &&
+          table.getColumn("totalAppointments") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("totalAppointments")}
+              title="Total Appointments"
+              options={totalAppointment}
+            />
+          )}
+
+        {/* Reset Filters Button */}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -69,6 +140,8 @@ export function AppointmentDataTableToolbar<TData>({
             <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
         )}
+
+        {/* Date Picker */}
         <CalendarDatePicker
           date={dateRange}
           onDateSelect={handleDateSelect}
@@ -77,13 +150,14 @@ export function AppointmentDataTableToolbar<TData>({
         />
       </div>
 
+      {/* Trash / View Options */}
       <div className="flex items-center gap-2">
-        {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
           <Button variant="outline" size="sm">
-            <TrashIcon className="mr-2 size-4" aria-hidden="true" />
+            <TrashIcon className="mr-2 size-4" />
             Delete ({table.getFilteredSelectedRowModel().rows.length})
           </Button>
-        ) : null}
+        )}
         <DataTableViewOptions table={table} />
       </div>
     </div>

@@ -195,13 +195,13 @@ export const UserColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Phone Number" />
     ),
   },
-  {
-    accessorKey: "dateOfBirth",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date of Birth" />
-    ),
-    cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
-  },
+  // {
+  //   accessorKey: "dateOfBirth",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Date of Birth" />
+  //   ),
+  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
+  // },
   {
     accessorKey: "totalAppointments",
     header: ({ column }) => (
