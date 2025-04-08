@@ -1,21 +1,65 @@
+"use client";
+import { motion } from "framer-motion";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import CountryFlag from "./countryflag";
 import HeaderSearch from "./headersearch";
 import HeaderTitle from "./headertitle";
 import UserProfile from "./userprofile";
+import { RootState, useAppSelector } from "@/state/store";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
   icon: React.ReactNode;
   pageTitle: string;
-  onToggleMenu: () => void;
 }
 
+const headerVariants = {
+  expanded: {
+    marginLeft: "0px",
+    transition: { duration: 0.3, ease: "easeInOut" },
+  },
+  compressed: {
+    marginLeft: "85px",
+    transition: { duration: 0.3, ease: "easeInOut" },
+  },
+};
+
 const Header = (props: HeaderProps) => {
-  const { icon, pageTitle, onToggleMenu } = props;
+  const { isFlag } = useAppSelector(
+    (state: RootState) => state.admin.admin.sidebar.add
+  );
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1024); // lg breakpoint in Tailwind
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="relative min-h-[376px] bg-[#287AFF] rounded-b-[12px] ">
-      <div className="flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 max-w-[calc(100vw-85px)]  lg:max-w-[calc(100vw-325px)] xl:pl-2 xl:pr-12">
+    <motion.div
+      className="relative min-h-[376px] bg-[#287AFF] rounded-b-[12px]"
+      initial={false}
+      animate={isFlag ? "compressed" : "expanded"}
+    >
+      <motion.div
+        className=" flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 lg:max-w-[calc(100vw-330px)] xl:pl-2 xl:pr-12"
+        initial={false}
+        // animate={{
+        //   maxWidth: isSmallScreen
+        //     ? isFlag
+        //       ? "calc(100vw - 85px)"
+        //       : "100vw"
+        //     : "calc(100vw-325px)",
+        // }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        variants={headerVariants}
+      >
         <div className="flex h-[60px] w-full items-center justify-between">
           <HeaderTitle
             icon={
@@ -24,7 +68,6 @@ const Header = (props: HeaderProps) => {
                 className="text-white"
               />
             }
-            onToggleMenu={onToggleMenu}
             pageTitle={"Dashboard"}
           />
           <div className="flex gap-6 items-center">
@@ -44,13 +87,12 @@ const Header = (props: HeaderProps) => {
                   className="text-[#FFA412]"
                 />
               </div>
-
-              <UserProfile userName="musfiq" role="admin " />
+              <UserProfile />
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

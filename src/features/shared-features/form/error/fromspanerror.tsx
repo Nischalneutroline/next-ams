@@ -9,7 +9,7 @@ export const FormSpanError: FC<CommonSchema> = (props) => {
   const { customCss } = css;
 
   // Css
-  const defaultCss = "text-[10px] text-red-400 font-xs";
+  const defaultCss = "text-[10px] text-red-400 font-xs mt-[20px]";
   const finalCss = customCss ?? defaultCss;
 
   return <span className={finalCss}>{title}</span>;
