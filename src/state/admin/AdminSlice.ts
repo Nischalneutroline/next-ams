@@ -95,11 +95,53 @@ const initialState: AdminSliceSchema = {
         details: [],
       },
     },
+    service: {
+      _add_ServiceForm: {
+        id: null,
+        input: {
+          serviceName: "",
+          description: "",
+          duration: "",
+          status: "",
+          visibility: "",
+          createdBy: "",
+          createdAt: "",
+        },
+        details: [],
+      },
+      _edit_ServiceForm: {
+        id: null,
+        input: {
+          serviceName: "",
+          description: "",
+          duration: "",
+          status: "",
+          visibility: "",
+          createdBy: "",
+          createdAt: "",
+        },
+        details: [],
+      },
+      _view_ServiceForm: {
+        id: null,
+        input: {
+          serviceName: "",
+          description: "",
+          duration: "",
+          status: "",
+          visibility: "",
+          createdBy: "",
+          createdAt: "",
+        },
+        details: [],
+      },
+    },
   },
   admin: {
     user: InitialServiceData,
     sidebar: InitialServiceData,
     appointment: InitialServiceData,
+    service: InitialServiceData,
   },
 };
 
@@ -113,6 +155,9 @@ const adminSlice = createSlice({
     setAddAppointmentFormTrue: (state, action) => {
       state.admin.appointment.add.isFlag = action.payload;
     },
+    setAddServiceFormTrue: (state, action) => {
+      state.admin.service.add.isFlag = action.payload;
+    },
     setOpenSidebarTrue: (state, action) => {
       state.admin.sidebar.add.isFlag = action.payload;
     },
@@ -121,6 +166,9 @@ const adminSlice = createSlice({
     },
     setAppointmentView: (state, action) => {
       state.admin.appointment.viewType.view = action.payload;
+    },
+    setServiceView: (state, action) => {
+      state.admin.service.viewType.view = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -131,6 +179,8 @@ const adminSlice = createSlice({
 });
 
 export const {
+  setServiceView,
+  setAddServiceFormTrue,
   setAppointmentView,
   setCustomerView,
   setAddCustomerFormTrue,

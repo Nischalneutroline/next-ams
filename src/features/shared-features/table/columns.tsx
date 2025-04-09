@@ -226,3 +226,79 @@ export const UserColumns: ColumnDef<User>[] = [
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
+
+export const ServiceColumns: ColumnDef<User>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-0.5"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-0.5"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "serviceName",
+    header: "Service Name",
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+  },
+  {
+    accessorKey: "duration",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Duration" />
+    ),
+  },
+  // {
+  //   accessorKey: "dateOfBirth",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Date of Birth" />
+  //   ),
+  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
+  // },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+  },
+  {
+    accessorKey: "visibility",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Visibility" />
+    ),
+  },
+  {
+    accessorKey: "createdBy",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created By" />
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
+  },
+];

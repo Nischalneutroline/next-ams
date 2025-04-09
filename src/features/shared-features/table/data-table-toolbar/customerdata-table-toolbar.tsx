@@ -41,17 +41,17 @@ export function CustomerDataTableToolbar<TData>({
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2">
+    <div className="flex flex-row sm:flex-wrap items-center justify-between gap-1">
       <div className="flex flex-wrap items-center gap-2 flex-1">
         <Input
-          placeholder="Filter labels..."
+          placeholder="Filter Full Name..."
           value={
             (table.getColumn("fullName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) => {
             table.getColumn("fullName")?.setFilterValue(event.target.value);
           }}
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-[30px] sm:h-[35px] lg:h-[36px] w-[20x0px] sm:w-[150px] lg:w-[250px] text-[12px] lg:text-[14px]"
         />
 
         {/* Faceted Filters */}
@@ -137,7 +137,7 @@ export function CustomerDataTableToolbar<TData>({
               table.resetColumnFilters();
               setSelectedFilters([]);
             }}
-            className="h-8 px-2 lg:px-3"
+            className="h-8 px-2 lg:px-3 text-gray-400"
           >
             Reset
             <Cross2Icon className="ml-2 h-4 w-4" />
@@ -148,19 +148,25 @@ export function CustomerDataTableToolbar<TData>({
         <CalendarDatePicker
           date={dateRange}
           onDateSelect={handleDateSelect}
-          className="h-9 w-[250px]"
+          className="h-[30px] sm:h-[35px] lg:h-[36px] w-[200px]  lg:w-[250px] text-[11px] sm:text-[12px] lg:text-[14px] text-gray-500"
           variant="outline"
         />
       </div>
 
       {/* Trash / View Options */}
-      <div className="flex items-center gap-2">
-        {table.getFilteredSelectedRowModel().rows.length > 0 && (
-          <Button variant="outline" size="sm">
-            <TrashIcon className="mr-2 size-4" />
-            Delete ({table.getFilteredSelectedRowModel().rows.length})
-          </Button>
-        )}
+      <div className="flex flex-col items-end sm:items-center gap-2">
+        <div className=" h-[30px] sm:h-[35px] lg:h-[36px] w-[100px]  lg:w-[250px]">
+          {table.getFilteredSelectedRowModel().rows.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-[30px] sm:h-[35px] lg:h-[36px] w-[100px]  lg:w-[250px] text-[11px] sm:text-[12px] lg:text-[14px] text-gray-500 gap-1"
+            >
+              <TrashIcon className=" size-3.5 lg:size-4" />
+              Delete ({table.getFilteredSelectedRowModel().rows.length})
+            </Button>
+          )}
+        </div>
         <DataTableViewOptions table={table} />
       </div>
     </div>

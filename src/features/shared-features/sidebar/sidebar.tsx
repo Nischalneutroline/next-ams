@@ -17,11 +17,11 @@ const Sidebar = (props: SideBarProps) => {
   const { title, menus } = props;
   const pathname = usePathname();
   return (
-    <div className="absolute top-[12px] left-[20px] h-[calc(100vh-20px)] min-w-[265px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col gap-20 z-[10]">
-      <div className="text-black font-bold text-[23px] leading-[150%] ">
+    <div className="absolute top-[12px] left-[20px] h-screen lg:h-[calc(100vh-20px)] min-w-[265px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col gap-2 lg:gap-20 z-[10]">
+      <div className="text-black font-bold text-[18px] lg:text-[23px] leading-[150%] ">
         {title}
       </div>
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 bg-red-400">
         {menus?.map((menu: SidebarMenusProps, index: number) => {
           const isActive = pathname === menu.path;
           return (

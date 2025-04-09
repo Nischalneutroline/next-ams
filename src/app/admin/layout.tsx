@@ -23,42 +23,131 @@ export default function AdminLayout({
     menus: [
       {
         menu: "Dashboard",
-        icon: <HomeRoundedIcon sx={{ fontSize: 28 }} />,
+        icon: (
+          <HomeRoundedIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin",
       },
       {
         menu: "Appointments",
-        icon: <CalendarMonthOutlinedIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <CalendarMonthOutlinedIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/appointments",
       },
       {
         menu: "Customer",
-        icon: <GroupIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <GroupIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/customer",
       },
       {
         menu: "Availability and Scheduling",
-        icon: <PendingActionsIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <PendingActionsIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/scheduling",
       },
       {
         menu: "Serivces",
-        icon: <DesignServicesIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <DesignServicesIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/services",
       },
       {
         menu: "Buisness Setting",
-        icon: <SettingsIcon sx={{ fontSize: 25 }} className="" />,
+        icon: (
+          <SettingsIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+            className=""
+          />
+        ),
         path: "/admin/businesssetting",
       },
       {
         menu: "Notification and Reminder",
-        icon: <NotificationsIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <NotificationsIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/notification",
       },
       {
         menu: "Support and Help",
-        icon: <HeadsetMicIcon sx={{ fontSize: 25 }} />,
+        icon: (
+          <HeadsetMicIcon
+            sx={{
+              fontSize: {
+                xs: "20px",
+                sm: "23px",
+                lg: "25px",
+                xl: "30px",
+              },
+            }}
+          />
+        ),
         path: "/admin/support",
       },
     ],
@@ -66,7 +155,7 @@ export default function AdminLayout({
   return (
     <div className="h-screen w-screen relative flex">
       <ResponsiveSidebar title={sidebarData.title} menus={sidebarData.menus} />
-      <div className="flex-1 ">
+      <div className="flex-1 w-full ">
         <Header
           icon={<HomeIcon className="text-white" />}
           pageTitle="Dashboard"
@@ -75,7 +164,7 @@ export default function AdminLayout({
         <AddUserForm />
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[325px]
-        min-w-screen lg:min-w-[calc(100vw-325px)] p-2 px-4 overflow-hidden"
+        w-full lg:min-w-[calc(100vw-325px)] py-4 px-2 overflow-hidden"
         >
           {children}
         </div>

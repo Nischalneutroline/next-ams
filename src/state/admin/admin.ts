@@ -28,6 +28,17 @@ export interface AdminAppointmentFormSchema {
   time: string;
   message: string;
 }
+
+export interface AdminServiceFormSchema {
+  serviceName: string;
+  description: string;
+  duration: string | number;
+  status: string | boolean;
+  visibility: string | boolean;
+  createdBy: string;
+  createdAt: string;
+}
+
 // Define The Platform Schema for Each of the Form Driven Section of Admin
 export interface CustomerPlatformSchema {
   id?: string | number | null;
@@ -39,6 +50,12 @@ export interface ApointmentPlatformSchema {
   id?: string | number | null;
   input: AdminAppointmentFormSchema;
   details: AdminAppointmentFormSchema[];
+}
+
+export interface ServicePlatformSchema {
+  id?: string | number | null;
+  input: AdminServiceFormSchema;
+  details: AdminServiceFormSchema[];
 }
 
 // Create the Platform Schema for Each of the form associated with CRUD
@@ -54,16 +71,24 @@ export interface AppointmentPlatform {
   _view_AppointmentForm: ApointmentPlatformSchema;
 }
 
+export interface ServicePlatform {
+  _add_ServiceForm: ServicePlatformSchema;
+  _edit_ServiceForm: ServicePlatformSchema;
+  _view_ServiceForm: ServicePlatformSchema;
+}
+
 export type AdminApi = {
   user: ServiceType;
   sidebar: ServiceType;
   appointment: ServiceType;
+  service: ServiceType;
 };
 
 export interface AdminSliceSchema {
   platform: {
     user: CustomerPlatform;
     appointment: AppointmentPlatform;
+    service: ServicePlatform;
   };
   admin: AdminApi;
 }

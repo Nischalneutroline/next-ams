@@ -35,3 +35,15 @@ export const UserSchema = z.object({
   lastAppointment: z.string(),
 });
 export type User1 = z.infer<typeof UserSchema>;
+
+export const ServiceSchema = z.object({
+  id: z.string(),
+  serviceName: z.string(),
+  description: z.string(),
+  duration: z.string(),
+  status: z.string(),
+  visibility: z.boolean(),
+  createdBy: z.string(),
+  createdAt: z.date(),
+});
+export type Service = z.infer<typeof ServiceSchema>;
