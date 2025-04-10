@@ -49,7 +49,70 @@ export const phoneProps = ({ defaultValue }: any) => ({
   label: "Phone Number",
   type: "phone",
   placeholder: "Enter Phone Number (+9779867373778)",
-  showImportant: true,
+  showImportant: false,
+  defaultValue: defaultValue ?? "",
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
+});
+export const cityProps = ({ defaultValue }: any) => ({
+  input: "city",
+  label: "City",
+  type: "text",
+  placeholder: "City",
+  showImportant: false,
+  defaultValue: defaultValue ?? "",
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
+});
+export const streetProps = ({ defaultValue }: any) => ({
+  input: "street",
+  label: "Street",
+  type: "text",
+  placeholder: "Street",
+  showImportant: false,
+  defaultValue: defaultValue ?? "",
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
+});
+export const countryProps = ({ defaultValue }: any) => ({
+  input: "country",
+  label: "Country",
+  type: "text",
+  placeholder: "Country",
+  showImportant: false,
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
@@ -174,8 +237,8 @@ export const messageProps = ({ defaultValue }: any) => ({
 export const isActiveProps = ({ defaultValue }: any) => ({
   input: "isActive",
   label: "isActive",
-  showImportant: true,
-  defaultValue: defaultValue ?? false,
+  showImportant: false,
+  defaultValue: defaultValue ?? true,
   icon: (
     <LocalPhoneIcon
       className="text-black"

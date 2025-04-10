@@ -48,7 +48,7 @@ const Header = (props: HeaderProps) => {
       animate={isFlag ? "compressed" : "expanded"}
     >
       <motion.div
-        className=" flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2 sm:px-4 md:px-6 right-0 lg:max-w-[calc(100vw-330px)] xl:pl-2 xl:pr-12"
+        className=" flex flex-col absolute top-2 md:top-3 lg:top-4 w-full px-2  md:px-4  right-0 lg:max-w-[calc(100vw-100px)] xl:pl-2 xl:pr-12"
         initial={false}
         // animate={{
         //   maxWidth: isSmallScreen
@@ -68,7 +68,7 @@ const Header = (props: HeaderProps) => {
                   fontSize: {
                     xs: "20px",
                     sm: "23px",
-                    lg: "25px",
+                    lg: "28px",
                     xl: "30px",
                   },
                 }}
@@ -88,7 +88,7 @@ const Header = (props: HeaderProps) => {
                     fontSize: {
                       xs: "20px",
                       sm: "23px",
-                      lg: "25px",
+                      lg: "28px",
                       xl: "30px",
                     },
                   }}

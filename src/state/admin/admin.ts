@@ -16,7 +16,7 @@ export interface AdminCustomerFormSchema {
   email: string;
   phone_number: string | number;
   role: string;
-  active: boolean;
+  isActive: boolean;
   password: string;
 }
 export interface AdminAppointmentFormSchema {

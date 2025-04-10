@@ -14,7 +14,7 @@ import {
 } from "./components/ui/dropdown-menu";
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
+  row: Row<TData> | any;
 }
 
 export function DataTableRowActions<TData>({

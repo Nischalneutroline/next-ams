@@ -29,7 +29,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -45,7 +45,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -61,7 +61,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -77,7 +77,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -93,7 +93,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -109,7 +109,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -126,7 +126,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -142,7 +142,7 @@ export default function AdminLayout({
               fontSize: {
                 xs: "20px",
                 sm: "23px",
-                lg: "25px",
+                lg: "28px",
                 xl: "30px",
               },
             }}
@@ -163,8 +163,8 @@ export default function AdminLayout({
         <AddAppointmentForm />
         <AddUserForm />
         <div
-          className="absolute  min-h-[calc(100vh-376px)] lg:ml-[325px]
-        w-full lg:min-w-[calc(100vw-325px)] py-4 px-2 overflow-hidden"
+          className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]
+        w-full lg:min-w-[calc(100vw-90px)] py-4 px-3 md:px-4 overflow-hidden"
         >
           {children}
         </div>

@@ -52,7 +52,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ icon, pageTitle }) => {
   return (
     <div className="flex  gap-1 sm:gap-2 lg:gap-3 justify-between items-center px-2">
       {icon}
-      <span className="flex items-end xs:text-[14px] lg:text-[19px] text-white font-[600] leading-[30px] -tracking-[2%]">
+      <span className="flex items-end text-[14px] sm:text-[18px] lg:text-[22px] text-white font-[600] leading-[30px] -tracking-[2%]">
         {pageTitle}
       </span>
       <div onClick={() => dispatch(setOpenSidebarTrue(!isFlag))}>

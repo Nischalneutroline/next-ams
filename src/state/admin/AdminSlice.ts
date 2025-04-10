@@ -6,6 +6,7 @@ import {
   //   ServiceType,
   //   APiType,
 } from "./admin";
+import { createUser, retriveUsers } from "./AdminServices";
 
 const API_URL = process.env.DATABASE_URL;
 
@@ -24,7 +25,7 @@ const initialState: AdminSliceSchema = {
           email: "",
           phone_number: "",
           role: "",
-          active: false,
+          isActive: false,
           password: "",
         },
         details: [],
@@ -36,7 +37,7 @@ const initialState: AdminSliceSchema = {
           email: "",
           phone_number: "",
           role: "",
-          active: false,
+          isActive: false,
           password: "",
         },
         details: [],
@@ -48,7 +49,7 @@ const initialState: AdminSliceSchema = {
           email: "",
           phone_number: "",
           role: "",
-          active: false,
+          isActive: false,
           password: "",
         },
         details: [],
@@ -170,11 +171,47 @@ const adminSlice = createSlice({
     setServiceView: (state, action) => {
       state.admin.service.viewType.view = action.payload;
     },
+    resetUserState: (state) => {
+      state.admin.user.add.response = {
+        ...state.admin.user.add.response,
+        isLoading: false,
+        isSuccess: false,
+        toastMsg: "",
+        error: "",
+      };
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.platform.user._view_CustomerForm.details = action.payload;
-    });
+    builder
+      .addCase(createUser.pending, (state) => {
+        state.admin.user.add.response.isLoading = true;
+        state.admin.user.add.response.isSuccess = false;
+        state.admin.user.add.response.toastMsg = "";
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.admin.user.add.response.isLoading = false;
+        state.admin.user.add.response.isSuccess = true;
+        state.admin.user.add.response.details = action.payload;
+        state.admin.user.add.response.toastMsg = "User created successfully!";
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.admin.user.add.response.isLoading = false;
+        state.admin.user.add.response.isSuccess = false;
+        state.admin.user.add.response.toastMsg = "User creation failed.";
+        state.admin.user.add.response.error = action.payload as string;
+      })
+      .addCase(retriveUsers.pending, (state) => {
+        state.admin.user.view.response.isLoading = true;
+        state.admin.user.view.response.error = null;
+      })
+      .addCase(retriveUsers.fulfilled, (state, action: PayloadAction<any>) => {
+        state.admin.user.view.response.isLoading = false;
+        state.admin.user.view.response.details = action.payload; // Save the user data in the state
+      })
+      .addCase(retriveUsers.rejected, (state, action) => {
+        state.admin.user.view.response.isLoading = false;
+        state.admin.user.view.response.error = action.payload as string; // Capture error if failed
+      });
   },
 });
 
@@ -186,5 +223,6 @@ export const {
   setAddCustomerFormTrue,
   setOpenSidebarTrue,
   setAddAppointmentFormTrue,
+  resetUserState,
 } = adminSlice.actions;
 export default adminSlice.reducer;

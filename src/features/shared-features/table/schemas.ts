@@ -16,13 +16,15 @@ export type Expense = z.infer<typeof expenseSchema>;
 
 export type User = {
   id: string;
-  fullName: string;
   email: string;
-  phoneNumber: string;
-  dateOfBirth: string; // You can adjust this to Date type if you'd prefer.
-  totalAppointments: number;
-  lastAppointment: string; // Same as dateOfBirth, this can be Date too.
-  createdBy: string;
+  password: string;
+  name: string;
+  phone: string;
+  createdAt: string;
+  updatedAt: string;
+  lastActive: string;
+  role: string;
+  isActive: boolean;
 };
 
 export const UserSchema = z.object({

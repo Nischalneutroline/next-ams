@@ -24,7 +24,7 @@ export const adminUserSchema = z.object({
 
   phone_number: z
     .string()
-    .min(1, { message: "Phone Number is required" })
+    .optional()
     .refine(
       (number: any) => {
         try {
@@ -36,6 +36,11 @@ export const adminUserSchema = z.object({
       },
       { message: "Invalid mobile number" }
     ),
+  street: z.string().optional(),
+  city: z.string().optional(),
+
+  country: z.string().optional(),
+
   role: z.string().min(1, { message: "Role is required" }),
 
   isActive: z.boolean().optional(),

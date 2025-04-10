@@ -58,16 +58,16 @@ const MobileSidebar = (props: SideBarProps) => {
   }, [dispatch]);
   return (
     <motion.div
-      className="absolute top-[2px] left-[2px] h-[calc(100vh)] lg:h-[calc(100vh-20px)] max-w-[230px] lg:max-w-[265px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col z-[10] items-center"
+      className="absolute top-[2px] left-[2px] h-[calc(100vh)] lg:h-[calc(100vh-20px)] max-w-[230px] sm:max-w-[250px] bg-[#FFFFFF] text-gray-600 rounded-[24px] shadow-lg px-8 py-8 flex flex-col z-[10] items-center"
       initial="hidden"
       animate={isFlag ? "visible" : "hidden"}
       variants={sidebarVariants}
       ref={sidebarRef}
     >
-      <div className="text-black font-bold text-[23px] leading-[150%] ">
+      <div className="text-black font-bold text-[20px] md:text-[23px] leading-[150%] ">
         {title}
       </div>
-      <div className="flex flex-col gap-6 sm:gap-10 mt-20 items-center">
+      <div className="flex flex-col gap-6 sm:gap-9  mt-20 items-center">
         {menus?.map((menu: SidebarMenusProps, index: number) => {
           const isActive = pathname === menu.path;
           return (
@@ -82,7 +82,9 @@ const MobileSidebar = (props: SideBarProps) => {
                 } hover:text-[#287AFF]`}
               >
                 {menu.icon}
-                <span className="text-[13px] lg:text-xl">{menu.menu}</span>
+                <span className="text-[13px] sm:text-[14px] lg:text-xl">
+                  {menu.menu}
+                </span>
               </Link>
             </nav>
           );

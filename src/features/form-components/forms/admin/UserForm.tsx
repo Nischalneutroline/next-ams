@@ -30,15 +30,16 @@ const UserForm = (props: any) => {
       className="relative flex flex-col gap-2 sm:gap-4 px-4"
     >
       <TextInput {...formObj.full_name} />
-
       <TextInput {...formObj.email} />
-
       <TextInput {...formObj.phone_number} />
-
+      <div className="flex flex-col md:flex-row gap-2">
+        <TextInput {...formObj.address.street} />
+        <TextInput {...formObj.address.city} />
+        <TextInput {...formObj.address.country} />
+      </div>
       <SelectInput {...formObj.role} />
       <SwitchInput {...formObj.isActive} />
       <PasswordInput {...formObj.password} />
-
       <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
         <Button {...cancelBtnProps(handleCancleButton)} />
 

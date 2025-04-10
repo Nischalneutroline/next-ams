@@ -8,34 +8,43 @@ import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  cityProps,
   commonActions,
+  countryProps,
   emailProps,
   fullNameProps,
   isActiveProps,
   passwordProps,
   phoneProps,
   roleProps,
+  streetProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
 import UserForm from "../../forms/admin/UserForm";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
-import { RootState, useAppSelector } from "@/state/store";
-import { useDispatch } from "react-redux";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
+import { createUser } from "@/state/admin/AdminServices";
+import { AdminCustomerFormSchema } from "@/state/admin/admin";
 
 const AddUserForm = () => {
   // Redux Variable
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
     (state: RootState) => state.admin.admin.user.add
   );
-
+  const { isSuccess } = useAppSelector(
+    (state: RootState) => state.admin.admin.user.add.response
+  );
   // Submit handler
-  const onSubmit = (data: AdminUserFormValues) => {
-    console.log("Form Submitted:", data);
+  const onSubmit = (data: AdminCustomerFormSchema) => {
+    console.log(data);
+    dispatch(createUser(data));
     reset();
+    console.log(isSuccess);
+    dispatch(setAddCustomerFormTrue(false));
   };
 
   //  Ref for closing modal on outside click
@@ -89,6 +98,20 @@ const AddUserForm = () => {
     phone_number: {
       common: phoneProps({}),
       ...remaining,
+    },
+    address: {
+      street: {
+        common: streetProps({}),
+        ...remaining,
+      },
+      city: {
+        common: cityProps({}),
+        ...remaining,
+      },
+      country: {
+        common: countryProps({}),
+        ...remaining,
+      },
     },
     role: {
       common: roleProps({}),

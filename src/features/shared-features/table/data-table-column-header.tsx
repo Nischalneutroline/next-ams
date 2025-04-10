@@ -39,7 +39,7 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className=" px-2 py-1 md:py-2 text-center text-[12px] data-[state=open]:bg-accent"
+            className=" px-2 py-1 md:py-2 text-center text-[12px] text-[12px] sm:text-[14px] lg:text-[16px]  data-[state=open]:bg-accent"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (

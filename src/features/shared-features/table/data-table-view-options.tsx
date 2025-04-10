@@ -26,7 +26,7 @@ export function DataTableViewOptions<TData>({
         <Button
           variant="outline"
           size="sm"
-          className="h-[30px] sm:h-[35px] lg:h-[36px] w-[100px]  lg:w-[250px] text-[11px] sm:text-[12px] lg:text-[14px] text-gray-500"
+          className="h-[30px] sm:h-[34px] lg:h-[38px] w-[100px] sm:w-[130px]  lg:w-[170px] text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] text-gray-500"
         >
           <MixerHorizontalIcon className="" />
           Edit Column

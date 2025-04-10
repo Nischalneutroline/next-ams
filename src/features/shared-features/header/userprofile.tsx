@@ -55,7 +55,7 @@ const UserProfile = () => {
               }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="flex gap-2 justify-center items-center w-[70px] h-[26px] sm:w-[80px] sm:h-[36px] bg-[#0070FF] font-medium text-white text-[12px] sm:text-[14px] rounded-sm sm:rounded-lg cursor-pointer border border-white"
+              className="flex gap-2 justify-center items-center w-[70px] h-[26px] sm:w-[80px] sm:h-[36px] lg:h-[45px] lg:w-[100px] bg-[#0070FF] font-medium text-white text-[12px] sm:text-[14px] lg:text-[17px] rounded-sm sm:rounded-lg cursor-pointer border border-white"
             >
               Sign In
             </motion.button>
@@ -68,7 +68,7 @@ const UserProfile = () => {
               }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="flex gap-2 justify-center items-center w-[70px] h-[26px] sm:w-[80px] sm:h-[36px] bg-green-500 font-medium text-white text-[12px] sm:text-[14px] rounded-sm sm:rounded-lg cursor-pointer border border-black"
+              className="flex gap-2 justify-center items-center w-[70px] h-[26px] sm:w-[80px] sm:h-[36px] lg:h-[45px] lg:w-[100px] bg-green-500 font-medium text-white text-[12px] sm:text-[14px] lg:text-[17px] rounded-sm sm:rounded-lg cursor-pointer border border-black"
             >
               Sign Up
             </motion.button>

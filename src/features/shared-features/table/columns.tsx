@@ -9,6 +9,20 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "./components/ui/checkbox";
 import { Expense, User } from "./schemas";
 import { Button } from "./components/ui/button";
+const getRoleBadgeStyle = (role: string) => {
+  switch (role.toLowerCase()) {
+    case "admin":
+      return "bg-red-500/80";
+    case "editor":
+      return "bg-blue-500/70";
+    case "user":
+      return "bg-gray-500/80";
+    case "manager":
+      return "bg-purple-500";
+    default:
+      return "bg-gray-400";
+  }
+};
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -182,15 +196,15 @@ export const UserColumns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "fullName",
-    header: "Full Name",
+    accessorKey: "name",
+    header: "Name",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "phoneNumber",
+    accessorKey: "phone",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Phone Number" />
     ),
@@ -203,23 +217,56 @@ export const UserColumns: ColumnDef<User>[] = [
   //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
   // },
   {
-    accessorKey: "totalAppointments",
+    accessorKey: "isActive",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Total Appointment" />
+      <DataTableColumnHeader column={column} title="Active" />
     ),
+    cell: ({ row }) => {
+      const isActive = row.getValue("isActive");
+
+      return (
+        <span
+          className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
+            isActive ? "bg-green-500/70" : "bg-yellow-400/60"
+          }`}
+        >
+          {isActive ? "Active" : "Inactive"}
+        </span>
+      );
+    },
   },
   {
-    accessorKey: "lastAppointment",
+    accessorKey: "role",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Appointment" />
+      <DataTableColumnHeader column={column} title="Role" />
     ),
-    cell: ({ row }) => format(new Date(row.original.lastAppointment), "PPP"),
+    cell: ({ row }) => {
+      const role: string = row.getValue("role");
+
+      return (
+        <span
+          className={` py-1.5 min-w-[75px] text-center inline-block rounded-full text-white text-sm font-medium ${getRoleBadgeStyle(
+            role
+          )}`}
+        >
+          {role.toLowerCase()}
+        </span>
+      );
+    },
   },
   {
-    accessorKey: "createdBy",
+    accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created By" />
+      <DataTableColumnHeader column={column} title="Created At" />
     ),
+    cell: ({ row }) => format(new Date(row.original.createdAt), "PPP"),
+  },
+  {
+    accessorKey: "lastActive",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Active" />
+    ),
+    cell: ({ row }) => format(new Date(row.original.lastActive), "PPP"),
   },
   {
     id: "actions",

@@ -1,5 +1,5 @@
 // User
-interface Address {
+export interface Address {
   street: string;
   city: string;
   country: string;
@@ -12,7 +12,7 @@ enum Role {
   SUPERADMIN = "SUPERADMIN",
 }
 
-interface User {
+export interface User {
   email: string; // Required
   password: string; // Required
   name: string; // Required
@@ -37,7 +37,7 @@ const userDummy = {
 
 // -- Service
 
-interface Service {
+export interface Service {
   title: string; // Required
   description: string; // Required
   estimatedDuration: number; // Required (in minutes)
@@ -51,7 +51,7 @@ interface ServiceAvailability {
   timeSlots?: ServiceTime[]; // Optional
 }
 
-interface ServiceTime {
+export interface ServiceTime {
   startTime: string; // Required (ISO 8601 Date string)
   endTime: string; // Required (ISO 8601 Date string)
 }

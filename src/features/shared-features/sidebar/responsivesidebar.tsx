@@ -10,24 +10,29 @@ const ResponsiveSidebar = (props: SideBarProps) => {
   const { isFlag } = useAppSelector(
     (state: RootState) => state.admin.admin.sidebar.add
   );
+  const [isMobile, setIsMobile] = useState(false);
 
-  // useEffect(() => {
-  //   const checkScreenSize = () => {
-  //     setIsMobile(window.innerWidth < 1024); // Adjust breakpoint as needed
-  //   };
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 1024); // Adjust breakpoint as needed
+    };
 
-  //   checkScreenSize(); // Initial check
-  //   window.addEventListener("resize", checkScreenSize); // Listen for changes
+    checkScreenSize(); // Initial check
+    window.addEventListener("resize", checkScreenSize); // Listen for changes
 
-  //   return () => window.removeEventListener("resize", checkScreenSize); // Cleanup
-  // }, []);
+    return () => window.removeEventListener("resize", checkScreenSize); // Cleanup
+  }, []);
 
-  return <>{isFlag && <MobileSidebar title={title} menus={menus} />}</>;
-
-  // isMobile ? (
-  // ) : (
-  //   <Sidebar title={title} menus={menus} />
-  // );
+  return (
+    <>
+      {isMobile ? (
+        <MobileSidebar title={title} menus={menus} />
+      ) : (
+        <Sidebar title={title} menus={menus} />
+      )}
+    </>
+  );
+  // isFlag && <MobileSidebar title={title} menus={menus} />
 };
 
 export default ResponsiveSidebar;
