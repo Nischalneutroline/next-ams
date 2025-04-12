@@ -12,6 +12,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
+import { useAppDispatch } from "@/state/store";
+import {
+  setEditCustomerFormTrue,
+  setEditCustomerId,
+} from "@/state/admin/AdminSlice";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData> | any;
@@ -21,6 +26,8 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   // const task = taskSchema.parse(row.original);
+
+  const dispatch = useAppDispatch();
 
   return (
     <DropdownMenu>
@@ -34,7 +41,14 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            dispatch(setEditCustomerId(row.original.id));
+            dispatch(setEditCustomerFormTrue(true));
+          }}
+        >
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />

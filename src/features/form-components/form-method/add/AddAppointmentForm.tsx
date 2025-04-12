@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AdminAppointmentFormValues,
   AdminUserFormValues,
   adminAppointmentSchema,
   adminUserSchema,
@@ -10,32 +11,41 @@ import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   commonActions,
+  createdByIdProps,
+  customerNameProps,
   dateProps,
   emailProps,
   fullNameProps,
+  isForSelfProps,
   messageProps,
   phoneProps,
-  serviceProps,
+  selectedDateProps,
+  selectedTimeProps,
+  serviceIdProps,
+  statusProps,
   timeProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
-import { RootState, useAppSelector } from "@/state/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import { useDispatch } from "react-redux";
 import { setAddAppointmentFormTrue } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import AppointmentForm from "../../forms/admin/AppointmentForm";
+import { retriveUsers } from "@/state/admin/AdminServices";
+import { AdminAppointmentFormSchema } from "@/state/admin/admin";
 
 const AddAppointmentForm = () => {
   // Redux Variable
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
     (state: RootState) => state.admin.admin.appointment.add
   );
 
   // Submit handler
-  const onSubmit = (data: AdminUserFormValues) => {
+  const onSubmit = (data: AdminAppointmentFormSchema) => {
+    console.log("clicked");
     console.log("Form Submitted:", data);
     reset();
   };
@@ -79,32 +89,70 @@ const AddAppointmentForm = () => {
     { label: "Staff", value: "staff" },
   ];
 
+  const { details } = useAppSelector(
+    (state: RootState) => state.admin.admin.user.view.response
+  );
+
+  function getLabelValueArray(
+    details: { id: string | number; name: string }[]
+  ) {
+    return details.map((user) => ({
+      label: user.name,
+      value: String(user.id),
+    }));
+  }
+
+  const createdByOptions = getLabelValueArray(details);
+
+  enum AppointmentStatus {
+    SCHEDULED = "SCHEDULED",
+    COMPLETED = "COMPLETED",
+    MISSED = "MISSED",
+    CANCELLED = "CANCELLED",
+    FOLLOW_UP = "FOLLOW_UP",
+  }
+  const status = [
+    { label: "Scheduled", value: "SCHEDULED" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Missed", value: "MISSED" },
+    { label: "Cancelled", value: "CANCELLED" },
+    { label: "Follow Up", value: "FOLLOW_UP" },
+  ];
+
   const formObj: any = {
-    full_name: {
-      common: fullNameProps({}),
+    customerName: {
+      common: customerNameProps({}),
       ...remaining,
     },
     email: {
       common: emailProps({}),
       ...remaining,
     },
-    phone_number: {
+    phone: {
       common: phoneProps({}),
       ...remaining,
     },
-    service: {
-      common: serviceProps({}),
+    status: { common: statusProps({}), options: status, ...remaining },
+    serviceId: {
+      common: serviceIdProps({}),
       options,
       ...remaining,
     },
-    date: {
-      common: dateProps({}),
+    selectedDate: {
+      common: selectedDateProps({}),
       ...remaining,
     },
-    time: { common: timeProps({}), ...remaining },
+    selectedTime: { common: selectedTimeProps({}), ...remaining },
+    createdById: {
+      common: createdByIdProps({}),
+      options: createdByOptions,
+      ...remaining,
+    },
+    isForSelf: { common: isForSelfProps({}), ...remaining },
     message: { common: messageProps({}), ...remaining },
   };
   useEffect(() => {
+    dispatch(retriveUsers());
     const handleClickOutside = (event: MouseEvent) => {
       const popup = document.querySelector(
         '.MuiPickersPopper-root, [role="dialog"]'
@@ -139,7 +187,7 @@ const AddAppointmentForm = () => {
             animate={{ y: 0, scale: [0.9, 1.02, 1] }}
             exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="h-[90%] sm:h-[80%] lg:h-auto lg:pb-8 w-[90%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto"
+            className="h-[90%] sm:h-[80%] lg:h-[80%] lg:pb-8 w-[90%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto scrollbar"
           >
             <div className="relative h-[120px] lg:h-[140px] bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-items-center  py-2 gap-2 px-4">
               <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0 pt-3">

@@ -1,7 +1,7 @@
 export const formDivCss =
   " relative h-[65px] sm:h-[75px] lg:h-[85px] pt-1 flex flex-col gap-1 text-[11px] text-dark-100 w-11/12 w-full px-2";
 export const formSwitchDivCss =
-  " relative h-[40px]  flex gap-2 lg:gap-3 text-[11px] text-dark-100 w-11/12 w-full px-2";
+  " relative h-[40px] top-[-20px] flex gap-2 lg:gap-3 text-[11px] text-dark-100 w-11/12 w-full px-2";
 export const formLabelCss =
   "font-semibold flex gap-2 text-sm sm:text-md lg:text-lg px-2 text-gray-400 items-center";
 export const formInputCss =

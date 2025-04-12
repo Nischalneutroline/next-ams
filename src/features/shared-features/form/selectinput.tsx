@@ -19,9 +19,9 @@ export default function SelectInput(props: SelectInputSchema) {
   const errorMsg = getFormErrorMsg(errors, input);
 
   // Css
- const finalDivCss = divCss ?? formDivCss;
- const finalLabelCss = labelCss ?? formLabelCss;
- const finalInputCss = inputCss ?? formInputCss;
+  const finalDivCss = divCss ?? formDivCss;
+  const finalLabelCss = labelCss ?? formLabelCss;
+  const finalInputCss = inputCss ?? formInputCss;
   // Css
   const highlightBorder =
     "border focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500";
@@ -57,6 +57,9 @@ export default function SelectInput(props: SelectInputSchema) {
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
       >
+        <option key={"placeholder"} value="" disabled hidden>
+          {placeholder || "Select an option"}
+        </option>
         {options?.map((item: any, idx: number) => (
           <option key={`${idx}. ${item.value}`} value={item.value}>
             {item.label}

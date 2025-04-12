@@ -70,3 +70,13 @@ export type User = {
   lastAppointment: string;
   createdBy: string;
 };
+
+export type FormPropsValueType = {
+  input?: string;
+  label?: string;
+  type?: string;
+  placeholder?: string;
+  showImportant?: boolean;
+  defaultValue?: any;
+  icon?: ReactNode;
+};

@@ -17,7 +17,7 @@ const page = () => {
       <ServicePageHeader />
 
       {view ? (
-        <ServiceDataTable data={servicesData} columns={ServiceColumns} />
+        <ServiceDataTable columns={ServiceColumns} />
       ) : (
         <ServiceCardView data={servicesData} />
       )}

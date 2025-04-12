@@ -1,87 +1,69 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// These are custom styles you may have or need to define
-
 import { InputSchema } from "@/schemas/schema";
 import { getFormErrorMsg } from "@/utils/utils";
 import { FormSpanError } from "./error/fromspanerror";
-import {
-  formDivCss,
-  formLabelCss,
-  formInputCss,
-  formSwitchDivCss,
-} from "./props";
+import { formDivCss, formLabelCss, formInputCss, formErrorCss } from "./props";
 import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { useEffect, useState } from "react";
 
 export default function SwitchInput(props: InputSchema) {
-  // Props
   const { common, actions, form, css } = props;
-
-  // Props variables
-  const { input, label, defaultValue } = common;
-
-  const { register, errors, setValue, watch } = form;
-  const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } = actions!;
-  const { divCss, labelCss, inputCss } = css!;
+  const { input, label, defaultValue, showImportant, icon } = common;
+  const { register, errors, setValue } = form;
+  const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } =
+    actions! || {};
+  const { divCss, labelCss, inputCss, errorCss } = css || {};
 
   // Watch the value inside the form
-  const watchedValue = watch(input, defaultValue ?? false);
 
-  // State (We control the Switch)
   const [isChecked, setIsChecked] = useState<boolean>(defaultValue ?? false);
 
-  // Sync state with form
   useEffect(() => {
     setValue(input, isChecked); // Ensure form state updates
   }, [isChecked, setValue, input]);
 
-  // Handle Switch Toggle
   const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
-    setValue(input, event.target.checked); // Manually update form state
+    setValue(input, event.target.checked); // Update form state
+
+    // Trigger custom onChange handler
+    if (handleOnChange) handleOnChange(event);
   };
 
-  // Values
   const errorMsg = getFormErrorMsg(errors, input);
 
-  // Css
-  const finalDivCss = divCss ?? formSwitchDivCss;
+  // Final CSS values
+  const finalDivCss = divCss ?? formDivCss;
   const finalLabelCss = labelCss ?? formLabelCss;
   const finalInputCss = inputCss ?? formInputCss;
-  // Error Props
-
-  const errorProps = { css: {}, title: errorMsg };
+  const errorProps = {
+    css: { customCss: errorCss ?? formErrorCss },
+    title: errorMsg,
+  };
 
   return (
-    <div className={`flex ${finalDivCss}`}>
-      {/* Label */}
+    <div className={`${finalDivCss} px-2 min-w-[150px]`}>
       {label && (
-        <label
-          htmlFor={input}
-          className={`flex items-center text-sm font-semibold text-gray-700 ${finalLabelCss}`}
-        >
-          {label}
+        <label className={finalLabelCss} htmlFor={input}>
+          {icon && icon} {label}
+          {showImportant && <span className="text-red-400">*</span>}
         </label>
       )}
 
-      {/* Material-UI Switch */}
-      <FormControlLabel
-        control={
-          <Switch
-            id={input}
-            {...(register && register(input))} // Register the input field
-            checked={watchedValue} // Sync with form state
-            onChange={handleSwitchChange} // Handle change manually
-            onClick={handleClick}
-            onKeyUp={handleKeyUp}
-            onKeyDown={handleKeyDown}
-          />
-        }
-      />
+      <div className="flex items-center h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]">
+        <Switch
+          id={input}
+          {...(register && register(input))}
+          onChange={handleSwitchChange}
+          onClick={handleClick}
+          onKeyUp={handleKeyUp}
+          onKeyDown={handleKeyDown}
+          className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
+        />
+      </div>
 
-      {/* Error Message */}
-      {errorMsg && <FormSpanError {...errorProps} />}
+      <div className="-translate-y-17">
+        {errorMsg && <FormSpanError {...errorProps} />}
+      </div>
     </div>
   );
 }

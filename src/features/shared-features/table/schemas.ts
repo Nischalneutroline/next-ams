@@ -14,6 +14,14 @@ export const expenseSchema = z.object({
 
 export type Expense = z.infer<typeof expenseSchema>;
 
+export enum AppointmentStatus {
+  SCHEDULED = "SCHEDULED",
+  COMPLETED = "COMPLETED",
+  MISSED = "MISSED",
+  CANCELLED = "CANCELLED",
+  FOLLOW_UP = "FOLLOW_UP",
+}
+
 export type User = {
   id: string;
   email: string;
@@ -25,6 +33,19 @@ export type User = {
   lastActive: string;
   role: string;
   isActive: boolean;
+};
+
+export type Appointment = {
+  id: string;
+  customerName: string;
+  email: string;
+  phone: string;
+  status: AppointmentStatus;
+  serviceId: string;
+  selectedDate: string;
+  selectedTime: string;
+  isForSelf: boolean;
+  createdById: string;
 };
 
 export const UserSchema = z.object({

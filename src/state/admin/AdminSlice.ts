@@ -6,7 +6,13 @@ import {
   //   ServiceType,
   //   APiType,
 } from "./admin";
-import { createUser, retriveUsers } from "./AdminServices";
+import {
+  createUser,
+  retriveAppointment,
+  retriveService,
+  retriveUsers,
+  updateUser,
+} from "./AdminServices";
 
 const API_URL = process.env.DATABASE_URL;
 
@@ -59,12 +65,15 @@ const initialState: AdminSliceSchema = {
       _add_AppointmentForm: {
         id: null,
         input: {
-          full_name: "",
+          customerName: "",
           email: "",
-          phone_number: "",
-          service: "",
-          date: "",
-          time: "",
+          phone: "",
+          status: "",
+          serviceId: "",
+          selectedDate: "",
+          selectedTime: "",
+          createdById: "",
+          isForSelf: true,
           message: "",
         },
         details: [],
@@ -72,12 +81,15 @@ const initialState: AdminSliceSchema = {
       _edit_AppointmentForm: {
         id: null,
         input: {
-          full_name: "",
+          customerName: "",
           email: "",
-          phone_number: "",
-          service: "",
-          date: "",
-          time: "",
+          phone: "",
+          status: "",
+          serviceId: "",
+          selectedDate: "",
+          selectedTime: "",
+          createdById: "",
+          isForSelf: true,
           message: "",
         },
         details: [],
@@ -85,12 +97,15 @@ const initialState: AdminSliceSchema = {
       _view_AppointmentForm: {
         id: null,
         input: {
-          full_name: "",
+          customerName: "",
           email: "",
-          phone_number: "",
-          service: "",
-          date: "",
-          time: "",
+          phone: "",
+          status: "",
+          serviceId: "",
+          selectedDate: "",
+          selectedTime: "",
+          createdById: "",
+          isForSelf: true,
           message: "",
         },
         details: [],
@@ -100,39 +115,63 @@ const initialState: AdminSliceSchema = {
       _add_ServiceForm: {
         id: null,
         input: {
-          serviceName: "",
+          title: "",
           description: "",
-          duration: "",
+          estimatedDuration: "",
           status: "",
-          visibility: "",
-          createdBy: "",
-          createdAt: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
         },
         details: [],
       },
       _edit_ServiceForm: {
         id: null,
         input: {
-          serviceName: "",
+          title: "",
           description: "",
-          duration: "",
+          estimatedDuration: "",
           status: "",
-          visibility: "",
-          createdBy: "",
-          createdAt: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
         },
         details: [],
       },
       _view_ServiceForm: {
         id: null,
         input: {
-          serviceName: "",
+          title: "",
           description: "",
-          duration: "",
+          estimatedDuration: "",
           status: "",
-          visibility: "",
-          createdBy: "",
-          createdAt: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
         },
         details: [],
       },
@@ -180,6 +219,12 @@ const adminSlice = createSlice({
         error: "",
       };
     },
+    setEditCustomerFormTrue: (state, action) => {
+      state.admin.user.edit.isFlag = action.payload;
+    },
+    setEditCustomerId: (state, action) => {
+      state.platform.user._edit_CustomerForm.id = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -211,6 +256,60 @@ const adminSlice = createSlice({
       .addCase(retriveUsers.rejected, (state, action) => {
         state.admin.user.view.response.isLoading = false;
         state.admin.user.view.response.error = action.payload as string; // Capture error if failed
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.admin.user.edit.response.isLoading = true;
+        state.admin.user.edit.response.error = null;
+        state.admin.user.add.response.toastMsg = "";
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.admin.user.edit.response.isLoading = false;
+        state.admin.user.edit.response.isSuccess = true;
+        state.admin.user.edit.response.details = action.payload;
+        state.admin.user.add.response.toastMsg = "User updated successfully!";
+        state.admin.user.edit.response.error = null;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.admin.user.edit.response.isLoading = false;
+        state.admin.user.edit.response.isSuccess = false;
+        state.admin.user.edit.response.toastMsg = "User update failed.";
+        state.admin.user.edit.response.error = action.payload as string;
+      })
+      .addCase(retriveAppointment.pending, (state) => {
+        state.admin.appointment.view.response.isLoading = true;
+        state.admin.appointment.view.response.error = null;
+        state.admin.appointment.add.response.toastMsg = "";
+      })
+      .addCase(
+        retriveAppointment.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.admin.appointment.view.response.isLoading = false;
+          state.admin.user.edit.response.isSuccess = true;
+          state.admin.appointment.view.response.details = action.payload; // Save the user data in the state
+        }
+      )
+      .addCase(retriveAppointment.rejected, (state, action) => {
+        state.admin.appointment.view.response.isLoading = false;
+        state.admin.appointment.edit.response.isSuccess = false;
+        state.admin.appointment.edit.response.toastMsg =
+          "Appointment update failed.";
+
+        state.admin.appointment.view.response.error = action.payload as string; // Capture error if failed
+      })
+      .addCase(retriveService.pending, (state) => {
+        state.admin.service.view.response.isLoading = true;
+        state.admin.service.view.response.error = null;
+      })
+      .addCase(
+        retriveService.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.admin.service.view.response.isLoading = false;
+          state.admin.service.view.response.details = action.payload; // Save the user data in the state
+        }
+      )
+      .addCase(retriveService.rejected, (state, action) => {
+        state.admin.service.view.response.isLoading = false;
+        state.admin.service.view.response.error = action.payload as string; // Capture error if failed
       });
   },
 });
@@ -224,5 +323,7 @@ export const {
   setOpenSidebarTrue,
   setAddAppointmentFormTrue,
   resetUserState,
+  setEditCustomerId,
+  setEditCustomerFormTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;

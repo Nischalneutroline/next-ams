@@ -11,6 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 
 const daysOfWeek = [
   { label: "Mon", value: "Monday" },
@@ -109,6 +110,7 @@ export function DateInput(props: InputSchema) {
   const { common, actions, form, css } = props;
   const { input, label, defaultValue, placeholder, showImportant, icon } =
     common;
+  console.log(common, "common");
   const { register, errors, trigger, control } = form;
   const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } =
     actions || {};
@@ -155,12 +157,18 @@ export function DateInput(props: InputSchema) {
         <Controller
           name={input}
           control={control}
-          defaultValue={defaultValue ?? ""}
+          defaultValue={defaultValue ?? null}
           render={({ field }) => (
             <DatePicker
               className="datePicker"
-              value={field.value || null}
-              onChange={(newValue) => field.onChange(newValue)}
+              value={field.value ? dayjs(field.value) : null}
+              onChange={(date) => {
+                if (date?.isValid()) {
+                  field.onChange(date.startOf("day").toISOString());
+                } else {
+                  field.onChange(null);
+                }
+              }}
               slotProps={{
                 textField: {
                   id: input,
@@ -185,7 +193,7 @@ export function DateInput(props: InputSchema) {
                       color: "black",
                       backgroundColor: "#F8F9FA",
                       borderColor: "#cbd5e0", // border-gray-400
-                      width: "100%",
+
                       alignItems: "center",
                     },
                     "& .MuiOutlinedInput-notchedOutline": {
@@ -260,8 +268,11 @@ export function TimeInput(props: InputSchema) {
           render={({ field }) => (
             <TimePicker
               className="datePicker"
-              value={field.value || null}
-              onChange={(newValue: string) => field.onChange(newValue)}
+              value={field.value ? dayjs(field.value) : null}
+              onChange={(newValue) => {
+                const isoString = newValue ? newValue.toISOString() : "";
+                field.onChange(isoString);
+              }}
               slotProps={{
                 textField: {
                   id: input,

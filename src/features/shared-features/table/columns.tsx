@@ -7,10 +7,10 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import { TrendingUp, TrendingDown, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./components/ui/checkbox";
-import { Expense, User } from "./schemas";
+import { Appointment, Expense, User } from "./schemas";
 import { Button } from "./components/ui/button";
 const getRoleBadgeStyle = (role: string) => {
-  switch (role.toLowerCase()) {
+  switch (role) {
     case "admin":
       return "bg-red-500/80";
     case "editor":
@@ -249,7 +249,7 @@ export const UserColumns: ColumnDef<User>[] = [
             role
           )}`}
         >
-          {role.toLowerCase()}
+          {role}
         </span>
       );
     },
@@ -267,6 +267,116 @@ export const UserColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Last Active" />
     ),
     cell: ({ row }) => format(new Date(row.original.lastActive), "PPP"),
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
+  },
+];
+
+export const AppointmentColumns: ColumnDef<Appointment>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-0.5"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-0.5"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "customerName",
+    header: "Customer Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone Number" />
+    ),
+  },
+  // {
+  //   accessorKey: "dateOfBirth",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Date of Birth" />
+  //   ),
+  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
+  // },
+  {
+    accessorKey: "deriveId",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Service Id" />
+    ),
+  },
+  {
+    accessorKey: "selectedDate",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
+    cell: ({ row }) => format(new Date(row.original.selectedDate), "PPP"),
+    // cell: ({ row }) => {
+    //   const role: string = row.getValue("role");
+
+    //   return (
+    //     <span
+    //       className={` py-1.5 min-w-[75px] text-center inline-block rounded-full text-white text-sm font-medium ${getRoleBadgeStyle(
+    //         role
+    //       )}`}
+    //     >
+    //       {role}
+    //     </span>
+    //   );
+    // },
+  },
+  {
+    accessorKey: "selectedTIme",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Selected Time" />
+    ),
+    cell: ({ row }) => format(new Date(row.original.selectedTime), "PPP"),
+  },
+  {
+    accessorKey: "isForSelf",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="For Self" />
+    ),
+    cell: ({ row }) => {
+      const isForSelf = row.getValue("isForSelf");
+
+      return (
+        <span
+          className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
+            isForSelf ? "bg-green-500/70" : "bg-yellow-400/60"
+          }`}
+        >
+          {isForSelf ? "True" : "False"}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "createdby",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created By" />
+    ),
   },
   {
     id: "actions",
@@ -300,7 +410,7 @@ export const ServiceColumns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "serviceName",
+    accessorKey: "title",
     header: "Service Name",
   },
   {
@@ -308,7 +418,7 @@ export const ServiceColumns: ColumnDef<User>[] = [
     header: "Description",
   },
   {
-    accessorKey: "duration",
+    accessorKey: "estimatedDuration",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Duration" />
     ),
@@ -326,24 +436,24 @@ export const ServiceColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
   },
-  {
-    accessorKey: "visibility",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Visibility" />
-    ),
-  },
-  {
-    accessorKey: "createdBy",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created By" />
-    ),
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
-  },
+  // {
+  //   accessorKey: "visibility",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Visibility" />
+  //   ),
+  // },
+  // {
+  //   accessorKey: "createdBy",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Created By" />
+  //   ),
+  // },
+  // {
+  //   accessorKey: "createdAt",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Created At" />
+  //   ),
+  // },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

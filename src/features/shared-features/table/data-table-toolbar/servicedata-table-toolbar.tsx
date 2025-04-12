@@ -25,7 +25,7 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function CustomerDataTableToolbar<TData>({
+export function ServiceDataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -44,10 +44,10 @@ export function CustomerDataTableToolbar<TData>({
     <div className="flex flex-row sm:flex-wrap items-center justify-between gap-1">
       <div className="flex flex-wrap items-center gap-2 flex-1">
         <Input
-          placeholder="Filter by Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter by Service Name..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) => {
-            table.getColumn("name")?.setFilterValue(event.target.value);
+            table.getColumn("title")?.setFilterValue(event.target.value);
           }}
           className="h-[30px] sm:h-[35px] lg:h-[36px] w-[200px] sm:w-[150px] md:w-[200px] lg:w-[250px] text-[12px] md:text-[14px] lg:text-[14px]"
         />
@@ -165,7 +165,7 @@ export function CustomerDataTableToolbar<TData>({
             </Button>
           )}
         </div>
-        <DataTableViewOptions table={table} />
+        {/* <DataTableViewOptions table={table} /> */}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import Sidebar from "../../features/shared-features/sidebar/sidebar";
 import { Appointment } from "../../features/appointment/types/types";
+import { createdByIdProps } from "../../features/shared-features/form/formporps";
 export type APiType = { isFlag?: boolean; response: any };
 export type viewType = { view?: boolean };
 
@@ -20,23 +21,42 @@ export interface AdminCustomerFormSchema {
   password: string;
 }
 export interface AdminAppointmentFormSchema {
-  full_name: string;
+  customerName: string;
   email: string;
-  phone_number: string | number;
-  service: string;
-  date: string | number;
-  time: string;
+  phone: string;
+  status: string;
+  serviceId: string;
+  selectedDate: string;
+  selectedTime: string;
+  createdById: string | number;
+  isForSelf: boolean;
   message: string;
 }
+enum WeekDays {
+  SUNDAY = "SUNDAY",
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNESDAY = "WEDNESDAY",
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
+}
 
+interface ServiceAvailability {
+  weekDay: string;
+  timeSlots?: ServiceTime[];
+}
+
+export interface ServiceTime {
+  startTime: string; // Required (ISO 8601 Date string)
+  endTime: string; // Required (ISO 8601 Date string)
+}
 export interface AdminServiceFormSchema {
-  serviceName: string;
+  title: string;
   description: string;
-  duration: string | number;
-  status: string | boolean;
-  visibility: string | boolean;
-  createdBy: string;
-  createdAt: string;
+  estimatedDuration: string | number;
+  status: string;
+  serviceAvailability: ServiceAvailability[];
 }
 
 // Define The Platform Schema for Each of the Form Driven Section of Admin
