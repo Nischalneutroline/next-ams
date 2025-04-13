@@ -1,45 +1,21 @@
 "use client";
 
-import {
-  AdminUserFormValues,
-  adminUserSchema,
-} from "@/schemas/validation/validationSchema";
-import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState } from "react";
 import {
   addUserBtnProps,
   cancelBtnProps,
-  cityProps,
   commonActions,
-  countryProps,
-  emailProps,
-  fullNameProps,
-  isActiveProps,
   messageProps,
-  passwordProps,
-  phoneProps,
   roleProps,
-  streetProps,
 } from "@/features/shared-features/form/formporps";
-import CenterSection from "@/features/shared-features/section/centersection";
-import UserForm from "../../forms/admin/UserForm";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
-import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import {
-  setAddCustomerFormTrue,
-  setAddNotificationFormTrue,
-} from "@/state/admin/AdminSlice";
-import CloseIcon from "@mui/icons-material/Close";
-import { createUser } from "@/state/admin/AdminServices";
-import { AdminCustomerFormSchema } from "@/state/admin/admin";
+import { useAppDispatch } from "@/state/store";
+import { setAddNotificationFormTrue } from "@/state/admin/AdminSlice";
 import Button from "@/features/shared-features/common/button";
 import SelectInput from "@/features/shared-features/form/selectinput";
 import { ReminderCheckboxes } from "@/features/shared-features/form/remindercheckerinput";
 import TextInput from "@/features/shared-features/form/inputtext";
 import { DaysSelection } from "@/features/shared-features/form/dayinput";
-import ReminderOffsetInput from "@/features/shared-features/form/reminderoffsetinput";
 
 const NotificationForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
