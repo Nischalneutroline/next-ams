@@ -1,40 +1,26 @@
 "use client";
 
-import {
-  AdminUserFormValues,
-  adminServiceSchema,
-  adminUserSchema,
-} from "@/schemas/validation/validationSchema";
+import { adminServiceSchema } from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  cityProps,
   commonActions,
-  countryProps,
-  emailProps,
-  fullNameProps,
-  isActiveProps,
   messageProps,
-  passwordProps,
-  phoneProps,
   roleProps,
-  streetProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
-import UserForm from "../../forms/admin/UserForm";
+
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
-import CloseIcon from "@mui/icons-material/Close";
-import { createUser } from "@/state/admin/AdminServices";
 import {
-  AdminCustomerFormSchema,
-  AdminServiceFormSchema,
-} from "@/state/admin/admin";
+  setAddCustomerFormTrue,
+  setAddServiceFormTrue,
+} from "@/state/admin/AdminSlice";
+import CloseIcon from "@mui/icons-material/Close";
+
 import ServiceForm from "../../forms/admin/ServiceForm";
-import { ServiceAvailability } from "../../../service/types/types";
 
 const AddServiceForm = () => {
   // Redux Variable
@@ -67,7 +53,7 @@ const AddServiceForm = () => {
     // dispatch(createUser(data));
     reset();
 
-    dispatch(setAddCustomerFormTrue(false));
+    dispatch(setAddServiceFormTrue(false));
   };
   const generateTimeDurations = (maxMinutes = 240, step = 10) => {
     const options = [];
@@ -253,7 +239,7 @@ const AddServiceForm = () => {
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setAddCustomerFormTrue(false))}
+                onClick={(e: any) => dispatch(setAddServiceFormTrue(false))}
               >
                 <CloseIcon />
               </div>
