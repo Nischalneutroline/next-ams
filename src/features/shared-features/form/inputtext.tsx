@@ -1,5 +1,11 @@
 import { InputSchema } from "@/schemas/schema";
-import { formDivCss, formErrorCss, formInputCss, formLabelCss } from "./props";
+import {
+  formDivCss,
+  formErrorCss,
+  formInputCss,
+  formLabelCss,
+  formTextBoxCss,
+} from "./props";
 import { FormSpanError } from "./error/fromspanerror";
 import { getFormErrorMsg } from "@/utils/utils";
 
@@ -17,6 +23,9 @@ export default function TextInput(props: InputSchema) {
   // Values
   const errorMsg = getFormErrorMsg(errors, input);
 
+  const formInputCss1: string =
+    type === "textbox" ? formTextBoxCss : formInputCss;
+
   // Css
   const highlightBorder =
     "border focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
@@ -28,7 +37,7 @@ export default function TextInput(props: InputSchema) {
   // Final Css
   const finalDivCss = divCss ?? formDivCss;
   const finalLabelCss = labelCss ?? formLabelCss;
-  const finalInputCss = inputCss ?? formInputCss;
+  const finalInputCss = inputCss ?? formInputCss1;
 
   // Error Props
   const errorProps = {

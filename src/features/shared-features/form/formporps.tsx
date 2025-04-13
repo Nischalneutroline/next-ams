@@ -253,6 +253,36 @@ export const roleProps = ({
   ),
 });
 
+export const reminderCheckerProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: FormPropsValueType) => ({
+  input: input ?? "role",
+  label: label ?? "Role",
+  type: type ?? "select",
+  placeholder: placeholder ?? "Select Role",
+  showImportant: showImportant ?? true,
+  defaultValue: defaultValue ?? "",
+  icon: icon ?? (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
+});
+
 export const serviceIdProps = ({ defaultValue }: any) => ({
   input: "serviceId",
   label: "Service",

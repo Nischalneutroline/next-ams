@@ -7,7 +7,15 @@ import { useEffect, useState } from "react";
 
 export default function SwitchInput(props: InputSchema) {
   const { common, actions, form, css } = props;
-  const { input, label, defaultValue, showImportant, icon } = common;
+  const {
+    input,
+    label,
+    defaultValue,
+    showImportant,
+    icon,
+    leftLabel,
+    rightLabel,
+  } = common;
   const { register, errors, setValue } = form;
   const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } =
     actions! || {};
@@ -41,29 +49,67 @@ export default function SwitchInput(props: InputSchema) {
   };
 
   return (
-    <div className={`${finalDivCss} px-2 min-w-[150px]`}>
-      {label && (
-        <label className={finalLabelCss} htmlFor={input}>
-          {icon && icon} {label}
-          {showImportant && <span className="text-red-400">*</span>}
-        </label>
+    <>
+      {leftLabel || rightLabel ? (
+        <div className={`${finalDivCss} px-2 min-w-[150px]`}>
+          {label && (
+            <label className={finalLabelCss} htmlFor={input}>
+              {icon && icon} {label}
+              {showImportant && <span className="text-red-400">*</span>}
+            </label>
+          )}
+
+          <div className="flex items-center h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px] space-x-2">
+            <span className="text-sm text-gray-600">
+              {props.common?.leftLabel || "Off"}
+            </span>
+
+            <Switch
+              id={input}
+              {...(register && register(input))}
+              checked={isChecked}
+              onChange={handleSwitchChange}
+              onClick={handleClick}
+              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
+              className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
+            />
+
+            <span className="text-sm text-gray-600">
+              {props.common?.rightLabel || "On"}
+            </span>
+          </div>
+
+          <div className="-translate-y-17">
+            {errorMsg && <FormSpanError {...errorProps} />}
+          </div>
+        </div>
+      ) : (
+        <div className={`${finalDivCss} px-2 min-w-[150px]`}>
+          {label && (
+            <label className={finalLabelCss} htmlFor={input}>
+              {icon && icon} {label}
+              {showImportant && <span className="text-red-400">*</span>}
+            </label>
+          )}
+
+          <div className="flex items-center h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]">
+            <Switch
+              id={input}
+              {...(register && register(input))}
+              onChange={handleSwitchChange}
+              onClick={handleClick}
+              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
+              className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
+            />
+          </div>
+
+          <div className="-translate-y-17">
+            {errorMsg && <FormSpanError {...errorProps} />}
+          </div>
+        </div>
       )}
-
-      <div className="flex items-center h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]">
-        <Switch
-          id={input}
-          {...(register && register(input))}
-          onChange={handleSwitchChange}
-          onClick={handleClick}
-          onKeyUp={handleKeyUp}
-          onKeyDown={handleKeyDown}
-          className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
-        />
-      </div>
-
-      <div className="-translate-y-17">
-        {errorMsg && <FormSpanError {...errorProps} />}
-      </div>
-    </div>
+    </>
   );
 }

@@ -64,11 +64,10 @@ const AddServiceForm = () => {
       })),
     };
 
-    console.log(transformedData, "data");
     // dispatch(createUser(data));
     reset();
-    console.log(errors);
-    // dispatch(setAddCustomerFormTrue(false));
+
+    dispatch(setAddCustomerFormTrue(false));
   };
   const generateTimeDurations = (maxMinutes = 240, step = 10) => {
     const options = [];

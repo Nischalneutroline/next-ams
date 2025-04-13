@@ -31,10 +31,10 @@ export type FormSchema = {
 
 export type FormActionsSchema = {
   actions?: {
-    handleClick: any;
-    handleKeyUp: any;
-    handleKeyDown: any;
-    handleOnChange: any;
+    handleClick?: any;
+    handleKeyUp?: any;
+    handleKeyDown?: any;
+    handleOnChange?: any;
   };
 };
 
@@ -51,6 +51,8 @@ export type CommonInputSchema = {
     restCommon?: any;
     handleOnChange?: any;
     ref?: any;
+    leftLabel?: string;
+    rightLabel?: string;
   };
 };
 
@@ -60,6 +62,14 @@ type inputRefSchema = { inputRef?: any };
 export type ErrorMsgSchema = { errorMsg?: string };
 
 export interface InputSchema
+  extends CssSchema,
+    inputRefSchema,
+    inputPropsSchema,
+    ErrorMsgSchema,
+    FormSchema,
+    FormActionsSchema,
+    CommonInputSchema {}
+export interface SwitchInputSchema
   extends CssSchema,
     inputRefSchema,
     inputPropsSchema,

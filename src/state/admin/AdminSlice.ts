@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Notification } from "../../features/reminder/types/types";
 import {
   AdminSliceSchema,
   InitialServiceData,
@@ -176,12 +177,78 @@ const initialState: AdminSliceSchema = {
         details: [],
       },
     },
+    notification: {
+      _add_ServiceForm: {
+        id: null,
+        input: {
+          title: "",
+          description: "",
+          estimatedDuration: "",
+          status: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
+        },
+        details: [],
+      },
+      _edit_ServiceForm: {
+        id: null,
+        input: {
+          title: "",
+          description: "",
+          estimatedDuration: "",
+          status: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
+        },
+        details: [],
+      },
+      _view_ServiceForm: {
+        id: null,
+        input: {
+          title: "",
+          description: "",
+          estimatedDuration: "",
+          status: "",
+          serviceAvailability: [
+            {
+              weekDay: "",
+              timeSlots: [
+                {
+                  startTime: "",
+                  endTime: "",
+                },
+              ],
+            },
+          ],
+        },
+        details: [],
+      },
+    },
   },
   admin: {
     user: InitialServiceData,
     sidebar: InitialServiceData,
     appointment: InitialServiceData,
     service: InitialServiceData,
+    notification: InitialServiceData,
   },
 };
 
@@ -224,6 +291,9 @@ const adminSlice = createSlice({
     },
     setEditCustomerId: (state, action) => {
       state.platform.user._edit_CustomerForm.id = action.payload;
+    },
+    setAddNotificationFormTrue: (state, action) => {
+      state.admin.notification.add.isFlag = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -325,5 +395,6 @@ export const {
   resetUserState,
   setEditCustomerId,
   setEditCustomerFormTrue,
+  setAddNotificationFormTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;

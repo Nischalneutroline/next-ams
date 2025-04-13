@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { InputSchema } from "@/schemas/schema";
+import { InputSchema, SelectInputSchema } from "@/schemas/schema";
 import { getFormErrorMsg } from "@/utils/utils";
 import { useState, useEffect, useRef } from "react";
 import { FormSpanError } from "./error/fromspanerror";
@@ -13,27 +13,24 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 
-const daysOfWeek = [
-  { label: "Mon", value: "Monday" },
-  { label: "Tue", value: "Tuesday" },
-  { label: "Wed", value: "Wednesday" },
-  { label: "Thu", value: "Thursday" },
-  { label: "Fri", value: "Friday" },
-  { label: "Sat", value: "Saturday" },
-  { label: "Sun", value: "Sunday" },
-];
+export interface OptionSchema {
+  label: string;
+  value: string;
+}
+[];
 
-export function DaysSelection(props: InputSchema) {
+export function DaysSelection(props: SelectInputSchema) {
   // Props
-  const { common, form, css } = props;
+  const { common, form, css, options } = props;
   // Props variables
-  const { input, label } = common;
+  const { input, label, defaultValue, placeholder, showImportant, icon, type } =
+    common;
   const { setValue, errors } = form;
   const { divCss, labelCss, errorCss } = css!;
 
   // States
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-
+  const daysOfWeek = options;
   // Values
   const errorMsg = getFormErrorMsg(errors, input);
 
@@ -55,13 +52,18 @@ export function DaysSelection(props: InputSchema) {
   return (
     <div className={finalDivCss}>
       {label && (
-        <label className={finalLabelCss} htmlFor={input}>
-          {label}
+        <label
+          // className="text-black font-semibold flex gap-2 text-[12px] sm:text-[14px] lg:text-[16px] 2xl:text-[18px] items-center"
+          className={finalLabelCss}
+          htmlFor={input}
+        >
+          {icon && icon} {label}
+          {showImportant && <span className="text-red-400">*</span>}
         </label>
       )}
 
-      <div className="flex flex-wrap gap-2">
-        {daysOfWeek.map((day) => {
+      <div className="flex flex-wrap gap-10">
+        {daysOfWeek.map((day: any) => {
           const isSelected = selectedDays.includes(day.value);
           return (
             <div
@@ -82,7 +84,7 @@ export function DaysSelection(props: InputSchema) {
               </div>
               {/* Day Label */}
               <span
-                className={`border px-4 py-[6px] rounded-md transition-all
+                className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px]
                   ${
                     isSelected
                       ? "bg-blue-600 text-white border-blue-600"

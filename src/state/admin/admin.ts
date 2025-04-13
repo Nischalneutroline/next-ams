@@ -102,6 +102,7 @@ export type AdminApi = {
   sidebar: ServiceType;
   appointment: ServiceType;
   service: ServiceType;
+  notification: ServiceType;
 };
 
 export interface AdminSliceSchema {
@@ -109,6 +110,7 @@ export interface AdminSliceSchema {
     user: CustomerPlatform;
     appointment: AppointmentPlatform;
     service: ServicePlatform;
+    notification: ServicePlatform;
   };
   admin: AdminApi;
 }

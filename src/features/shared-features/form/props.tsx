@@ -6,6 +6,10 @@ export const formLabelCss =
   "font-semibold flex gap-2 text-sm sm:text-md lg:text-lg px-2 text-gray-400 items-center";
 export const formInputCss =
   " rounded-md relative h-[36px] sm:h-[40px] lg:h-[45px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
+export const formSmallInputCss =
+  " rounded-md relative flex items-center h-[36px] sm:h-[40px] lg:h-[45px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-[400px]";
+export const formTextBoxCss =
+  "rounded-md relative h-[50px] sm:h-[60px] lg:h-[75px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
 
 // Icon inside input
 export const formDivIconCss = "absolute top-9 right-2 text-sm";
