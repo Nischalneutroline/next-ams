@@ -25,8 +25,6 @@ import {
   TableRow,
 } from "../components/ui/table";
 
-import { TableContainer, Paper } from "@mui/material";
-
 import { DataTablePagination } from "../data-table-pagination";
 import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";

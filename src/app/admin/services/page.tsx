@@ -6,7 +6,7 @@ import { ServiceColumns } from "../../../features/shared-features/table/columns"
 import { RootState, useAppSelector } from "@/state/store";
 import ServicePageHeader from "@/features/service/components/servicepageheader";
 import { ServiceCardView } from "@/features/shared-features/cards/ServiceCardView";
-import { ServiceDataTable } from "@/features/shared-features/table/data-table/servicedata-table";
+import { ServiceDataTable } from "../../../features/shared-features/table/data-table/servicedata-table";
 
 const page = () => {
   const { view } = useAppSelector(

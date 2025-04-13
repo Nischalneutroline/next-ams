@@ -5,21 +5,21 @@ import { Poppins } from "next/font/google";
 import StoreProvider from "@/state/StoreProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 
-// const poppins = Poppins({
-//   subsets: ["latin"],
-//   weight: ["200", "300", "400", "500", "600", "700", "800", "900"], // Add the required weights
-//   variable: "--font-poppins",
-// });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"], // Add the required weights
+  variable: "--font-poppins",
+});
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,8 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="">
-        <body className={` antialiased overflow-x-hidden `}>
+      <html lang="en" className={poppins.variable}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden `}
+        >
           <StoreProvider>{children}</StoreProvider>
         </body>
       </html>

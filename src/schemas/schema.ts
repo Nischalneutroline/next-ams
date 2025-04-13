@@ -20,6 +20,7 @@ export type FormSchema = {
   form: {
     register: any;
     errors: any;
+
     setValue?: any;
     reset?: any;
     control?: any;
@@ -67,15 +68,12 @@ export interface InputSchema
     inputPropsSchema,
     ErrorMsgSchema,
     FormSchema,
-    FormActionsSchema,
     CommonInputSchema {}
 export interface SwitchInputSchema
   extends CssSchema,
     inputRefSchema,
     inputPropsSchema,
     ErrorMsgSchema,
-    FormSchema,
-    FormActionsSchema,
     CommonInputSchema {}
 
 export type CssSchema = {

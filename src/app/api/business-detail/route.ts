@@ -40,7 +40,13 @@ export async function POST(req: NextRequest) {
         businessRegistrationNumber: parsedData.businessRegistrationNumber,
         status: parsedData.status,
         address: {
-          create: parsedData.address,
+          create: parsedData.address.map((address) => ({
+            street: address.street,
+            city: address.city,
+            country: address.country,
+            zipCode: address.zipCode,
+            googleMap: address.googleMap || "",
+          })),
         },
         businessAvailability: {
           create: parsedData.businessAvailability.map((availability) => ({
@@ -101,7 +107,17 @@ export async function POST(req: NextRequest) {
 // Fetch all business details
 export async function GET() {
   try {
-    const businessDetails = await prisma.businessDetail.findMany()
+    const businessDetails = await prisma.businessDetail.findMany({
+      include: {
+        address: true,
+        businessAvailability: {
+          include: {
+            timeSlots: true,
+          },
+        },
+        holiday: true,
+      },
+    })
 
     if (businessDetails.length === 0) {
       return NextResponse.json(
@@ -157,14 +173,14 @@ export async function PUT(req: NextRequest) {
               city: addr.city,
               country: addr.country,
               zipCode: addr.zipCode,
-              googleMap: addr.googleMap,
+              googleMap: addr.googleMap || "",
             },
             create: {
               street: addr.street,
               city: addr.city,
               country: addr.country,
               zipCode: addr.zipCode,
-              googleMap: addr.googleMap,
+              googleMap: addr.googleMap || "",
             },
           })),
         },
