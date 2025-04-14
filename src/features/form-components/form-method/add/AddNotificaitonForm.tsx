@@ -1,22 +1,7 @@
 "use client";
 
-import { adminAppointmentSchema } from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  commonActions,
-  createdByIdProps,
-  customerNameProps,
-  emailProps,
-  isForSelfProps,
-  messageProps,
-  phoneProps,
-  selectedDateProps,
-  selectedTimeProps,
-  serviceIdProps,
-  statusProps,
-} from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
@@ -26,13 +11,10 @@ import {
   setAddNotificationFormTrue,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
-import AppointmentForm from "../../forms/admin/AppointmentForm";
 import { retriveUsers } from "@/state/admin/AdminServices";
-import { AdminAppointmentFormSchema } from "@/state/admin/admin";
-import NotificationForm from "../../forms/admin/NotificationForm";
-import AnnouncementForm from "../../forms/admin/AnnouncementForm";
-import { Notification } from "../../../reminder/types/types";
+import AnnouncementForm from "../../forms/admin/notification/AnnouncementForm";
 import Button from "@/features/shared-features/common/button";
+import ReminderForm from "../../forms/admin/notification/NotificationForm";
 
 const AddNotificationForm = () => {
   // Redux Variable
@@ -147,7 +129,7 @@ const AddNotificationForm = () => {
             </div>
 
             <div className="py-4 w-full">
-              {notificationType === "Reminder" && <NotificationForm />}
+              {notificationType === "Reminder" && <ReminderForm />}
               {notificationType === "Announcement" && <AnnouncementForm />}
             </div>
           </motion.div>

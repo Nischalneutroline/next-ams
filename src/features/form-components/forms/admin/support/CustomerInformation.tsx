@@ -17,7 +17,7 @@ import { ReminderCheckboxes } from "@/features/shared-features/form/reminderchec
 import TextInput from "@/features/shared-features/form/inputtext";
 import { DaysSelection } from "@/features/shared-features/form/dayinput";
 
-const NotificationForm = () => {
+const CustomerInfomationForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
 
   // Redux Variable
@@ -227,4 +227,4 @@ const NotificationForm = () => {
   );
 };
 
-export default NotificationForm;
+export default CustomerInfomationForm;

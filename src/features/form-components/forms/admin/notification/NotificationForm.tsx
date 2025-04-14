@@ -17,7 +17,7 @@ import { ReminderCheckboxes } from "@/features/shared-features/form/reminderchec
 import TextInput from "@/features/shared-features/form/inputtext";
 import { DaysSelection } from "@/features/shared-features/form/dayinput";
 
-const AnnouncementForm = () => {
+const ReminderForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
 
   // Redux Variable
@@ -103,8 +103,8 @@ const AnnouncementForm = () => {
     title: {
       common: roleProps({
         input: "title",
-        label: "Announcement Titile",
-        placeholder: "Enter a Announcement Title for this Appointment",
+        label: "Reminder Titile",
+        placeholder: "Enter a Reminder Title for this Appointment",
       }),
 
       ...remaining,
@@ -112,7 +112,7 @@ const AnnouncementForm = () => {
     description: {
       common: roleProps({
         input: "description",
-        label: "Announcement Description",
+        label: "Reminder Description",
         placeholder: "Short description about this Reminder",
         type: "textbox",
       }),
@@ -122,7 +122,7 @@ const AnnouncementForm = () => {
     reminderOffset: {
       common: roleProps({
         input: "reminderOffset",
-        label: "Announcement Offset",
+        label: "Reminder Offser",
         placeholder: "Enter a Reminder Title for this Appointment",
         type: reminderType,
       }),
@@ -227,4 +227,4 @@ const AnnouncementForm = () => {
   );
 };
 
-export default AnnouncementForm;
+export default ReminderForm;
