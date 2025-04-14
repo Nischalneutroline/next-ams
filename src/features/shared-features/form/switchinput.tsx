@@ -72,7 +72,7 @@ export default function SwitchInput(props: InputSchema) {
               onClick={handleClick}
               onKeyUp={handleKeyUp}
               onKeyDown={handleKeyDown}
-              className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
+              className={` rounded-md text-black  ${finalInputCss}`}
             />
 
             <span className="text-sm text-gray-600">
@@ -85,7 +85,9 @@ export default function SwitchInput(props: InputSchema) {
           </div>
         </div>
       ) : (
-        <div className={`${finalDivCss} px-2 min-w-[150px]`}>
+        <div
+          className={`${finalDivCss} lg:px-0 flex flex-row max-w-full h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]`}
+        >
           {label && (
             <label className={finalLabelCss} htmlFor={input}>
               {icon && icon} {label}
@@ -101,7 +103,7 @@ export default function SwitchInput(props: InputSchema) {
               onClick={handleClick}
               onKeyUp={handleKeyUp}
               onKeyDown={handleKeyDown}
-              className={`bg-[#F8F9FA] rounded-md text-black border border-gray-400 ${finalInputCss}`}
+              className={` rounded-md text-black  ${finalInputCss} bg-transparent`}
             />
           </div>
 

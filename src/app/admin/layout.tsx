@@ -15,6 +15,7 @@ import AddAppointmentForm from "@/features/form-components/form-method/add/AddAp
 import EditUserForm from "@/features/form-components/form-method/edit/EditUserForm";
 import AddServiceForm from "@/features/form-components/form-method/add/AddServiceForm";
 import AddNotificationForm from "@/features/form-components/form-method/add/AddNotificaitonForm";
+import AddSupportAndFaq from "@/features/form-components/form-method/add/AddSupportandFAQ";
 
 export default function AdminLayout({
   children,
@@ -168,6 +169,8 @@ export default function AdminLayout({
         <EditUserForm />
         <AddServiceForm />
         <AddNotificationForm />
+        <AddSupportAndFaq />
+
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]
         w-full lg:min-w-[calc(100vw-90px)] py-4 px-3 md:px-4 overflow-hidden"

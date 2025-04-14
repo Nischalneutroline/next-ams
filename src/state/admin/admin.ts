@@ -103,6 +103,7 @@ export type AdminApi = {
   appointment: ServiceType;
   service: ServiceType;
   notification: ServiceType;
+  support: ServiceType
 };
 
 export interface AdminSliceSchema {

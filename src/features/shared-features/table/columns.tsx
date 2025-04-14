@@ -331,7 +331,7 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
     ),
-    cell: ({ row }) => format(new Date(row.original.selectedDate), "PPP"),
+    // cell: ({ row }) => format(new Date(row.original.selectedDate), "PPP"),
     // cell: ({ row }) => {
     //   const role: string = row.getValue("role");
 
@@ -351,7 +351,7 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Selected Time" />
     ),
-    cell: ({ row }) => format(new Date(row.original.selectedTime), "PPP"),
+    // cell: ({ row }) => format(new Date(row.original.selectedTime), "PPP"),
   },
   {
     accessorKey: "isForSelf",

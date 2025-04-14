@@ -1,15 +1,17 @@
 export const formDivCss =
-  " relative h-[65px] sm:h-[75px] lg:h-[85px] pt-1 flex flex-col gap-1 text-[11px] text-dark-100 w-11/12 w-full px-2";
+  " relative h-[65px] sm:h-[75px] lg:h-[85px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2";
+export const formTextBoxDivCss =
+  " relative h-[65px] sm:h-[130px] lg:h-[170px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2";
 export const formSwitchDivCss =
-  " relative h-[40px] top-[-20px] flex gap-2 lg:gap-3 text-[11px] text-dark-100 w-11/12 w-full px-2";
+  " relative h-[40px] top-[-20px] flex gap-2 lg:gap-3 text-[11px] text-black w-11/12 w-full px-2";
 export const formLabelCss =
-  "font-semibold flex gap-2 text-sm sm:text-md lg:text-lg px-2 text-gray-400 items-center";
+  "font-semibold flex gap-2 text-sm sm:text-md lg:text-[16px] px-2 text-black items-center";
 export const formInputCss =
   " rounded-md relative h-[36px] sm:h-[40px] lg:h-[45px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
 export const formSmallInputCss =
   " rounded-md relative flex items-center h-[36px] sm:h-[40px] lg:h-[45px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-[400px]";
 export const formTextBoxCss =
-  "rounded-md relative h-[50px] sm:h-[60px] lg:h-[75px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
+  "rounded-md relative h-[50px] sm:h-[60px] lg:h-[135px] flex px-2 gap-1 text-[13px] text-black bg-[#F8F9FA] border-gray-400 justify-text-start w-full";
 
 // Icon inside input
 export const formDivIconCss = "absolute top-9 right-2 text-sm";

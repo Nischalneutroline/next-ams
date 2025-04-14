@@ -112,7 +112,7 @@ export function DateInput(props: InputSchema) {
   const { common, actions, form, css } = props;
   const { input, label, defaultValue, placeholder, showImportant, icon } =
     common;
-  console.log(common, "common");
+
   const { register, errors, trigger, control } = form;
   const { handleClick, handleKeyUp, handleKeyDown, handleOnChange } =
     actions || {};

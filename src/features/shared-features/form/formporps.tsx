@@ -3,14 +3,22 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { FormPropsValueType } from "@/schemas/GlobalSchema";
 
-export const fullNameProps = ({ defaultValue }: any) => ({
-  input: "full_name",
-  label: "Full Name",
-  type: "text",
-  placeholder: "Enter Full Name",
-  showImportant: true,
+export const fullNameProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "fullName",
+  label: label ?? "Full Name",
+  type: type ?? "text",
+  placeholder: placeholder ?? "Enter Full Name",
+  showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
-  icon: (
+  icon: icon ?? (
     <PersonOutlineIcon
       className="text-gray-400"
       sx={{
@@ -118,14 +126,22 @@ export const statusProps = ({ defaultValue }: any) => ({
     />
   ),
 });
-export const emailProps = ({ defaultValue }: any) => ({
-  input: "email",
-  label: "Email",
-  type: "text",
-  placeholder: "Enter Email Address",
-  showImportant: true,
+export const emailProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "email",
+  label: label ?? "Email",
+  type: label ?? "text",
+  placeholder: placeholder ?? "Enter Email Address",
+  showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
-  icon: (
+  icon: icon ?? (
     <MailOutlineIcon
       className="text-gray-400"
       sx={{
@@ -139,14 +155,22 @@ export const emailProps = ({ defaultValue }: any) => ({
     />
   ),
 });
-export const phoneProps = ({ defaultValue }: any) => ({
-  input: "phone",
-  label: "Phone Number",
-  type: "phone",
-  placeholder: "Enter Phone Number (+9779867373778)",
-  showImportant: false,
+export const phoneProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "phone",
+  label: label ?? "Phone Number",
+  type: type ?? "phone",
+  placeholder: placeholder ?? "Enter Phone Number (+9779867373778)",
+  showImportant: showImportant ?? false,
   defaultValue: defaultValue ?? "",
-  icon: (
+  icon: icon ?? (
     <LocalPhoneIcon
       className="text-gray-400"
       sx={{
@@ -160,14 +184,22 @@ export const phoneProps = ({ defaultValue }: any) => ({
     />
   ),
 });
-export const cityProps = ({ defaultValue }: any) => ({
-  input: "city",
-  label: "City",
-  type: "text",
-  placeholder: "City",
-  showImportant: false,
+export const cityProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "city",
+  label: label ?? "City",
+  type: type ?? "text",
+  placeholder: placeholder ?? "City",
+  showImportant: showImportant ?? false,
   defaultValue: defaultValue ?? "",
-  icon: (
+  icon: icon ?? (
     <LocalPhoneIcon
       className="text-gray-400"
       sx={{
@@ -497,6 +529,22 @@ export const dayInputProps = ({ defaultValue }: any) => ({
       }}
     />
   ),
+});
+export const emptyFormProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "",
+  label: label ?? "",
+  showImportant: showImportant ?? false,
+  placeholder: placeholder ?? "",
+  defaultValue: defaultValue ?? "",
+  icon: icon ?? "",
 });
 
 export const commonActions = {

@@ -28,9 +28,7 @@ import {
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
 
-const CustomerInfomationForm = () => {
-  const [reminderType, setReminderType] = useState("REMINDER");
-
+const AdminSupportForm = () => {
   // Redux Variable
   const dispatch = useAppDispatch();
 
@@ -67,130 +65,88 @@ const CustomerInfomationForm = () => {
   const remaining = { actions: commonActions, form, css: {} };
 
   const notificationOptions = [
-    { label: "Push Notification", value: "Push Notification" },
-    { label: "Email", value: "Email" },
-    { label: "SMS", value: "SMS" },
+    { label: "Techinical Issue", value: "techinincal-issue" },
+    {
+      label: "Business Information Update Request ",
+      value: "business-infomation-update-request",
+    },
+    { label: "Notification/Reminder Issue", value: "notification-issue" },
+    { label: "Payment and Billing Issue", value: "payment-issue" },
+    { label: "Announcemnt/Offer Issue", value: "announcemnet-issue" },
+    { label: "General Inquiry", value: "general-inquiry" },
+  ];
+  const priorityLevelOptions = [
+    { label: "Low", value: "LOW" },
+    { label: "Medium", value: "MEDIUM" },
+    { label: "High", value: "HIGH" },
+    { label: "Urgent", value: "URGENT" },
   ];
 
   const formObj: any = {
-    useBusinessInfo: {
-      common: emptyFormProps({
-        input: "useBusinessInfo",
-        placeholder: "",
-        label: "Use Business Info",
-        showImportant: true,
-      }),
+    fullName: {
+      common: fullNameProps({}),
       ...remaining,
     },
-    companyName: {
-      common: fullNameProps({
-        input: "companyName",
-        label: "Company/Business Name",
-        placeholder: "Enter Business Name",
+    email: {
+      common: emailProps({}),
+      ...remaining,
+    },
+    phone: {
+      common: phoneProps({}),
+      ...remaining,
+    },
+    category: {
+      common: emptyFormProps({
+        input: "category",
+        label: "Issue Category",
+        placeholder: "Select Issue",
+        showImportant: true,
+        type: "select",
       }),
       options: notificationOptions,
       ...remaining,
     },
-    phoneNumber: {
-      common: phoneProps({
-        input: "phoneNumber",
-        label: "Phone Number (if available)",
-
-        type: "phone",
-        showImportant: false,
-      }),
-
-      ...remaining,
-    },
-    supportEmail: {
-      common: emailProps({
-        input: "supportEmail",
-        label: "Support Email",
-
-        type: "email",
+    subject: {
+      common: emptyFormProps({
+        input: "subject",
+        label: "Issue Subject",
+        placeholder: "Enter the Issue's Subject",
         showImportant: true,
-      }),
-
-      ...remaining,
-    },
-    physcialAddress: {
-      common: cityProps({
-        input: "physcialAddress",
-        label: "Physical Address (if applicable)",
-        placeholder: "Enter the Physcial Address",
         type: "text",
-        showImportant: false,
-      }),
-
-      ...remaining,
-    },
-    mapAddress: {
-      common: cityProps({
-        input: "mapAddress",
-        label: "Google Map (if applicable)",
-        placeholder: "Enter the your Google Map link",
-        type: "text",
-        showImportant: false,
-      }),
-
-      ...remaining,
-    },
-
-    title: {
-      common: roleProps({
-        input: "title",
-        label: "Reminder Titile",
-        placeholder: "Enter a Reminder Title for this Appointment",
       }),
 
       ...remaining,
     },
     description: {
-      common: roleProps({
+      common: emptyFormProps({
         input: "description",
-        label: "Reminder Description",
-        placeholder: "Short description about this Reminder",
+        label: " Description",
+        placeholder: "Enter the Issue in Detail",
+        showImportant: true,
         type: "textbox",
       }),
 
       ...remaining,
     },
-    reminderOffset: {
-      common: roleProps({
-        input: "reminderOffset",
-        label: "Reminder Offser",
-        placeholder: "Enter a Reminder Title for this Appointment",
-        type: reminderType,
-      }),
-
-      ...remaining,
-    },
-    businessHours: {
-      common: roleProps({
-        input: "businessHours",
-        label: "Business Dy/Hour",
-        showImportant: true,
-      }),
-
-      ...remaining,
-    },
-    hoildayStart: {
+    attachment: {
       common: emptyFormProps({
-        input: "holidayStart",
-        label: "Start",
-        placeholder: "Holiday starts from",
+        input: "attachment",
+        label: " Attachment (if any)",
+        placeholder: "Upload Supporting Document",
         showImportant: true,
+        type: "file",
       }),
 
       ...remaining,
     },
-    holidayEnd: {
+    priorityLevel: {
       common: emptyFormProps({
-        input: "holidayEnd",
-        label: "End",
-        placeholder: "Holiday ends at",
+        input: "priorityLevel",
+        label: " Priority Level",
+        placeholder: "Select Priority Level",
         showImportant: true,
       }),
+      options: priorityLevelOptions,
       ...remaining,
     },
   };
@@ -212,7 +168,7 @@ const CustomerInfomationForm = () => {
       <div className="flex flex-col jutify-start px-2  ">
         <div className="flex">
           <h1 className="text-black font-semibold text-[18px]">
-            <SwitchInput {...formObj.useBusinessInfo} />
+            {/* <SwitchInput {...formObj.useBusinessInfo} /> */}
           </h1>
         </div>
         <p className="italic text-[11px] text-slate-600 px-2 flex flex-col">
@@ -227,29 +183,28 @@ const CustomerInfomationForm = () => {
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-2">
           <div className="col-span-1">
-            <TextInput {...formObj.companyName} />
+            <TextInput {...formObj.fullName} />
           </div>
           <div className="col-span-1">
-            <TextInput {...formObj.supportEmail} />
+            <TextInput {...formObj.email} />
           </div>
         </div>
         <div className="grid grid-cols-2">
           <div className="cols-span-1">
-            <TextInput {...formObj.physcialAddress} />
+            <TextInput {...formObj.phone} />
           </div>
           <div className="cols-span-1">
-            <TextInput {...formObj.mapAddress} />
+            <SelectInput {...formObj.category} />
           </div>
         </div>
-        <TextInput {...formObj.phoneNumber} />
-        <div className="h-[170px]">
-          <DayAndTimeSelection {...formObj.businessHours} />
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="text-[17px] font-semibold text-black">Holiday</div>
-          <div className="flex ">
-            <DateInput {...formObj.hoildayStart} />
-            <DateInput {...formObj.holidayEnd} />
+        <TextInput {...formObj.subject} />
+        <TextInput {...formObj.description} />
+        <div className="grid grid-cols-2">
+          <div className="cols-span-1">
+            <TextInput {...formObj.attachment} />
+          </div>
+          <div className="cols-span-1">
+            <SelectInput {...formObj.priorityLevel} />
           </div>
         </div>
       </div>
@@ -262,4 +217,4 @@ const CustomerInfomationForm = () => {
   );
 };
 
-export default CustomerInfomationForm;
+export default AdminSupportForm;
