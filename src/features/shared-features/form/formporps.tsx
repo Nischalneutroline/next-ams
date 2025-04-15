@@ -137,7 +137,7 @@ export const emailProps = ({
 }: any) => ({
   input: input ?? "email",
   label: label ?? "Email",
-  type: label ?? "text",
+  type: type ?? "text",
   placeholder: placeholder ?? "Enter Email Address",
   showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
@@ -168,7 +168,7 @@ export const phoneProps = ({
   label: label ?? "Phone Number",
   type: type ?? "phone",
   placeholder: placeholder ?? "Enter Phone Number (+9779867373778)",
-  showImportant: showImportant ?? false,
+  showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
@@ -197,7 +197,7 @@ export const cityProps = ({
   label: label ?? "City",
   type: type ?? "text",
   placeholder: placeholder ?? "City",
-  showImportant: showImportant ?? false,
+  showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon

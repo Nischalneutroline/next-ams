@@ -16,6 +16,7 @@ import EditUserForm from "@/features/form-components/form-method/edit/EditUserFo
 import AddServiceForm from "@/features/form-components/form-method/add/AddServiceForm";
 import AddNotificationForm from "@/features/form-components/form-method/add/AddNotificaitonForm";
 import AddSupportAndFaq from "@/features/form-components/form-method/add/AddSupportandFAQ";
+import AddBusinessPage from "@/features/form-components/form-method/add/AddBusinessForm";
 
 export default function AdminLayout({
   children,
@@ -170,6 +171,7 @@ export default function AdminLayout({
         <AddServiceForm />
         <AddNotificationForm />
         <AddSupportAndFaq />
+        <AddBusinessPage />
 
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]

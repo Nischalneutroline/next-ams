@@ -135,36 +135,6 @@ const CustomerInfomationForm = () => {
 
       ...remaining,
     },
-
-    title: {
-      common: roleProps({
-        input: "title",
-        label: "Reminder Titile",
-        placeholder: "Enter a Reminder Title for this Appointment",
-      }),
-
-      ...remaining,
-    },
-    description: {
-      common: roleProps({
-        input: "description",
-        label: "Reminder Description",
-        placeholder: "Short description about this Reminder",
-        type: "textbox",
-      }),
-
-      ...remaining,
-    },
-    reminderOffset: {
-      common: roleProps({
-        input: "reminderOffset",
-        label: "Reminder Offser",
-        placeholder: "Enter a Reminder Title for this Appointment",
-        type: reminderType,
-      }),
-
-      ...remaining,
-    },
     businessHours: {
       common: roleProps({
         input: "businessHours",

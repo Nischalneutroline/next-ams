@@ -423,37 +423,14 @@ export const ServiceColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Duration" />
     ),
   },
-  // {
-  //   accessorKey: "dateOfBirth",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Date of Birth" />
-  //   ),
-  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
-  // },
+
   {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
   },
-  // {
-  //   accessorKey: "visibility",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Visibility" />
-  //   ),
-  // },
-  // {
-  //   accessorKey: "createdBy",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Created By" />
-  //   ),
-  // },
-  // {
-  //   accessorKey: "createdAt",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Created At" />
-  //   ),
-  // },
+
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

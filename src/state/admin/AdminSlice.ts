@@ -250,6 +250,7 @@ const initialState: AdminSliceSchema = {
     service: InitialServiceData,
     notification: InitialServiceData,
     support: InitialServiceData,
+    business: InitialServiceData,
   },
 };
 
@@ -298,6 +299,9 @@ const adminSlice = createSlice({
     },
     setAddSupportFormTrue: (state, action) => {
       state.admin.support.add.isFlag = action.payload;
+    },
+    setAddBusinessFormTrue: (state, action) => {
+      state.admin.business.add.isFlag = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -401,5 +405,6 @@ export const {
   setEditCustomerFormTrue,
   setAddNotificationFormTrue,
   setAddSupportFormTrue,
+  setAddBusinessFormTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;
