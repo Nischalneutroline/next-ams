@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  AdminUserFormValues,
-  adminUserSchema,
-} from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,62 +8,43 @@ import {
   commonActions,
   countryProps,
   emailProps,
+  emptyFormProps,
   fullNameProps,
   isActiveProps,
+  passwordProps,
   phoneProps,
   roleProps,
   streetProps,
-  zipCodeProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
-import UserForm from "../../forms/admin/UserForm";
+
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
+  setAddAvailabilityFormTrue,
   setAddCustomerFormTrue,
-  setEditCustomerFormTrue,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
-import { createUser, updateUser } from "@/state/admin/AdminServices";
-import { AdminCustomerFormSchema } from "@/state/admin/admin";
-import { passwordProps } from "../../../shared-features/form/formporps";
-import { IdCard } from "lucide-react";
 
-const EditUserForm = () => {
+import BusinessAvailabilityForm from "../../forms/admin/BusinessAvailabilityForm";
+
+const AddBusinessAvailabilityForm = () => {
   // Redux Variable
   const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.edit
+    (state: RootState) => state.admin.admin.availability.add
   );
   const { isSuccess } = useAppSelector(
     (state: RootState) => state.admin.admin.user.add.response
   );
-  const { id } = useAppSelector(
-    (state: RootState) => state.admin.platform.user._edit_CustomerForm
-  );
-
-  const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.view.response
-  );
-  const dataToEdit = details?.find((u: any) => u.id === id);
-
   // Submit handler
-  const onSubmit = (data: any, id: any) => {
-    console.log("After Onsubmit", data);
-    const addressAddedData = {
-      email: data.email,
-      password: data.password,
-      name: data.fullName,
-      phone: data.phone,
-      role: data.role.toUpperCase(),
-      isActive: data.isActive,
-      };
-    const transformedData = { ...dataToEdit, ...addressAddedData };
-
-    dispatch(updateUser(transformedData, id));
-    reset();
-    dispatch(setEditCustomerFormTrue(false));
+  const onSubmit = (data: any) => {
+    console.log(data);
+    // dispatch(createUser(data));
+    // reset();
+    // console.log(isSuccess);
+    // dispatch(setAddCustomerFormTrue(false));
   };
 
   //  Ref for closing modal on outside click
@@ -101,68 +78,103 @@ const EditUserForm = () => {
     trigger,
   };
 
-  const remaining = { actions: commonActions, form, css: {} };
+  const remaining = { actions: commonActions, form };
 
   const options = [
-    { label: "Admin", value: "ADMIN" },
-    { label: "User", value: "USER" },
-    { label: "Super Admin", value: "SUPERADMIN" },
+    { label: "Mon", value: "MONDAY" },
+    { label: "Tue", value: "TUESDAY" },
+    { label: "Wed", value: "WEDNESDAY" },
+    { label: "Thu", value: "THURSDAY" },
+    { label: "Fri", value: "FRIDAY" },
+    { label: "Sat", value: "SATURDAY" },
+    { label: "Sun", value: "SUNDAY" },
   ];
 
-  const formObj: any = dataToEdit
-    ? {
-        fullName: {
-          common: fullNameProps({ defaultValue: dataToEdit.name }),
-          ...remaining,
-        },
-        email: {
-          common: emailProps({ defaultValue: dataToEdit.email }),
-          ...remaining,
-        },
-        phone: {
-          common: phoneProps({ defaultValue: dataToEdit.phone }),
-          ...remaining,
-        },
-        address: {
-          street: {
-            common: streetProps({}),
-            ...remaining,
-          },
-          city: {
-            common: cityProps({}),
-            ...remaining,
-          },
-          country: {
-            common: countryProps({}),
-            ...remaining,
-          },
-          zipCode: {
-            commpn: zipCodeProps({}),
-            ...remaining,
-          },
-        },
-        role: {
-          common: roleProps({ defaultValue: dataToEdit.role }),
-          options,
-          ...remaining,
-        },
-        isActive: {
-          common: isActiveProps({
-            defaultValue: dataToEdit.isActive.toLowerCase,
-          }),
-          ...remaining,
-        },
-        password: {
-          common: passwordProps({ defaultValue: dataToEdit.password }),
-          ...remaining,
-        },
-      }
-    : null;
+  const formObj: any = {
+    timeZone: {
+      common: fullNameProps({
+        input: "timezone",
+        label: "Time Zone",
+        placeholder: "Enter your time zone.",
+        showImportant: true,
+      }),
+      css: {},
+      ...remaining,
+    },
+    businessDay: {
+      common: emptyFormProps({
+        input: "businessDay",
+        label: "Business Day",
+        placeholder: "Enter your time zone.",
+        showImportant: true,
+      }),
+      css: {
+        divCss:
+          "relative h-[65px] sm:h-[75px] lg:h-[125px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2",
+      },
+
+      options,
+      ...remaining,
+    },
+    businessHours: {
+      common: roleProps({
+        input: "businessHours",
+        label: "Business Day / Hour",
+        showImportant: true,
+      }),
+
+      ...remaining,
+    },
+    holiDays: {
+      common: emptyFormProps({
+        input: "holiDays",
+        label: "Holidays",
+        placeholder: "Enter your time zone.",
+        showImportant: true,
+      }),
+      css: {
+        divCss:
+          "relative h-[65px] sm:h-[75px] lg:h-[125px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2",
+      },
+
+      options,
+      ...remaining,
+    },
+    // phone_number: {
+    //   common: phoneProps({}),
+    //   ...remaining,
+    //   css: {},
+    // },
+    // address: {
+    //   street: {
+    //     common: streetProps({}),
+    //     ...remaining,
+    //   },
+    //   city: {
+    //     common: cityProps({}),
+    //     ...remaining,
+    //   },
+    //   country: {
+    //     common: countryProps({}),
+    //     ...remaining,
+    //   },
+    // },
+    // role: {
+    //   common: roleProps({}),
+    //   options,
+    //   ...remaining,
+    // },
+    // isActive: {
+    //   common: isActiveProps({}),
+    //   ...remaining,
+    // },
+    // password: { common: passwordProps({}), ...remaining },
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
         reset();
-        dispatch(setEditCustomerFormTrue(false));
+        dispatch(setAddAvailabilityFormTrue(false));
       }
     };
     if (isFlag) {
@@ -175,7 +187,6 @@ const EditUserForm = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isFlag, dispatch]);
-
   return (
     <AnimatePresence>
       {isFlag && (
@@ -201,21 +212,21 @@ const EditUserForm = () => {
                   }}
                 />
                 <div className="text-[16px] sm:text-[18px] md:text-[20px] 2xl:text-[32px] font-normal lg:font-semibold ">
-                  Edit User Details
+                  Add New User
                 </div>
               </div>
               <div className="flex justify-center text-center text-[11px] sm:text-[13px] lg:text-[14px] text-[#455A64]">
-                You’re editing an account details on behalf of a user. Please
-                ensure accuracy. ⚠️
+                You’re creating an account on behalf of a user. Please ensure
+                accuracy. ⚠️
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setEditCustomerFormTrue(false))}
+                onClick={(e: any) => dispatch(setAddCustomerFormTrue(false))}
               >
                 <CloseIcon />
               </div>
             </div>
-            <UserForm formObj={formObj} form={form} address={true} />
+            <BusinessAvailabilityForm formObj={formObj} form={form} />
           </motion.div>
         </CenterSection>
       )}
@@ -223,4 +234,4 @@ const EditUserForm = () => {
   );
 };
 
-export default EditUserForm;
+export default AddBusinessAvailabilityForm;

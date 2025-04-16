@@ -3,7 +3,7 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
 
-import { Button } from "./components/ui/button";
+import { Button } from "../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +11,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "./components/ui/dropdown-menu";
+} from "../components/ui/dropdown-menu";
 import { useAppDispatch } from "@/state/store";
 import {
   setEditCustomerFormTrue,
   setEditCustomerId,
 } from "@/state/admin/AdminSlice";
 
-interface DataTableRowActionsProps<TData> {
+interface CustomerDataTableRowActionsProps<TData> {
   row: Row<TData> | any;
 }
 
-export function DataTableRowActions<TData>({
+export function CustomerDataTableRowActions<TData>({
   row,
-}: DataTableRowActionsProps<TData>) {
+}: CustomerDataTableRowActionsProps<TData>) {
   // const task = taskSchema.parse(row.original);
 
   const dispatch = useAppDispatch();

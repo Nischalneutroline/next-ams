@@ -30,14 +30,21 @@ import { TableContainer, Paper } from "@mui/material";
 import { DataTablePagination } from "../data-table-pagination";
 import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import { retriveUsers } from "@/state/admin/AdminServices";
+import {
+  retriveAppointment,
+  retriveService,
+  retriveUsers,
+} from "@/state/admin/AdminServices";
 import { useEffect } from "react";
+import { AppointmentDataTableToolbar } from "../data-table-toolbar/appointmentdata-table-toolbar";
 
 interface DataTableProps<TValue> {
   columns: ColumnDef<TValue>[];
 }
 
-export function AppointmentDataTable<TValue>({ columns }: DataTableProps<TValue>) {
+export function AppointmentDataTable<TValue>({
+  columns,
+}: DataTableProps<TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -50,12 +57,14 @@ export function AppointmentDataTable<TValue>({ columns }: DataTableProps<TValue>
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(retriveUsers());
+    dispatch(retriveAppointment());
+    dispatch(retriveService());
   }, [dispatch, isSuccess]);
 
   const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.view.response
+    (state: RootState) => state.admin.admin.appointment.view.response
   );
+
   const data = details;
 
   const table = useReactTable({
@@ -82,7 +91,7 @@ export function AppointmentDataTable<TValue>({ columns }: DataTableProps<TValue>
 
   return (
     <div className="space-y-4 lg:max-w-[calc(100vw-120px)]">
-      <CustomerDataTableToolbar table={table} />
+      <AppointmentDataTableToolbar table={table} />
 
       <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-520px)] rounded-md border scrollbar ">
         <Table className="min-w-full text-[11px] sm:text-[13px] lg:text-[14px]">

@@ -1,5 +1,5 @@
 export const formDivCss =
-  " relative h-[65px] sm:h-[75px] lg:h-[85px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2";
+  " relative h-[65px] sm:h-[75px] lg:h-[85px] pt-1 flex flex-col gap-2 text-[11px] text-black w-11/12 w-full px-2";
 export const formTextBoxDivCss =
   " relative h-[65px] sm:h-[130px] lg:h-[170px] pt-1 flex flex-col gap-1 text-[11px] text-black w-11/12 w-full px-2";
 export const formSwitchDivCss =

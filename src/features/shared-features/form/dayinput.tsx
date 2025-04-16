@@ -62,7 +62,7 @@ export function DaysSelection(props: SelectInputSchema) {
         </label>
       )}
 
-      <div className="flex flex-wrap gap-10">
+      <div className="flex flex-wrap gap-8 gap-y-4">
         {daysOfWeek.map((day: any) => {
           const isSelected = selectedDays.includes(day.value);
           return (
@@ -84,7 +84,7 @@ export function DaysSelection(props: SelectInputSchema) {
               </div>
               {/* Day Label */}
               <span
-                className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px]
+                className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px] w-[60px]
                   ${
                     isSelected
                       ? "bg-blue-600 text-white border-blue-600"
@@ -315,6 +315,95 @@ export function TimeInput(props: InputSchema) {
       <div className="-translate-y-17">
         {errorMsg && <FormSpanError {...errorProps} />}
       </div>
+    </div>
+  );
+}
+
+export function HoliDaysSelection(props: SelectInputSchema) {
+  // Props
+  const { common, form, css, options } = props;
+  // Props variables
+  const { input, label, defaultValue, placeholder, showImportant, icon, type } =
+    common;
+  const { setValue, errors } = form;
+  const { divCss, labelCss, errorCss } = css!;
+
+  // States
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const daysOfWeek = options;
+  // Values
+  const errorMsg = getFormErrorMsg(errors, input);
+
+  // Css
+  const finalDivCss = divCss ?? formDivCss;
+  const finalLabelCss = labelCss ?? formLabelCss;
+
+  // Update form value when selectedDays changes
+  useEffect(() => {
+    setValue(input, selectedDays); // Register the selected days to React Hook Form
+  }, [selectedDays, setValue, input]);
+
+  const toggleDay = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
+
+  return (
+    <div className={finalDivCss}>
+      {label && (
+        <label
+          // className="text-black font-semibold flex gap-2 text-[12px] sm:text-[14px] lg:text-[16px] 2xl:text-[18px] items-center"
+          className={finalLabelCss}
+          htmlFor={input}
+        >
+          {icon && icon} {label}
+          {showImportant && <span className="text-red-400">*</span>}
+        </label>
+      )}
+
+      <div className="flex flex-wrap gap-8 gap-y-4">
+        {daysOfWeek.map((day: any) => {
+          const isSelected = selectedDays.includes(day.value);
+          return (
+            <div
+              key={day.value}
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={() => toggleDay(day.value)}
+            >
+              {/* Checkbox Icon */}
+              <div
+                className={`w-5 h-5 flex items-center justify-center rounded-sm border transition-all
+                  ${
+                    isSelected
+                      ? "bg-red-600 text-white border-red-600"
+                      : "border-gray-400 text-gray-500"
+                  }`}
+              >
+                {isSelected ? "✓" : "-"}
+              </div>
+              {/* Day Label */}
+              <span
+                className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px] w-[60px]
+                  ${
+                    isSelected
+                      ? "bg-red-600 text-white border-red-600"
+                      : "border-gray-400 text-black"
+                  }`}
+              >
+                {day.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {errorMsg && (
+        <FormSpanError
+          css={{ customCss: errorCss ?? formErrorCss }}
+          title={errorMsg}
+        />
+      )}
     </div>
   );
 }

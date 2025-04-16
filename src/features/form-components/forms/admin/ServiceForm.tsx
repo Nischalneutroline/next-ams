@@ -42,7 +42,7 @@ const ServiceForm = (props: any) => {
       <DayAndTimeSelection {...formObj.serviceAvailability} />
       <div className="absolute left-0 bottom-4 flex w-full justify-center gap-4">
         <Button {...cancelBtnProps(handleCancleButton)} />
-        <Button {...addAppointmentBtnProps(handleSubmit(onSubmit))} />
+        <Button {...addAppointmentBtnProps()} />
       </div>
     </form>
   );

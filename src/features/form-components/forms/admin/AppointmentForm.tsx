@@ -46,7 +46,7 @@ const AppointmentForm = (props: any) => {
       <TextInput {...formObj.message} />
       <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
         <Button {...cancelBtnProps(handleCancleButton)} />
-        <Button {...addAppointmentBtnProps(handleSubmit(onSubmit))} />
+        <Button {...addAppointmentBtnProps()} />
       </div>
     </form>
   );

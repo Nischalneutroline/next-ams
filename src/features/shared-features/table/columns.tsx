@@ -3,12 +3,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
+import { CustomerDataTableRowActions } from "./datatable-row-actions/customerdatatable-row-actions";
 import { TrendingUp, TrendingDown, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./components/ui/checkbox";
 import { Appointment, Expense, User } from "./schemas";
 import { Button } from "./components/ui/button";
+import Tooltip from "@mui/material/Tooltip";
+import { AppointmentDataTableRowActions } from "./datatable-row-actions/appointmentdatatable-row-actions";
 const getRoleBadgeStyle = (role: string) => {
   switch (role) {
     case "admin":
@@ -166,7 +168,7 @@ export const columns: ColumnDef<Expense>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <CustomerDataTableRowActions row={row} />,
   },
 ];
 
@@ -270,7 +272,7 @@ export const UserColumns: ColumnDef<User>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <CustomerDataTableRowActions row={row} />,
   },
 ];
 
@@ -304,14 +306,49 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
     header: "Customer Name",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "service",
+    header: "Service",
+    cell: ({ row }) => row.original.service?.title || "N/A",
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+
+      const statusStyles: Record<string, string> = {
+        ACTIVE: "bg-green-500/70",
+        SCHEDULED: "bg-blue-500/70",
+        MISSED: "bg-red-500/70",
+        CANCELLED: "bg-gray-500/70",
+      };
+
+      return (
+        <span
+          className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
+            statusStyles[status] || "bg-zinc-400/60"
+          }`}
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "phone",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Phone Number" />
+      <DataTableColumnHeader column={column} title="Phone Number " />
     ),
+    cell: ({ row }) => row.original.phone,
+  },
+  {
+    accessorKey: "bookedBy",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Booked By " />
+    ),
+    cell: ({ row }) => row.original.user?.name || "N/A",
   },
   // {
   //   accessorKey: "dateOfBirth",
@@ -321,16 +358,29 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
   //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
   // },
   {
-    accessorKey: "deriveId",
+    accessorKey: "message",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Service Id" />
+      <DataTableColumnHeader column={column} title="Message" />
     ),
+    cell: ({ row }) => {
+      const message = row.getValue("message") as string;
+
+      return (
+        <Tooltip title={message} placement="top" arrow>
+          <div className="max-w-[180px] truncate text-ellipsis overflow-hidden whitespace-nowrap cursor-pointer">
+            {message}
+          </div>
+        </Tooltip>
+      );
+    },
   },
   {
     accessorKey: "selectedDate",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
     ),
+    cell: ({ row }) => format(new Date(row.original.selectedDate), "PPP"),
+
     // cell: ({ row }) => format(new Date(row.original.selectedDate), "PPP"),
     // cell: ({ row }) => {
     //   const role: string = row.getValue("role");
@@ -349,38 +399,39 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
   {
     accessorKey: "selectedTIme",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Selected Time" />
-    ),
-    // cell: ({ row }) => format(new Date(row.original.selectedTime), "PPP"),
-  },
-  {
-    accessorKey: "isForSelf",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="For Self" />
+      <DataTableColumnHeader column={column} title="Time" />
     ),
     cell: ({ row }) => {
-      const isForSelf = row.getValue("isForSelf");
-
-      return (
-        <span
-          className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
-            isForSelf ? "bg-green-500/70" : "bg-yellow-400/60"
-          }`}
-        >
-          {isForSelf ? "True" : "False"}
-        </span>
-      );
+      const time = new Date(row.original.selectedTime);
+      return time.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     },
   },
-  {
-    accessorKey: "createdby",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created By" />
-    ),
-  },
+  // {
+  //   accessorKey: "isForSelf",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="For Self" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const isForSelf = row.getValue("isForSelf");
+
+  //     return (
+  //       <span
+  //         className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
+  //           isForSelf ? "bg-green-500/70" : "bg-yellow-400/60"
+  //         }`}
+  //       >
+  //         {isForSelf ? "True" : "False"}
+  //       </span>
+  //     );
+  //   },
+  // },
+
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <AppointmentDataTableRowActions row={row} />,
   },
 ];
 
@@ -433,7 +484,7 @@ export const ServiceColumns: ColumnDef<User>[] = [
 
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <AppointmentDataTableRowActions row={row} />,
   },
 ];
 
@@ -486,6 +537,6 @@ export const NotificationColumns: ColumnDef<User>[] = [
 
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <CustomerDataTableRowActions row={row} />,
   },
 ];

@@ -29,24 +29,36 @@ import CenterSection from "@/features/shared-features/section/centersection";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import { useDispatch } from "react-redux";
+
 import { setAddAppointmentFormTrue } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import AppointmentForm from "../../forms/admin/AppointmentForm";
-import { retriveUsers } from "@/state/admin/AdminServices";
+import { createAppointment, retriveUsers } from "@/state/admin/AdminServices";
 import { AdminAppointmentFormSchema } from "@/state/admin/admin";
 
 const AddAppointmentForm = () => {
   // Redux Variable
   const dispatch = useAppDispatch();
+  const { details: userDetails } = useAppSelector(
+    (state: RootState) => state.admin.admin.user.view.response
+  );
+  const { details: serviceDetails } = useAppSelector(
+    (state: RootState) => state.admin.admin.service.view.response
+  );
+
   const { isFlag } = useAppSelector(
     (state: RootState) => state.admin.admin.appointment.add
   );
 
   // Submit handler
   const onSubmit = (data: AdminAppointmentFormSchema) => {
-    console.log("clicked");
     console.log("Form Submitted:", data);
+    const updatedData = {
+      ...data,
+      userId: data.createdById,
+    };
+    console.log(updatedData, "transformedData");
+    // dispatch(createAppointment(data));
     reset();
   };
 
@@ -89,10 +101,6 @@ const AddAppointmentForm = () => {
     { label: "Staff", value: "staff" },
   ];
 
-  const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.view.response
-  );
-
   function getLabelValueArray(
     details: { id: string | number; name: string }[]
   ) {
@@ -102,7 +110,19 @@ const AddAppointmentForm = () => {
     }));
   }
 
-  const createdByOptions = getLabelValueArray(details);
+  function getServiceOptions(
+    services: { id: string; title: string; status: string }[]
+  ) {
+    return services
+      .filter((service) => service.status === "ACTIVE")
+      .map((service) => ({
+        label: service.title,
+        value: service.id,
+      }));
+  }
+
+  const createdByOptions = getLabelValueArray(userDetails);
+  const serviceOptions = getServiceOptions(serviceDetails);
 
   enum AppointmentStatus {
     SCHEDULED = "SCHEDULED",
@@ -135,7 +155,7 @@ const AddAppointmentForm = () => {
     status: { common: statusProps({}), options: status, ...remaining },
     serviceId: {
       common: serviceIdProps({}),
-      options,
+      options: serviceOptions,
       ...remaining,
     },
     selectedDate: {

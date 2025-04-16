@@ -8,16 +8,17 @@ import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  cityProps,
   commonActions,
-  countryProps,
+  createdByIdProps,
+  customerNameProps,
   emailProps,
-  fullNameProps,
-  isActiveProps,
+  isForSelfProps,
+  messageProps,
   phoneProps,
-  roleProps,
-  streetProps,
-  zipCodeProps,
+  selectedDateProps,
+  selectedTimeProps,
+  serviceIdProps,
+  statusProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
 import UserForm from "../../forms/admin/UserForm";
@@ -25,49 +26,55 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
-  setAddCustomerFormTrue,
-  setEditCustomerFormTrue,
+  setEditAppointmentFormTrue,
+  setEditAppointmentId,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
-import { createUser, updateUser } from "@/state/admin/AdminServices";
+import {
+  createUser,
+  updateAppointment,
+  updateUser,
+} from "@/state/admin/AdminServices";
 import { AdminCustomerFormSchema } from "@/state/admin/admin";
 import { passwordProps } from "../../../shared-features/form/formporps";
 import { IdCard } from "lucide-react";
+import AppointmentForm from "../../forms/admin/AppointmentForm";
 
-const EditUserForm = () => {
+const EditAppointmentForm = () => {
   // Redux Variable
   const dispatch = useAppDispatch();
+
+  const { details: userDetails } = useAppSelector(
+    (state: RootState) => state.admin.admin.user.view.response
+  );
+  const { details: serviceDetails } = useAppSelector(
+    (state: RootState) => state.admin.admin.service.view.response
+  );
   const { isFlag } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.edit
+    (state: RootState) => state.admin.admin.appointment.edit
   );
   const { isSuccess } = useAppSelector(
     (state: RootState) => state.admin.admin.user.add.response
   );
   const { id } = useAppSelector(
-    (state: RootState) => state.admin.platform.user._edit_CustomerForm
+    (state: RootState) => state.admin.platform.appointment._edit_AppointmentForm
   );
-
   const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.view.response
+    (state: RootState) => state.admin.admin.appointment.view.response
   );
   const dataToEdit = details?.find((u: any) => u.id === id);
 
   // Submit handler
   const onSubmit = (data: any, id: any) => {
-    console.log("After Onsubmit", data);
-    const addressAddedData = {
-      email: data.email,
-      password: data.password,
-      name: data.fullName,
-      phone: data.phone,
-      role: data.role.toUpperCase(),
-      isActive: data.isActive,
-      };
-    const transformedData = { ...dataToEdit, ...addressAddedData };
+    const transformedData = { ...dataToEdit, ...data };
+    // dispatch(updateUser({ ...data, id: dataToEdit.id }));
 
-    dispatch(updateUser(transformedData, id));
-    reset();
-    dispatch(setEditCustomerFormTrue(false));
+    dispatch(setEditAppointmentId(""));
+    dispatch(updateAppointment(transformedData, id));
+
+    // reset();
+
+    dispatch(setEditAppointmentFormTrue(false));
   };
 
   //  Ref for closing modal on outside click
@@ -109,60 +116,88 @@ const EditUserForm = () => {
     { label: "Super Admin", value: "SUPERADMIN" },
   ];
 
-  const formObj: any = dataToEdit
-    ? {
-        fullName: {
-          common: fullNameProps({ defaultValue: dataToEdit.name }),
-          ...remaining,
-        },
-        email: {
-          common: emailProps({ defaultValue: dataToEdit.email }),
-          ...remaining,
-        },
-        phone: {
-          common: phoneProps({ defaultValue: dataToEdit.phone }),
-          ...remaining,
-        },
-        address: {
-          street: {
-            common: streetProps({}),
-            ...remaining,
-          },
-          city: {
-            common: cityProps({}),
-            ...remaining,
-          },
-          country: {
-            common: countryProps({}),
-            ...remaining,
-          },
-          zipCode: {
-            commpn: zipCodeProps({}),
-            ...remaining,
-          },
-        },
-        role: {
-          common: roleProps({ defaultValue: dataToEdit.role }),
-          options,
-          ...remaining,
-        },
-        isActive: {
-          common: isActiveProps({
-            defaultValue: dataToEdit.isActive.toLowerCase,
-          }),
-          ...remaining,
-        },
-        password: {
-          common: passwordProps({ defaultValue: dataToEdit.password }),
-          ...remaining,
-        },
-      }
-    : null;
+  const status = [
+    { label: "Scheduled", value: "SCHEDULED" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Missed", value: "MISSED" },
+    { label: "Cancelled", value: "CANCELLED" },
+    { label: "Follow Up", value: "FOLLOW_UP" },
+  ];
+
+  function getLabelValueArray(
+    details: { id: string | number; name: string }[]
+  ) {
+    return details.map((user) => ({
+      label: user.name,
+      value: String(user.id),
+    }));
+  }
+
+  function getServiceOptions(
+    services: { id: string; title: string; status: string }[]
+  ) {
+    return services
+      .filter((service) => service.status === "ACTIVE")
+      .map((service) => ({
+        label: service.title,
+        value: service.id,
+      }));
+  }
+
+  const createdByOptions = getLabelValueArray(userDetails);
+  const serviceOptions = getServiceOptions(serviceDetails);
+
+  const formObj: any = {
+    customerName: {
+      common: customerNameProps({ defaultValue: dataToEdit?.customerName }),
+      ...remaining,
+    },
+    email: {
+      common: emailProps({ defaultValue: dataToEdit?.email }),
+      ...remaining,
+    },
+    phone: {
+      common: phoneProps({ defaultValue: dataToEdit?.phone }),
+      ...remaining,
+    },
+    status: {
+      common: statusProps({ defaultValue: dataToEdit?.status }),
+      options: status,
+      ...remaining,
+    },
+    serviceId: {
+      common: serviceIdProps({ defaultValue: dataToEdit?.serviceId }),
+      options: serviceOptions,
+      ...remaining,
+    },
+    selectedDate: {
+      common: selectedDateProps({ defaultValue: dataToEdit?.selectedDate }),
+      ...remaining,
+    },
+    selectedTime: {
+      common: selectedTimeProps({ defaultValue: dataToEdit?.selectedTime }),
+      ...remaining,
+    },
+    createdById: {
+      common: createdByIdProps({ defaultValue: dataToEdit?.createdById }),
+      options: createdByOptions,
+      ...remaining,
+    },
+    isForSelf: {
+      common: isForSelfProps({ defaultValue: dataToEdit?.isForSelf }),
+      ...remaining,
+    },
+    message: {
+      common: messageProps({ defaultValue: dataToEdit?.message }),
+      ...remaining,
+    },
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
         reset();
-        dispatch(setEditCustomerFormTrue(false));
+        dispatch(setEditAppointmentFormTrue(false));
       }
     };
     if (isFlag) {
@@ -210,12 +245,15 @@ const EditUserForm = () => {
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setEditCustomerFormTrue(false))}
+                onClick={(e: any) => {
+                  dispatch(setEditAppointmentFormTrue(false));
+                  dispatch(setEditAppointmentId(""));
+                }}
               >
                 <CloseIcon />
               </div>
             </div>
-            <UserForm formObj={formObj} form={form} address={true} />
+            <AppointmentForm formObj={formObj} form={form} />
           </motion.div>
         </CenterSection>
       )}
@@ -223,4 +261,4 @@ const EditUserForm = () => {
   );
 };
 
-export default EditUserForm;
+export default EditAppointmentForm;

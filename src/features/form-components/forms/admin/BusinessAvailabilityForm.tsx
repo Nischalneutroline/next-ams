@@ -10,18 +10,26 @@ import SelectInput from "@/features/shared-features/form/selectinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import React from "react";
 import { cancelBtnProps } from "../../../shared-features/form/formporps";
-import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
+import {
+  setAddAvailabilityFormTrue,
+  setAddCustomerFormTrue,
+} from "@/state/admin/AdminSlice";
 import { useDispatch } from "react-redux";
+import {
+  DaysSelection,
+  HoliDaysSelection,
+} from "@/features/shared-features/form/dayinput";
+import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
 
-const UserForm = (props: any) => {
-  const { formObj, form, address } = props;
+const BusinessAvailabilityForm = (props: any) => {
+  const { formObj, form } = props;
 
   const { handleSubmit, onSubmit } = form;
 
   const dispatch = useDispatch();
 
   const handleCancleButton = () => {
-    dispatch(setAddCustomerFormTrue(false));
+    dispatch(setAddAvailabilityFormTrue(false));
   };
 
   return (
@@ -29,20 +37,21 @@ const UserForm = (props: any) => {
       onSubmit={handleSubmit(onSubmit)}
       className="relative flex flex-col gap-2 sm:gap-4 px-4"
     >
-      <TextInput {...formObj.fullName} />
-      <TextInput {...formObj.email} />
-      <TextInput {...formObj.phone} />
-      {address && (
-        <div className="flex flex-col md:flex-row gap-2">
-          <TextInput {...formObj.address.street} />
-          <TextInput {...formObj.address.city} />
-          <TextInput {...formObj.address.country} />
-          {/* <TextInput {...formObj.zipCode} /> */}
-        </div>
-      )}
+      <TextInput {...formObj.timeZone} />
+      <DaysSelection {...formObj.businessDay} />
+      <div className="h-[170px]">
+        <DayAndTimeSelection {...formObj.businessHours} />
+      </div>
+      <HoliDaysSelection {...formObj.holiDays} />
+      {/* <TextInput {...formObj.phone_number} />
+      <div className="flex flex-col md:flex-row gap-2">
+        <TextInput {...formObj.address.street} />
+        <TextInput {...formObj.address.city} />
+        <TextInput {...formObj.address.country} />
+      </div>
       <SelectInput {...formObj.role} />
       <SwitchInput {...formObj.isActive} />
-      <PasswordInput {...formObj.password} />
+      <PasswordInput {...formObj.password} /> */}
       <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
         <Button {...cancelBtnProps(handleCancleButton)} />
 
@@ -52,4 +61,4 @@ const UserForm = (props: any) => {
   );
 };
 
-export default UserForm;
+export default BusinessAvailabilityForm;

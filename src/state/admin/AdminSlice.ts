@@ -28,9 +28,9 @@ const initialState: AdminSliceSchema = {
       _add_CustomerForm: {
         id: null,
         input: {
-          full_name: "",
+          fullName: "",
           email: "",
-          phone_number: "",
+          phone: "",
           role: "",
           isActive: false,
           password: "",
@@ -40,9 +40,9 @@ const initialState: AdminSliceSchema = {
       _edit_CustomerForm: {
         id: null,
         input: {
-          full_name: "",
+          fullName: "",
           email: "",
-          phone_number: "",
+          phone: "",
           role: "",
           isActive: false,
           password: "",
@@ -52,9 +52,9 @@ const initialState: AdminSliceSchema = {
       _view_CustomerForm: {
         id: null,
         input: {
-          full_name: "",
+          fullName: "",
           email: "",
-          phone_number: "",
+          phone: "",
           role: "",
           isActive: false,
           password: "",
@@ -76,6 +76,18 @@ const initialState: AdminSliceSchema = {
           createdById: "",
           isForSelf: true,
           message: "",
+          user: {
+            id: "",
+            email: "",
+            name: "",
+            password: "",
+            phone: "",
+            createdAt: "",
+            updatedAt: "",
+            lastActive: "",
+            role: "",
+            isActive: false,
+          },
         },
         details: [],
       },
@@ -92,6 +104,18 @@ const initialState: AdminSliceSchema = {
           createdById: "",
           isForSelf: true,
           message: "",
+          user: {
+            id: "",
+            email: "",
+            name: "",
+            password: "",
+            phone: "",
+            createdAt: "",
+            updatedAt: "",
+            lastActive: "",
+            role: "",
+            isActive: false,
+          },
         },
         details: [],
       },
@@ -108,6 +132,18 @@ const initialState: AdminSliceSchema = {
           createdById: "",
           isForSelf: true,
           message: "",
+          user: {
+            id: "",
+            email: "",
+            name: "",
+            password: "",
+            phone: "",
+            createdAt: "",
+            updatedAt: "",
+            lastActive: "",
+            role: "",
+            isActive: false,
+          },
         },
         details: [],
       },
@@ -251,6 +287,7 @@ const initialState: AdminSliceSchema = {
     notification: InitialServiceData,
     support: InitialServiceData,
     business: InitialServiceData,
+    availability: InitialServiceData,
   },
 };
 
@@ -291,8 +328,14 @@ const adminSlice = createSlice({
     setEditCustomerFormTrue: (state, action) => {
       state.admin.user.edit.isFlag = action.payload;
     },
+    setEditAppointmentFormTrue: (state, action) => {
+      state.admin.appointment.edit.isFlag = action.payload;
+    },
     setEditCustomerId: (state, action) => {
       state.platform.user._edit_CustomerForm.id = action.payload;
+    },
+    setEditAppointmentId: (state, action) => {
+      state.platform.appointment._edit_AppointmentForm.id = action.payload;
     },
     setAddNotificationFormTrue: (state, action) => {
       state.admin.notification.add.isFlag = action.payload;
@@ -302,6 +345,9 @@ const adminSlice = createSlice({
     },
     setAddBusinessFormTrue: (state, action) => {
       state.admin.business.add.isFlag = action.payload;
+    },
+    setAddAvailabilityFormTrue: (state, action) => {
+      state.admin.availability.add.isFlag = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -362,7 +408,7 @@ const adminSlice = createSlice({
         retriveAppointment.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.admin.appointment.view.response.isLoading = false;
-          state.admin.user.edit.response.isSuccess = true;
+          state.admin.appointment.edit.response.isSuccess = true;
           state.admin.appointment.view.response.details = action.payload; // Save the user data in the state
         }
       )
@@ -406,5 +452,8 @@ export const {
   setAddNotificationFormTrue,
   setAddSupportFormTrue,
   setAddBusinessFormTrue,
+  setAddAvailabilityFormTrue,
+  setEditAppointmentId,
+  setEditAppointmentFormTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;

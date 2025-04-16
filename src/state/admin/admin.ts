@@ -13,12 +13,17 @@ export type ServiceType = {
 };
 // Define Form Schema
 export interface AdminCustomerFormSchema {
-  full_name: string;
+  fullName: string;
   email: string;
-  phone_number: string | number;
+  phone: string | number;
   role: string;
   isActive: boolean;
   password: string;
+
+  street: string;
+  city: string;
+  country: string;
+  zipCode: string;
 }
 export interface AdminAppointmentFormSchema {
   customerName: string;
@@ -31,6 +36,18 @@ export interface AdminAppointmentFormSchema {
   createdById: string | number;
   isForSelf: boolean;
   message: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    password: string;
+    phone: string;
+    createdAt: string;
+    updatedAt: string;
+    lastActive: string;
+    role: string;
+    isActive: boolean;
+  };
 }
 enum WeekDays {
   SUNDAY = "SUNDAY",
@@ -105,6 +122,7 @@ export type AdminApi = {
   notification: ServiceType;
   support: ServiceType;
   business: ServiceType;
+  availability: ServiceType;
 };
 
 export interface AdminSliceSchema {

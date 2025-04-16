@@ -37,6 +37,7 @@ export type User = {
 
 export type Appointment = {
   id: string;
+  message: string;
   customerName: string;
   email: string;
   phone: string;
@@ -46,6 +47,18 @@ export type Appointment = {
   selectedTime: string;
   isForSelf: boolean;
   createdById: string;
+  service: Service;
+  user: User;
+};
+
+export type Service = {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt?: string;
+  status: "ACTIVE" | "INACTIVE" | string;
+  businessDetailId?: string;
 };
 
 export const UserSchema = z.object({
@@ -69,4 +82,4 @@ export const ServiceSchema = z.object({
   createdBy: z.string(),
   createdAt: z.date(),
 });
-export type Service = z.infer<typeof ServiceSchema>;
+// export type Service = z.infer<typeof ServiceSchema>;

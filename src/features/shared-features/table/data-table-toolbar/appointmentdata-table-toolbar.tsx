@@ -20,6 +20,7 @@ import { CalendarDatePicker } from "../../common/calender-date-picker";
 import { categories, incomeType, totalAppointment } from "../data";
 import { DataTableFacetedFilter } from "../data-table-faceted-filter";
 import { DataTableViewOptions } from "../data-table-view-options";
+import { Status } from "../../../service/types/types";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -44,7 +45,7 @@ export function AppointmentDataTableToolbar<TData>({
     <div className="flex flex-row sm:flex-wrap items-center justify-between gap-1">
       <div className="flex flex-wrap items-center gap-2 flex-1">
         <Input
-          placeholder="Filter by Name..."
+          placeholder="Filter by Customer Name..."
           value={
             (table.getColumn("customerName")?.getFilterValue() as string) ?? ""
           }
@@ -70,48 +71,47 @@ export function AppointmentDataTableToolbar<TData>({
             <DropdownMenuLabel>Select Filters</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
-              checked={selectedFilters.includes("createdBy")}
+              checked={selectedFilters.includes("status")}
               onCheckedChange={(checked) => {
                 setSelectedFilters((prev) =>
                   checked
-                    ? [...prev, "createdBy"]
-                    : prev.filter((f) => f !== "createdBy")
+                    ? [...prev, "status"]
+                    : prev.filter((f) => f !== "status")
                 );
               }}
             >
-              Created By
+              Status
             </DropdownMenuCheckboxItem>
 
             <DropdownMenuCheckboxItem
-              checked={selectedFilters.includes("totalAppointments")}
+              checked={selectedFilters.includes("bookedBy")}
               onCheckedChange={(checked) => {
                 setSelectedFilters((prev) =>
                   checked
-                    ? [...prev, "totalAppointments"]
-                    : prev.filter((f) => f !== "totalAppointments")
+                    ? [...prev, "bookedBy"]
+                    : prev.filter((f) => f !== "bookedBy")
                 );
               }}
             >
-              Total Appointments
+              Booked By
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         {/* Conditionally Render Filters */}
-        {selectedFilters.includes("createdBy") &&
-          table.getColumn("createdBy") && (
-            <DataTableFacetedFilter
-              column={table.getColumn("createdBy")}
-              title="Created By"
-              options={categories}
-            />
-          )}
+        {selectedFilters.includes("status") && table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={categories}
+          />
+        )}
 
-        {selectedFilters.includes("totalAppointments") &&
-          table.getColumn("totalAppointments") && (
+        {selectedFilters.includes("bookedBy") &&
+          table.getColumn("bookedBy") && (
             <DataTableFacetedFilter
-              column={table.getColumn("totalAppointments")}
-              title="Total Appointments"
+              column={table.getColumn("bookedBy")}
+              title="Booked By"
               options={totalAppointment}
             />
           )}

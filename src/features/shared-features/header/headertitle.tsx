@@ -14,7 +14,6 @@ interface HeaderTitleProps {
 const HeaderTitle: React.FC<HeaderTitleProps> = ({ icon, pageTitle }) => {
   const dispatch = useDispatch();
   const { isFlag } = useAppSelector((state) => state.admin.admin.sidebar.add);
-  console.log(isFlag);
 
   const [isMobile, setIsMobile] = useState<boolean>(false);
 

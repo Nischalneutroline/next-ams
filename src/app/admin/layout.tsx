@@ -17,6 +17,8 @@ import AddServiceForm from "@/features/form-components/form-method/add/AddServic
 import AddNotificationForm from "@/features/form-components/form-method/add/AddNotificaitonForm";
 import AddSupportAndFaq from "@/features/form-components/form-method/add/AddSupportandFAQ";
 import AddBusinessPage from "@/features/form-components/form-method/add/AddBusinessForm";
+import AddBusinessAvailabilityForm from "@/features/form-components/form-method/add/AddBusinessAvailabilityForm";
+import EditAppointmentForm from "@/features/form-components/form-method/edit/EditAppointment";
 
 export default function AdminLayout({
   children,
@@ -172,6 +174,8 @@ export default function AdminLayout({
         <AddNotificationForm />
         <AddSupportAndFaq />
         <AddBusinessPage />
+        <AddBusinessAvailabilityForm />
+        <EditAppointmentForm />
 
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]

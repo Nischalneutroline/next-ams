@@ -18,6 +18,7 @@ import {
   phoneProps,
   roleProps,
   streetProps,
+  zipCodeProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
 import UserForm from "../../forms/admin/UserForm";
@@ -39,7 +40,7 @@ const AddUserForm = () => {
     (state: RootState) => state.admin.admin.user.add.response
   );
   // Submit handler
-  const onSubmit = (data: AdminCustomerFormSchema) => {
+  const onSubmit = (data: any) => {
     console.log(data);
     dispatch(createUser(data));
     reset();
@@ -63,7 +64,7 @@ const AddUserForm = () => {
     control,
   } = useForm({
     mode: "onSubmit",
-    resolver: zodResolver(adminUserSchema),
+    // resolver: zodResolver(adminUserSchema),
   });
 
   const form = {
@@ -87,7 +88,7 @@ const AddUserForm = () => {
   ];
 
   const formObj: any = {
-    full_name: {
+    fullName: {
       common: fullNameProps({}),
       ...remaining,
     },
@@ -95,7 +96,7 @@ const AddUserForm = () => {
       common: emailProps({}),
       ...remaining,
     },
-    phone_number: {
+    phone: {
       common: phoneProps({}),
       ...remaining,
     },
@@ -110,6 +111,10 @@ const AddUserForm = () => {
       },
       country: {
         common: countryProps({}),
+        ...remaining,
+      },
+      zipCode: {
+        commpn: zipCodeProps({}),
         ...remaining,
       },
     },
@@ -180,7 +185,7 @@ const AddUserForm = () => {
                 <CloseIcon />
               </div>
             </div>
-            <UserForm formObj={formObj} form={form} />
+            <UserForm formObj={formObj} form={form} address={false} />
           </motion.div>
         </CenterSection>
       )}

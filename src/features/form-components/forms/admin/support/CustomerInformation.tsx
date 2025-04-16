@@ -138,7 +138,7 @@ const CustomerInfomationForm = () => {
     businessHours: {
       common: roleProps({
         input: "businessHours",
-        label: "Business Dy/Hour",
+        label: "Business Day/Hour",
         showImportant: true,
       }),
 

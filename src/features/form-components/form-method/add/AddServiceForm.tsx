@@ -33,22 +33,23 @@ const AddServiceForm = () => {
   //   );
   // Submit handler
   const onSubmit = (data: any) => {
-    const convertHHMMToISO = (time: string): string => {
-      const [hours, minutes] = time.split(":");
-      const date = new Date();
-      date.setHours(Number(hours), Number(minutes), 0, 0);
-      return date.toISOString();
-    };
-    const transformedData = {
-      ...data,
-      serviceAvailability: data.serviceAvailability.map((day: any) => ({
-        ...day,
-        timeSlots: day.timeSlots.map((slot: any) => ({
-          startTime: convertHHMMToISO(slot.startTime),
-          endTime: convertHHMMToISO(slot.endTime),
-        })),
-      })),
-    };
+    console.log(data, "on submit");
+    // const convertHHMMToISO = (time: string): string => {
+    //   const [hours, minutes] = time.split(":");
+    //   const date = new Date();
+    //   date.setHours(Number(hours), Number(minutes), 0, 0);
+    //   return date.toISOString();
+    // };
+    // const transformedData = {
+    //   ...data,
+    //   serviceAvailability: data.serviceAvailability.map((day: any) => ({
+    //     ...day,
+    //     timeSlots: day.timeSlots.map((slot: any) => ({
+    //       startTime: convertHHMMToISO(slot.startTime),
+    //       endTime: convertHHMMToISO(slot.endTime),
+    //     })),
+    //   })),
+    // };
 
     // dispatch(createUser(data));
     reset();
@@ -203,7 +204,6 @@ const AddServiceForm = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isFlag, dispatch]);
-  console.log(errors);
 
   return (
     <AnimatePresence>

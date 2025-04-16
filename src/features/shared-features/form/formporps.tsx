@@ -255,6 +255,28 @@ export const countryProps = ({ defaultValue }: any) => ({
     />
   ),
 });
+
+export const zipCodeProps = ({ defaultValue }: any) => ({
+  input: "zipCode",
+  label: "Zip Code",
+  type: "text",
+  placeholder: "Enter your Zip Code",
+  showImportant: false,
+  defaultValue: defaultValue ?? "",
+  icon: (
+    <LocalPhoneIcon
+      className="text-gray-400"
+      sx={{
+        fontSize: {
+          xs: "18px",
+          sm: "20px",
+          lg: "22px",
+          xl: "24px",
+        },
+      }}
+    />
+  ),
+});
 export const roleProps = ({
   input,
   label,
@@ -562,10 +584,10 @@ export const addUserBtnProps = {
       "px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm",
   },
 };
-export const addAppointmentBtnProps = (handleClick: () => void) => ({
+export const addAppointmentBtnProps = () => ({
   title: "Create Appointment",
   type: "submit",
-  handleAction: handleClick,
+
   css: {
     customCss:
       "px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm cursor-pointer",
