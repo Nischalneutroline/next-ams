@@ -11,18 +11,16 @@ import { Appointment, Expense, User } from "./schemas";
 import { Button } from "./components/ui/button";
 import Tooltip from "@mui/material/Tooltip";
 import { AppointmentDataTableRowActions } from "./datatable-row-actions/appointmentdatatable-row-actions";
+import { capitalizeFirstChar } from "@/utils/utils";
+import { ServiceDataTableRowActions } from "./datatable-row-actions/servicedatatable-row-actions";
 const getRoleBadgeStyle = (role: string) => {
   switch (role) {
     case "admin":
-      return "bg-red-500/80";
-    case "editor":
       return "bg-blue-500/70";
+    case "superadmin":
+      return "bg-gray-500/70";
     case "user":
-      return "bg-gray-500/80";
-    case "manager":
-      return "bg-purple-500";
-    default:
-      return "bg-gray-400";
+      return "bg-green-500/70";
   }
 };
 
@@ -228,7 +226,7 @@ export const UserColumns: ColumnDef<User>[] = [
 
       return (
         <span
-          className={`px-4 py-1.5 rounded-full text-white text-sm font-medium ${
+          className={` py-1.5 min-w-[120px] text-center inline-block rounded-full text-white text-sm font-medium ${
             isActive ? "bg-green-500/70" : "bg-yellow-400/60"
           }`}
         >
@@ -247,11 +245,11 @@ export const UserColumns: ColumnDef<User>[] = [
 
       return (
         <span
-          className={` py-1.5 min-w-[75px] text-center inline-block rounded-full text-white text-sm font-medium ${getRoleBadgeStyle(
-            role
+          className={` py-1.5 min-w-[135px] text-center inline-block rounded-full text-white text-sm font-medium ${getRoleBadgeStyle(
+            role.toLocaleLowerCase()
           )}`}
         >
-          {role}
+          {capitalizeFirstChar(role.toLocaleLowerCase())}
         </span>
       );
     },
@@ -323,6 +321,7 @@ export const AppointmentColumns: ColumnDef<Appointment>[] = [
         SCHEDULED: "bg-blue-500/70",
         MISSED: "bg-red-500/70",
         CANCELLED: "bg-gray-500/70",
+        COMPLETED: "bg-green-500/70",
       };
 
       return (
@@ -467,6 +466,17 @@ export const ServiceColumns: ColumnDef<User>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      const description = row.getValue("description") as string;
+
+      return (
+        <Tooltip title={description} placement="top" arrow>
+          <div className="max-w-[180px] truncate text-ellipsis overflow-hidden whitespace-nowrap cursor-pointer">
+            {description}
+          </div>
+        </Tooltip>
+      );
+    },
   },
   {
     accessorKey: "estimatedDuration",
@@ -484,7 +494,7 @@ export const ServiceColumns: ColumnDef<User>[] = [
 
   {
     id: "actions",
-    cell: ({ row }) => <AppointmentDataTableRowActions row={row} />,
+    cell: ({ row }) => <ServiceDataTableRowActions row={row} />,
   },
 ];
 

@@ -35,6 +35,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import AppointmentForm from "../../forms/admin/AppointmentForm";
 import { createAppointment, retriveUsers } from "@/state/admin/AdminServices";
 import { AdminAppointmentFormSchema } from "@/state/admin/admin";
+import {
+  formContainerCss,
+  formSubTitleCss,
+  formTitleCss,
+  formTitleDivCss,
+} from "@/features/shared-features/form/props";
 
 const AddAppointmentForm = () => {
   // Redux Variable
@@ -52,14 +58,16 @@ const AddAppointmentForm = () => {
 
   // Submit handler
   const onSubmit = (data: AdminAppointmentFormSchema) => {
+    console.log(errors, "Error");
     console.log("Form Submitted:", data);
     const updatedData = {
       ...data,
       userId: data.createdById,
     };
     console.log(updatedData, "transformedData");
-    // dispatch(createAppointment(data));
+    dispatch(createAppointment(data));
     reset();
+    dispatch(setAddAppointmentFormTrue(false));
   };
 
   //  Ref for closing modal on outside click
@@ -140,8 +148,25 @@ const AddAppointmentForm = () => {
   ];
 
   const formObj: any = {
-    customerName: {
-      common: customerNameProps({}),
+    firstName: {
+      common: customerNameProps({
+        input: "firstName",
+        label: "First Name",
+        type: "text",
+        placeholder: "Enter Customer First Name",
+        showImportant: true,
+      }),
+      ...remaining,
+    },
+    lastName: {
+      common: customerNameProps({
+        input: "lastName",
+        label: "Last Name",
+        type: "text",
+        placeholder: "Enter Customer Last Name",
+        showImportant: true,
+        icon: <></>,
+      }),
       ...remaining,
     },
     email: {
@@ -152,7 +177,7 @@ const AddAppointmentForm = () => {
       common: phoneProps({}),
       ...remaining,
     },
-    status: { common: statusProps({}), options: status, ...remaining },
+
     serviceId: {
       common: serviceIdProps({}),
       options: serviceOptions,
@@ -163,12 +188,7 @@ const AddAppointmentForm = () => {
       ...remaining,
     },
     selectedTime: { common: selectedTimeProps({}), ...remaining },
-    createdById: {
-      common: createdByIdProps({}),
-      options: createdByOptions,
-      ...remaining,
-    },
-    isForSelf: { common: isForSelfProps({}), ...remaining },
+
     message: { common: messageProps({}), ...remaining },
   };
   useEffect(() => {
@@ -207,27 +227,13 @@ const AddAppointmentForm = () => {
             animate={{ y: 0, scale: [0.9, 1.02, 1] }}
             exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="h-[90%] sm:h-[80%] lg:h-[80%] lg:pb-8 w-[90%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto scrollbar"
+            className={formContainerCss}
           >
-            <div className="relative h-[120px] lg:h-[140px] bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-items-center  py-2 gap-2 px-4">
-              <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0 pt-3">
-                <PersonAddAltIcon
-                  sx={{
-                    fontSize: {
-                      xs: "20px",
-                      sm: "22px",
-                      lg: "24px",
-                      xl: "28px",
-                    },
-                  }}
-                />
-                <div className="text-[16px] sm:text-[18px] md:text-[20px] 2xl:text-[32px] font-normal lg:font-semibold ">
-                  Add New Appointment
-                </div>
-              </div>
-              <div className="flex justify-center text-center text-[11px] sm:text-[13px] lg:text-[14px] text-[#455A64]">
-                You’re creating an account on behalf of a user. Please ensure
-                accuracy. ⚠️
+            <div className={formTitleDivCss}>
+              <div className={formTitleCss}>Appointment Details</div>
+              <div className={formSubTitleCss}>
+                Fill out the form below to schedult an appointment on for
+                customer. Review all details before submitting.
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
@@ -236,6 +242,7 @@ const AddAppointmentForm = () => {
                 <CloseIcon />
               </div>
             </div>
+
             <AppointmentForm formObj={formObj} form={form} />
           </motion.div>
         </CenterSection>

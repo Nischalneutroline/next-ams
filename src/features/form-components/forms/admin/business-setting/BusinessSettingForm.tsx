@@ -15,7 +15,10 @@ import {
 } from "@/features/shared-features/form/formporps";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "@/state/store";
-import { setAddNotificationFormTrue } from "@/state/admin/AdminSlice";
+import {
+  setAddBusinessFormTrue,
+  setAddNotificationFormTrue,
+} from "@/state/admin/AdminSlice";
 import Button from "@/features/shared-features/common/button";
 import SelectInput from "@/features/shared-features/form/selectinput";
 import { ReminderCheckboxes } from "@/features/shared-features/form/remindercheckerinput";
@@ -23,10 +26,12 @@ import TextInput from "@/features/shared-features/form/inputtext";
 import {
   DateInput,
   DaysSelection,
+  HoliDaysSelection,
   TimeInput,
 } from "@/features/shared-features/form/dayinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
+import { createBusiness } from "@/state/admin/AdminServices";
 
 const BusinessSettingForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
@@ -36,7 +41,49 @@ const BusinessSettingForm = () => {
 
   // Submit handler
   const onSubmit = (data: any) => {
-    console.log("Transformed data:", data);
+    const businessTransformed = {
+      name: data.businessName,
+      industry: data.category,
+      email: data.email,
+      phone: data.phoneNumber,
+      website: `https://${data.website}`,
+      businessRegistrationNumber: data.registrationNumber,
+      status: data.status,
+      address: [
+        {
+          street: data.street,
+          city: data.city,
+          country: data.country,
+          zipCode: data.zipCode,
+          googleMap: data.googleMap,
+        },
+      ],
+      businessAvailability: data.businessAvailability.map(
+        (availability: any) => ({
+          weekDay: availability.weekDay,
+          type: "GENERAL", // or dynamic if applicable
+          timeSlots: availability.timeSlots.map((slot: any) => ({
+            startTime: new Date(
+              `2025-03-01T${slot.startTime}:00.000Z`
+            ).toISOString(),
+            endTime: new Date(
+              `2025-03-01T${slot.endTime}:00.000Z`
+            ).toISOString(),
+          })),
+        })
+      ),
+      holiday: data.holiday.map((day: string) => ({
+        holiday: day,
+        type: "GENERAL",
+        date: new Date().toISOString(), // Optional: You can customize the date logic here
+      })),
+    };
+
+    // console.log("Transformed Data:", businessTransformed);
+
+    dispatch(createBusiness(businessTransformed));
+    reset();
+    dispatch(setAddBusinessFormTrue(false));
   };
 
   // React-hook-form with Zod validation
@@ -71,6 +118,16 @@ const BusinessSettingForm = () => {
     { label: "Email", value: "Email" },
     { label: "SMS", value: "SMS" },
   ];
+  const industryOptions = [
+    { label: "Salon & Spa", value: "Salon & Spa" },
+    { label: "Medical & Health", value: "Medical & Health" },
+    { label: "Automotive Services", value: "Automotive Services" },
+    { label: "Home Repair & Maintenance", value: "Home Repair & Maintenance" },
+    { label: "Fitness & Wellness", value: "Fitness & Wellness" },
+    { label: "Education & Training", value: "Education & Training" },
+    { label: "Legal & Consulting", value: "Legal & Consulting" },
+    { label: "IT Services", value: "IT Services" },
+  ];
 
   const priorityLevelOptions = [
     { label: "Low", value: "LOW" },
@@ -78,6 +135,22 @@ const BusinessSettingForm = () => {
     { label: "High", value: "HIGH" },
     { label: "Urgent", value: "URGENT" },
   ];
+  const statusOptions = [
+    { label: "Active", value: "ACTIVE" },
+    { label: "Inactive", value: "INACTIVE" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Suspended", value: "SUSPENDED" },
+  ];
+  const weekOptions = [
+    { label: "Mon", value: "MONDAY" },
+    { label: "Tue", value: "TUESDAY" },
+    { label: "Wed", value: "WEDNESDAY" },
+    { label: "Thu", value: "THURSDAY" },
+    { label: "Fri", value: "FRIDAY" },
+    { label: "Sat", value: "SATURDAY" },
+    { label: "Sun", value: "SUNDAY" },
+  ];
+
   const formObj: any = {
     businessName: {
       common: emptyFormProps({
@@ -96,7 +169,7 @@ const BusinessSettingForm = () => {
         showImportant: true,
         type: "select",
       }),
-      options: notificationOptions,
+      options: industryOptions,
       ...remaining,
     },
     phoneNumber: {
@@ -152,7 +225,6 @@ const BusinessSettingForm = () => {
         type: "text",
         showImportant: true,
       }),
-
       ...remaining,
     },
     street: {
@@ -208,13 +280,15 @@ const BusinessSettingForm = () => {
       }),
       ...remaining,
     },
-    tax_eid_pin: {
+    status: {
       common: emptyFormProps({
-        input: "tax_eid_pin",
-        label: "Tax ID / EIN / PAN",
-        placeholder: "Enter your Tax ID / EIN / PAN document",
+        input: "status",
+        label: "Business Status",
+        placeholder: "Select your current business Status",
         showImportant: true,
       }),
+      options: statusOptions,
+
       ...remaining,
     },
     businessLogo: {
@@ -226,26 +300,38 @@ const BusinessSettingForm = () => {
       }),
       ...remaining,
     },
-    visibility: {
+    businessAvailability: {
       common: emptyFormProps({
-        input: "visibility",
-        label: "Visibility",
-        placeholder: "Select Visibility",
+        input: "businessAvailability",
+        label: "Business Availability",
+        placeholder: "Enter the business time",
         showImportant: true,
       }),
-      options: priorityLevelOptions,
+
+      ...remaining,
+      css: { divCss: "min-h-[150px] gap-y-4" },
+    },
+    holiday: {
+      common: emptyFormProps({
+        input: "holiday",
+        label: "Holiday",
+
+        showImportant: true,
+      }),
+      options: weekOptions,
       ...remaining,
     },
   };
   const handleCancleButton = () => {
-    dispatch(setAddNotificationFormTrue(false));
+    dispatch(setAddBusinessFormTrue(false));
   };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full gap-4"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 text-black">
+        <div className="font-bold text-[20px] px-4">Business Details</div>
         <div className="grid grid-cols-2">
           <div className="col-span-1">
             <TextInput {...formObj.businessName} />
@@ -254,59 +340,37 @@ const BusinessSettingForm = () => {
             <SelectInput {...formObj.category} />
           </div>
         </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.email} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.phoneNumber} />
-          </div>
+        <div className="grid grid-cols-3">
+          <TextInput {...formObj.email} />
+          <TextInput {...formObj.website} />
+          <TextInput {...formObj.phoneNumber} />
         </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.website} />
-          </div>
+        <div className="font-bold text-[20px] px-4">Address and Location</div>
+
+        <div className="grid grid-cols-4">
+          <TextInput {...formObj.country} />
+          <TextInput {...formObj.state} />
+          <TextInput {...formObj.street} />
+          <TextInput {...formObj.city} />
         </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.country} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.state} />
-          </div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.street} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.city} />
-          </div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.zipCode} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.googleMap} />
-          </div>
+
+        <div className="grid grid-cols-4">
+          <TextInput {...formObj.zipCode} />
+          <div></div>
+
+          <TextInput {...formObj.googleMap} />
         </div>
         <div className="grid grid-cols-2">
           <div className="col-span-1">
             <TextInput {...formObj.registrationNumber} />
           </div>
           <div className="col-span-1">
-            <TextInput {...formObj.tax_eid_pin} />
+            <SelectInput {...formObj.status} />
           </div>
         </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.businessLogo} />
-          </div>
-          <div className="col-span-1">
-            <SelectInput {...formObj.visibility} />
-          </div>
-        </div>
+        <DayAndTimeSelection {...formObj.businessAvailability} />
+
+        <HoliDaysSelection {...formObj.holiday} />
       </div>
 
       <div className=" flex mb-4 w-full justify-center gap-4">

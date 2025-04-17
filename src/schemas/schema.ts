@@ -54,6 +54,8 @@ export type CommonInputSchema = {
     ref?: any;
     leftLabel?: string;
     rightLabel?: string;
+    disabledValues?: any;
+    format?: string;
   };
 };
 

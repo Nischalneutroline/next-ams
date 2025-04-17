@@ -1,33 +1,33 @@
-import { NextRequest, NextResponse } from "next/server"
-import { businessDetailSchema } from "@/features/business-detail/schemas/schema"
-import { BusinessDetail } from "@/features/business-detail/types/types"
-import { ZodError } from "zod"
+import { NextRequest, NextResponse } from "next/server";
+import { businessDetailSchema } from "@/features/business-detail/schemas/schema";
+import { BusinessDetail } from "@/features/business-detail/types/types";
+import { ZodError } from "zod";
 import {
   BusinessStatus,
   WeekDays,
   HolidayType,
   AvailabilityType,
-} from "@/features/business-detail/types/types"
-import { prisma } from "@/lib/prisma"
-import { getBusinessDetailById } from "@/db/businessDetail"
+} from "@/features/business-detail/types/types";
+import { prisma } from "@/lib/prisma";
+import { getBusinessDetailById } from "@/db/businessDetail";
 
 // Create a new business detail
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const parsedData = businessDetailSchema.parse(body)
+    const body = await req.json();
+    const parsedData = businessDetailSchema.parse(body);
 
     // create business in prisma
 
     const existingBusiness = await prisma.businessDetail.findUnique({
       where: { email: parsedData.email },
-    })
+    });
 
     if (existingBusiness) {
       return NextResponse.json(
         { error: "Business with this email already exists!" },
         { status: 400 }
-      )
+      );
     }
 
     const newBusiness = await prisma.businessDetail.create({
@@ -77,30 +77,30 @@ export async function POST(req: NextRequest) {
         },
         holiday: true,
       },
-    })
+    });
 
     if (!newBusiness) {
       return NextResponse.json(
         { error: "Failed to create business" },
         { status: 500 }
-      )
+      );
     }
 
     return NextResponse.json(
       { message: "Business created successfully!", business: newBusiness },
       { status: 201 }
-    )
+    );
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: "Validation failed", details: error.errors[0].message },
         { status: 400 }
-      )
+      );
     }
     return NextResponse.json(
       { error: "Internal server error", detail: error },
       { status: 500 }
-    )
+    );
   }
 }
 
@@ -117,41 +117,41 @@ export async function GET() {
         },
         holiday: true,
       },
-    })
+    });
 
     if (businessDetails.length === 0) {
       return NextResponse.json(
         { error: "No business details found" },
         { status: 404 }
-      )
+      );
     }
 
-    return NextResponse.json(businessDetails, { status: 200 })
+    return NextResponse.json(businessDetails, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch business details" },
       { status: 500 }
-    )
+    );
   }
 }
 
 // Update an existing business detail
 export async function PUT(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { id } = body
+    const body = await req.json();
+    const { id } = body;
 
     if (!id) {
       return NextResponse.json(
         { error: "Business ID is required" },
         { status: 400 }
-      )
+      );
     }
 
-    const parsedData = businessDetailSchema.parse(body)
+    const parsedData = businessDetailSchema.parse(body);
 
     // Log parsed data for debugging
-    console.log("Parsed Data:", JSON.stringify(parsedData, null, 2))
+    console.log("Parsed Data:", JSON.stringify(parsedData, null, 2));
 
     const updatedBusiness = await prisma.businessDetail.update({
       where: { id },
@@ -245,64 +245,67 @@ export async function PUT(req: NextRequest) {
         },
         holiday: true,
       },
-    })
+    });
 
     return NextResponse.json(
       { message: "Business updated successfully", data: updatedBusiness },
       { status: 200 }
-    )
+    );
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: "Validation failed", details: error.errors[0].message },
         { status: 400 }
-      )
+      );
     }
-    console.error("Prisma Error:", error) // Log the full error for debugging
+    console.error("Prisma Error:", error); // Log the full error for debugging
     return NextResponse.json(
       { error: "Internal server error", detail: error },
       { status: 500 }
-    )
+    );
   }
 }
 
 // Delete a business detail
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json()
+    const { id } = await req.json();
 
     if (!id) {
       return NextResponse.json(
         { error: "Business ID is required" },
         { status: 400 }
-      )
+      );
     }
 
-    const existingBusiness = await getBusinessDetailById(id)
+    const existingBusiness = await getBusinessDetailById(id);
 
     if (!existingBusiness) {
-      return NextResponse.json({ error: "Business not found" }, { status: 404 })
+      return NextResponse.json(
+        { error: "Business not found" },
+        { status: 404 }
+      );
     }
 
     const deletedBusiness = await prisma.businessDetail.delete({
       where: { id },
-    })
+    });
 
     if (!deletedBusiness) {
       return NextResponse.json(
         { error: "Business couldn't be deleted" },
         { status: 404 }
-      )
+      );
     }
 
     return NextResponse.json(
       { message: "Business deleted successfully" },
       { status: 200 }
-    )
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to delete business", detail: error },
       { status: 500 }
-    )
+    );
   }
 }

@@ -11,15 +11,15 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -34,9 +34,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={poppins.variable}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden `}
-        >
+        <body className={` antialiased overflow-x-hidden `}>
           <StoreProvider>{children}</StoreProvider>
         </body>
       </html>

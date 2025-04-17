@@ -41,7 +41,7 @@ export interface Service {
   title: string; // Required
   description: string; // Required
   estimatedDuration: number; // Required (in minutes)
-  status?: Status; // Optional, defaults to ACTIVE
+  status?: string; // Optional, defaults to ACTIVE
   serviceAvailability?: ServiceAvailability[]; // Optional
   resourceId?: string; // Optional (if linked to a resource)
 }
@@ -201,7 +201,6 @@ export interface Appointment {
 }
 
 // Interface for Resource (simplified version for reference)
-
 const dummyAppointment = {
   customerName: "John Doe",
   email: "john.doe@example.com",

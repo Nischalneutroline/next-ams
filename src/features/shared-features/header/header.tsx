@@ -43,7 +43,7 @@ const Header = (props: HeaderProps) => {
 
   return (
     <motion.div
-      className="relative h-[80px] lg:min-h-[376px] bg-[#287AFF] rounded-b-[12px]"
+      className="relative h-[80px] lg:min-h-[376px] bg-[#287AFF] rounded-b-[12px] w-full"
       initial={false}
       animate={isFlag ? "compressed" : "expanded"}
     >

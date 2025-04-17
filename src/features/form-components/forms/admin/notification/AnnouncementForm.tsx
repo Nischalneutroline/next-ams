@@ -33,11 +33,41 @@ const AnnouncementForm = () => {
 
   // Submit handler
   const onSubmit = (data: any) => {
-    const notification = data.notification; // Make sure this exists
+    const scheduledTime = data.scheduledTime || {};
+
+    const expiryReminder = data.expiryReminder?.[0]?.method || "THIRTY_DAYS";
+    const showOn = data.showOn?.[0]?.method || "BANNER";
+    const hasDate = scheduledTime?.date;
+    const hasTime = scheduledTime?.time;
+
+    let scheduledAt: string | null = null;
+
+    const isValidDate = (val: any) =>
+      typeof val === "string" && val.trim().length > 0;
+    const isValidTime = (val: any) =>
+      typeof val === "string" && val.trim().length > 0;
+
+    const isImmediate = !(isValidDate(hasDate) && isValidTime(hasTime));
+
+    if (!isImmediate) {
+      const isoString = new Date(`${hasDate}T${hasTime}`);
+      if (!isNaN(isoString.getTime())) {
+        scheduledAt = isoString.toISOString();
+      } else {
+        console.error("Invalid date/time:", hasDate, hasTime);
+      }
+    }
+
     const transformedData = {
-      ...data,
+      title: data.title,
+      description: data.description || "",
+      message: data.message || "",
+      audience: data.targetAudience || "ALL",
+      isImmediate,
+      scheduledAt,
+      showOn,
+      expiredAt: expiryReminder,
       type: reminderType,
-      notification: prepareNotification(notification),
     };
 
     console.log("Transformed data:", transformedData);
@@ -283,7 +313,7 @@ const AnnouncementForm = () => {
       </div>
       <TextInput {...formObj.title} />
       <TextInput {...formObj.description} />
-      <CheckboxInput {...formObj.targetAudience} />
+      <CheckboxInput {...formObj.targetAudience} selectionType="single" />
 
       <div className="grid grid-cols-2">
         <div className="cols-span-1">
@@ -294,9 +324,12 @@ const AnnouncementForm = () => {
           <SelectInput {...formObj.host} />
         </div>
       </div>
-      <CheckboxWithSchedule {...formObj.announcement} />
+      <CheckboxWithSchedule {...formObj.announcement} selectionType="single" />
       <CheckboxWithSchedule {...formObj.showOn} />
-      <CheckboxWithSchedule {...formObj.expiryReminder} />
+      <CheckboxWithSchedule
+        {...formObj.expiryReminder}
+        selectionType="single"
+      />
 
       {/* <DaysSelection {...formObj.notification} /> */}
       {/* <ReminderCheckboxes {...formObj.reminderOffset} /> */}

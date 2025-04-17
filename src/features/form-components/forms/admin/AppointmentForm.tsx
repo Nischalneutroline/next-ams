@@ -13,6 +13,10 @@ import { setAddAppointmentFormTrue } from "@/state/admin/AdminSlice";
 import { DateInput, TimeInput } from "@/features/shared-features/form/dayinput";
 import { useAppDispatch } from "@/state/store";
 import ControllerSelectInput from "@/features/shared-features/form/selectContollerInput";
+import {
+  formOuterDivCss,
+  formSubmitDivCss,
+} from "@/features/shared-features/form/props";
 
 const AppointmentForm = (props: any) => {
   const { formObj, form } = props;
@@ -26,25 +30,22 @@ const AppointmentForm = (props: any) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="relative flex flex-col gap-2 sm:gap-4 px-4"
-    >
-      <TextInput {...formObj.customerName} />
-      <TextInput {...formObj.email} />
-      <TextInput {...formObj.phone} />
-      <SelectInput {...formObj.createdById} />
-      <SwitchInput {...formObj.isForSelf} />
-      <div className="flex justify-between items-center">
+    <form onSubmit={handleSubmit(onSubmit)} className={formOuterDivCss}>
+      <div className="flex flex-col sm:gap-2 ">
+        <div className="flex flex-row">
+          <TextInput {...formObj.firstName} />
+          <TextInput {...formObj.lastName} />
+        </div>
+        <TextInput {...formObj.email} />
+        <TextInput {...formObj.phone} />
         <SelectInput {...formObj.serviceId} />
-        <SelectInput {...formObj.status} />
+        <div className="flex flex-col sm:flex-row justify-between items-center">
+          <DateInput {...formObj.selectedDate} />
+          <TimeInput {...formObj.selectedTime} />
+        </div>
+        <TextInput {...formObj.message} />
       </div>
-      <div className="flex justify-between items-center">
-        <DateInput {...formObj.selectedDate} />
-        <TimeInput {...formObj.selectedTime} />
-      </div>
-      <TextInput {...formObj.message} />
-      <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
+      <div className={formSubmitDivCss}>
         <Button {...cancelBtnProps(handleCancleButton)} />
         <Button {...addAppointmentBtnProps()} />
       </div>

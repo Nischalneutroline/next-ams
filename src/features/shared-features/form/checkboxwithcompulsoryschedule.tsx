@@ -4,6 +4,8 @@ import { DateInput, TimeInput } from "./dayinput";
 import { formDivCss, formErrorCss, formLabelCss } from "./props";
 import { getFormErrorMsg } from "@/utils/utils";
 import { InputSchema } from "@/schemas/schema";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 type CheckboxOption = {
   label: string;
@@ -17,7 +19,7 @@ interface GenericCheckboxWithScheduleProps extends InputSchema {
   scheduleField?: string; // e.g., "scheduledTime"
 }
 
-export const CheckboxWithSchedule = ({
+export const CheckboxWithCompulsorySchedule = ({
   options,
   common,
   css,
@@ -64,12 +66,8 @@ export const CheckboxWithSchedule = ({
     }
   }, [selected, scheduleDate, scheduleTime, input, scheduleField, setValue]);
 
-  const hasSchedule = options.some(
-    (opt) => opt.showSchedule && selected.includes(opt.value)
-  );
-
   return (
-    <div className={`${finalDivCss} ${hasSchedule ? "min-h-[212px]" : ""}`}>
+    <div className={`${finalDivCss}  min-h-[160px] px-4 space-y-2`}>
       {label && (
         <label className={finalLabelCss}>
           {icon} {label}
@@ -106,27 +104,51 @@ export const CheckboxWithSchedule = ({
         ))}
       </div>
 
-      {hasSchedule && (
-        <div className="flex gap-4 pt-2">
-          <DateInput
+      <div className="w-full flex justify-center">
+        <div className="flex gap-4 w-8/12">
+          <TimeInput
             common={{
-              input: `${scheduleField}.date`,
-              label: "Date",
-              placeholder: "Select a date",
+              input: `${scheduleField}.startTime`,
+              label: "Start",
+              placeholder: "Select a time",
               showImportant: true,
+              icon: (
+                <AccessTimeIcon
+                  className="text-[#6C757D]"
+                  sx={{
+                    fontSize: {
+                      xs: "16px",
+                      sm: "16px",
+                      lg: "16px",
+                    },
+                  }}
+                />
+              ),
             }}
             form={form}
             css={{}}
             actions={{
-              handleOnChange: (val: any) => setScheduleDate(val),
+              handleOnChange: (val: any) => setScheduleTime(val),
             }}
           />
           <TimeInput
             common={{
-              input: `${scheduleField}.time`,
-              label: "Time",
-              placeholder: "Pick time",
+              input: `${scheduleField}.endTime`,
+              label: "End",
+              placeholder: "Select a time",
               showImportant: true,
+              icon: (
+                <AccessTimeIcon
+                  className="text-[#6C757D]"
+                  sx={{
+                    fontSize: {
+                      xs: "16px",
+                      sm: "16px",
+                      lg: "16px",
+                    },
+                  }}
+                />
+              ),
             }}
             form={form}
             css={{}}
@@ -135,7 +157,7 @@ export const CheckboxWithSchedule = ({
             }}
           />
         </div>
-      )}
+      </div>
 
       {errorMsg && (
         <span className={`${formErrorCss} text-red-500 pt-1 text-sm`}>

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AdminAppointmentFormSchema, AdminCustomerFormSchema } from "./admin";
 import axios from "axios";
-import { User } from "@/data/structure";
+import { BusinessDetail, Service, User } from "@/data/structure";
 // Post User data
 export const createUser = createAsyncThunk(
   "admin/user/add",
@@ -9,7 +9,7 @@ export const createUser = createAsyncThunk(
     const transformed = {
       email: formData.email,
       password: formData.password,
-      name: formData.fullName,
+      name: formData.name,
       phone: formData.phone,
       role: formData.role.toUpperCase(),
       isActive: formData.isActive,
@@ -51,23 +51,48 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  "admin/deleteUser",
+
+  async (payload: {
+    createdAt: string;
+    emal: string;
+    id: string;
+    isActive: true;
+    lastActive: string;
+    name: string;
+    password: string;
+    phone: string;
+    role: string;
+    updatedAt: string;
+  }) => {
+    const { updatedAt, lastActive, createdAt, ...transformedData } = payload;
+    console.log("Deleting appointment with payload:", transformedData);
+    const response = await axios.delete(`/api/user`, {
+      data: transformedData, // 👈 this is required to pass body in DELETE request
+    });
+    return response.data;
+  }
+);
+
 // Appointment Serivces
 
 export const createAppointment = createAsyncThunk(
   "admin/appointment/add",
   async (formData: AdminAppointmentFormSchema, { rejectWithValue }) => {
+    console.log(formData);
     const transformed = {
-      customerName: formData.customerName,
+      customerName: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       phone: formData.phone,
-      status: formData.status,
       serviceId: formData.serviceId,
       selectedDate: formData.selectedDate,
       selectedTime: formData.selectedTime,
-      createdById: formData.createdById,
-      isForSelf: formData.isForSelf,
       message: formData.message,
-      user: formData.user,
+      userId: "cm9gu8ms60000vdg0zdnsxb6z",
+      isForSelf: false,
+      bookedById: "cm9gu8ms60000vdg0zdnsxb6z",
+      createdById: "cm9gu8ms60000vdg0zdnsxb6z",
     };
     console.log("Transformed Data:", transformed);
     try {
@@ -93,12 +118,10 @@ export const retriveAppointment = createAsyncThunk(
 );
 export const updateAppointment = createAsyncThunk(
   "admin/updateAppointment",
-  async (payload: any & { id: string }) => {
-    console.log(payload, "inside Service");
-    const { resourceId, ...updatedPayload } = payload;
-
-    console.log("Transformed Data (without resourceId):", updatedPayload);
-    const response = await axios.put(`/api/appointment`, updatedPayload);
+  async (formData: any & { id: string }) => {
+    console.log(formData, "inside Service");
+    const { resourceId, ...payload } = formData;
+    const response = await axios.put(`/api/appointment`, payload);
     return response.data;
   }
 );
@@ -131,6 +154,19 @@ export const deleteAppointment = createAsyncThunk(
   }
 );
 
+export const createService = createAsyncThunk(
+  "admin/business/add",
+  async (formData: Service, { rejectWithValue }) => {
+    console.log("Transformed Data:", formData);
+    try {
+      const res = await axios.post("/api/service", formData);
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      return rejectWithValue(err.response.data || err.message);
+    }
+  }
+);
 // Services Serivces
 export const retriveService = createAsyncThunk(
   "admin/service/view", // action type
@@ -140,6 +176,40 @@ export const retriveService = createAsyncThunk(
       const response = await axios.get(`/api/service`);
       return response.data;
     } catch (err: any) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+export const updateService = createAsyncThunk(
+  "admin/updateService",
+  async (formData: any) => {
+    console.log(formData, "inside Service");
+    const { resourceId, ...payload } = formData;
+    const response = await axios.put(`/api/service`, payload);
+    return response.data;
+  }
+);
+export const createBusiness = createAsyncThunk(
+  "admin/business/add",
+  async (formData: BusinessDetail, { rejectWithValue }) => {
+    console.log("Transformed Data:", formData);
+    try {
+      const res = await axios.post("/api/business-detail", formData);
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      return rejectWithValue(err.response.data || err.message);
+    }
+  }
+);
+export const retrieveBusiness = createAsyncThunk(
+  "admin/business/view",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/business-detail");
+      return response.data;
+    } catch (err: any) {
+      console.log(err);
       return rejectWithValue(err.response?.data || err.message);
     }
   }

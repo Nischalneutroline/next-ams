@@ -51,15 +51,21 @@ export function AppointmentDataTable<TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const { isSuccess } = useAppSelector(
-    (state: RootState) => state.admin.admin.user.add.response
+  const { isSuccess: addSuccess } = useAppSelector(
+    (state: RootState) => state.admin.admin.appointment.add.response
+  );
+  const { isSuccess: editSuccess } = useAppSelector(
+    (state: RootState) => state.admin.admin.appointment.edit.response
+  );
+  const { isSuccess: deleteSuccess } = useAppSelector(
+    (state: RootState) => state.admin.admin.appointment.delete.response
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(retriveAppointment());
     dispatch(retriveService());
-  }, [dispatch, isSuccess]);
+  }, [dispatch, addSuccess, editSuccess, deleteSuccess]);
 
   const { details } = useAppSelector(
     (state: RootState) => state.admin.admin.appointment.view.response
@@ -93,14 +99,14 @@ export function AppointmentDataTable<TValue>({
     <div className="space-y-4 lg:max-w-[calc(100vw-120px)]">
       <AppointmentDataTableToolbar table={table} />
 
-      <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-520px)] rounded-md border scrollbar ">
+      <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-601px)] rounded-md border scrollbar ">
         <Table className="min-w-full text-[11px] sm:text-[13px] lg:text-[14px]">
           <TableHeader className=" z-20 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
-                    className="px-2 py-1 md:py-2  text-center text-[12px] sm:text-[14px] lg:text-[16px] bg-slate-200"
+                    className="px-2 py-1 md:py-2  text-start text-[12px] sm:text-[14px] lg:text-[16px] bg-slate-200"
                     key={header.id}
                     colSpan={header.colSpan}
                   >
@@ -123,7 +129,7 @@ export function AppointmentDataTable<TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-2 py-2 text-center" key={cell.id}>
+                    <TableCell className="px-2 py-2 text-start" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -134,10 +140,7 @@ export function AppointmentDataTable<TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-start">
                   No results.
                 </TableCell>
               </TableRow>

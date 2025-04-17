@@ -13,19 +13,20 @@ import {
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
 import { useAppDispatch } from "@/state/store";
-import {
-  setEditCustomerFormTrue,
-  setEditCustomerId,
-} from "@/state/admin/AdminSlice";
-import { deleteUser } from "@/state/admin/AdminServices";
 
-interface CustomerDataTableRowActionsProps<TData> {
+import { deleteUser } from "@/state/admin/AdminServices";
+import {
+  setEditServiceFormTrue,
+  setEditServiceId,
+} from "@/state/admin/AdminSlice";
+
+interface SupportDataTableRowActionsProps<TData> {
   row: Row<TData> | any;
 }
 
-export function CustomerDataTableRowActions<TData>({
+export function ServiceDataTableRowActions<TData>({
   row,
-}: CustomerDataTableRowActionsProps<TData>) {
+}: SupportDataTableRowActionsProps<TData>) {
   // const task = taskSchema.parse(row.original);
 
   const dispatch = useAppDispatch();
@@ -44,8 +45,8 @@ export function CustomerDataTableRowActions<TData>({
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem
           onClick={() => {
-            dispatch(setEditCustomerId(row.original.id));
-            dispatch(setEditCustomerFormTrue(true));
+            dispatch(setEditServiceId(row.original.id));
+            dispatch(setEditServiceFormTrue(true));
           }}
         >
           Edit

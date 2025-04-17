@@ -1,28 +1,49 @@
 "use client";
 
-import { adminServiceSchema } from "@/schemas/validation/validationSchema";
+import {
+  AdminUserFormValues,
+  adminEditUserSchema,
+  adminServiceSchema,
+  adminUserSchema,
+} from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  cityProps,
   commonActions,
+  countryProps,
+  emailProps,
   emptyFormProps,
+  fullNameProps,
+  isActiveProps,
   messageProps,
+  phoneProps,
   roleProps,
+  streetProps,
+  zipCodeProps,
 } from "@/features/shared-features/form/formporps";
 import CenterSection from "@/features/shared-features/section/centersection";
-
+import UserForm from "../../forms/admin/UserForm";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
   setAddCustomerFormTrue,
   setAddServiceFormTrue,
+  setEditCustomerFormTrue,
+  setEditServiceFormTrue,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
-
+import {
+  createUser,
+  updateService,
+  updateUser,
+} from "@/state/admin/AdminServices";
+import { AdminCustomerFormSchema } from "@/state/admin/admin";
+import { passwordProps } from "../../../shared-features/form/formporps";
+import { IdCard } from "lucide-react";
 import ServiceForm from "../../forms/admin/ServiceForm";
-import { createService, retrieveBusiness } from "@/state/admin/AdminServices";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import {
   formContainerCss,
@@ -30,36 +51,50 @@ import {
   formTitleCss,
   formTitleDivCss,
 } from "@/features/shared-features/form/props";
-const AddServiceForm = () => {
+
+const EditServiceForm = () => {
   // Redux Variable
   const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
-    (state: RootState) => state.admin.admin.service.add
+    (state: RootState) => state.admin.admin.service.edit
+  );
+  const { isSuccess } = useAppSelector(
+    (state: RootState) => state.admin.admin.service.add.response
+  );
+  const { id: serviceId } = useAppSelector(
+    (state: RootState) => state.admin.platform.service._edit_ServiceForm
   );
 
-  //   const { isSuccess } = useAppSelector(
-  //     (state: RootState) => state.admin.admin.user.add.response
-  //   );
+  const { details } = useAppSelector(
+    (state: RootState) => state.admin.admin.service.view.response
+  );
+  const dataToEdit = details?.find((u: any) => u.id === serviceId);
+
   // Submit handler
   const onSubmit = (data: any) => {
     console.log(data, "on submit");
+
+    const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+
     const parsedData = {
+      id: serviceId,
       title: data.title,
       description: data.description,
       estimatedDuration: Number(data.estimatedDuration),
-      status: data?.avalability ? "ACTIVE" : "INACTIVE", // Or pull from `data.status` if available
-      businessDetailId: data.businessDetailId ?? "cm9gvwy4s0003vdg0f24wf178", // Add actual fallback or source
+      status: data?.availabilities ? "ACTIVE" : "INACTIVE",
+      businessDetailId: data.businessDetailId ?? "cm9gvwy4s0003vdg0f24wf178",
 
-      // Parse the weekly availability with time slots
-      serviceAvailability: data.serviceHourDay?.map((day: any) => ({
+      serviceHourDay: data.serviceHourDay?.map((day: any) => ({
         weekDay: day.weekDay,
         timeSlots: day.timeSlots?.map((slot: any) => ({
-          startTime: `1970-01-01T${slot.startTime}:00`,
-          endTime: `1970-01-01T${slot.endTime}:00`,
+          id: slot.id, // Include if editing existing slot
+          startTime: `${today}T${slot.startTime}:00`,
+          endTime: `${today}T${slot.endTime}:00`,
         })),
       })),
 
-      // Convert file object to JSON-compatible structure
+      serviceAvailability: data.serviceAvailability ?? [],
+
       coverPhoto: data.coverPhoto?.[0]
         ? {
             name: data.coverPhoto[0].name,
@@ -68,35 +103,15 @@ const AddServiceForm = () => {
             lastModified: data.coverPhoto[0].lastModified,
           }
         : null,
-
-      // If you still want to include availability toggle
     };
 
-    // const convertHHMMToISO = (time: string): string => {
-    //   const [hours, minutes] = time.split(":");
-    //   const date = new Date();
-    //   date.setHours(Number(hours), Number(minutes), 0, 0);
-    //   return date.toISOString();
-    // };
+    console.log(parsedData, "parsedData to send");
 
-    // const transformedData = {
-    //   ...data,
-    //   estimatedDuration: Number(data.estimatedDuration),
-    //   businessDetailId: data.businessDetailId ?? "your_fallback_id_here", // You can get this from selected business maybe
-    //   serviceAvailability: data.serviceAvailability.map((day: any) => ({
-    //     ...day,
-    //     timeSlots: day.timeSlots.map((slot: any) => ({
-    //       ...slot,
-    //       startTime: convertHHMMToISO(slot.startTime),
-    //       endTime: convertHHMMToISO(slot.endTime),
-    //     })),
-    //   })),
-    // };
-
-    dispatch(createService(parsedData));
+    dispatch(updateService(parsedData));
     reset();
-    dispatch(setAddServiceFormTrue(false));
+    dispatch(setEditServiceFormTrue(false));
   };
+
   const generateTimeDurations = (maxMinutes = 240, step = 10) => {
     const options = [];
     for (let min = step; min <= maxMinutes; min += step) {
@@ -111,7 +126,7 @@ const AddServiceForm = () => {
       }
 
       options.push({
-        value: Number(min),
+        value: min,
         label,
       });
     }
@@ -135,7 +150,7 @@ const AddServiceForm = () => {
     control,
   } = useForm({
     mode: "onSubmit",
-    resolver: zodResolver(adminServiceSchema),
+    // resolver: zodResolver(adminServiceSchema),
   });
 
   const form = {
@@ -171,7 +186,7 @@ const AddServiceForm = () => {
       common: roleProps({
         input: "title",
         label: "Service Title",
-
+        defaultValue: dataToEdit?.title,
         placeholder: "Enter Service Name",
         showImportant: true,
       }),
@@ -193,6 +208,7 @@ const AddServiceForm = () => {
         input: "description",
         label: "Description",
         type: "textbox",
+        defaultValue: dataToEdit?.description,
         placeholder: "Short description of this service",
         showImportant: true,
       }),
@@ -268,6 +284,7 @@ const AddServiceForm = () => {
         input: "availabilities",
         label: "Avaiability",
         showImportant: true,
+        defaultValue: dataToEdit?.status === "ACTIVE" ? true : false,
         icon: (
           <PersonSearchIcon
             className="text-[#6C757D]"
@@ -293,7 +310,7 @@ const AddServiceForm = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
         reset();
-        dispatch(setAddServiceFormTrue(false));
+        dispatch(setEditCustomerFormTrue(false));
       }
     };
     if (isFlag) {
@@ -320,13 +337,13 @@ const AddServiceForm = () => {
             className={formContainerCss}
           >
             <div className={formTitleDivCss}>
-              <div className={formTitleCss}>Service Details</div>
+              <div className={formTitleCss}>Edit Service Details</div>
               <div className={formSubTitleCss}>
                 Manage and Cusotmize your offered services.
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setAddServiceFormTrue(false))}
+                onClick={(e: any) => dispatch(setEditServiceFormTrue(false))}
               >
                 <CloseIcon />
               </div>
@@ -339,4 +356,4 @@ const AddServiceForm = () => {
   );
 };
 
-export default AddServiceForm;
+export default EditServiceForm;

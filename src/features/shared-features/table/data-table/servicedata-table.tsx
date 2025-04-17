@@ -111,7 +111,7 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-2 py-2 text-center" key={cell.id}>
+                    <TableCell className="px-2 py-2 text-start" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -122,10 +122,7 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-start">
                   No results.
                 </TableCell>
               </TableRow>

@@ -100,7 +100,7 @@ export function DayAndTimeSelection(props: any) {
         const selectedDaySlots = getDayData(currentDay).timeSlots;
 
         return (
-          <div className={finalDivCss}>
+          <div className={`${finalDivCss} px-4 pb-2 space-y-2`}>
             {label && (
               <label className={finalLabelCss} htmlFor={input}>
                 {icon && icon} {label}
@@ -109,13 +109,13 @@ export function DayAndTimeSelection(props: any) {
             )}
 
             {/* Day Buttons */}
-            <div className="flex gap-6  mb-4">
+            <div className="grid grid-cols-3 sm:flex gap-8  mb-4">
               {daysOfWeek.map((day) => (
                 <button
                   key={day.value}
                   type="button"
                   onClick={() => setCurrentDay(day.value)}
-                  className={`w-[100px] py-2 rounded-lg border text-[13px] font-medium transition-all ${
+                  className={`w-[80px] py-2 rounded-lg border text-[13px] font-medium transition-all ${
                     currentDay === day.value
                       ? "bg-blue-600 text-white border-blue-600"
                       : "bg-gray-100 border-gray-300 text-black/60 hover:bg-gray-200"
@@ -127,7 +127,7 @@ export function DayAndTimeSelection(props: any) {
             </div>
 
             {/* Time Slots Section */}
-            <div className="w-full max-w-md mx-auto p-4 space-y-3">
+            <div className="w-full max-w-md mx-auto space-y-2">
               {selectedDaySlots.length > 0 && (
                 <div className="flex items-center justify-between text-[12px] text-gray-500 font-medium px-1">
                   <span className="w-full">Start Time</span>
@@ -138,11 +138,11 @@ export function DayAndTimeSelection(props: any) {
               {selectedDaySlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="flex items-center justify-between gap-2"
+                  className="flex flex-col sm:flex-row gap-1 items-center justify-between gap-2"
                 >
                   <input
                     type="time"
-                    className="border rounded px-2 py-1 w-full h-8 text-black"
+                    className="border rounded-lg px-2 py-1 w-full h-6 sm:h-8 lg:h-10 text-black text-[12px] sm:text-[13px] lg:text-[14px]"
                     value={slot.startTime}
                     onChange={(e) =>
                       updateSlotValue(slot.id, "startTime", e.target.value)
@@ -151,7 +151,7 @@ export function DayAndTimeSelection(props: any) {
                   <span className="mx-2 text-gray-600">to</span>
                   <input
                     type="time"
-                    className="border rounded px-2 py-1 w-full h-8 text-black"
+                    className="border rounded-lg px-2 py-1 w-full h-6 sm:h-8 lg:h-10  text-black  text-[12px] sm:text-[13px] lg:text-[14px]"
                     value={slot.endTime}
                     onChange={(e) =>
                       updateSlotValue(slot.id, "endTime", e.target.value)
@@ -160,7 +160,7 @@ export function DayAndTimeSelection(props: any) {
                   {selectedDaySlots.length > 1 && (
                     <button
                       type="button"
-                      className="text-red-500 text-xl"
+                      className="text-red-500 text-[13px]"
                       onClick={() => removeTimeSlot(slot.id)}
                     >
                       ✕
@@ -169,7 +169,7 @@ export function DayAndTimeSelection(props: any) {
                   <button
                     type="button"
                     onClick={addTimeSlot}
-                    className="px-3 py-1 rounded bg-blue-500 text-white text-sm hover:bg-blue-600 transition-all"
+                    className="px-[6px] pb-[1px] rounded bg-blue-500 text-white text-[13px] hover:bg-blue-600 transition-all"
                   >
                     +
                   </button>

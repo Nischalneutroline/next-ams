@@ -33,13 +33,13 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("flex justify-center items-center", className)}>
+    <div className={cn("flex justify-start items-center", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className=" px-2 py-1 md:py-2 text-center text-[12px] text-[12px] sm:text-[14px] lg:text-[16px]  data-[state=open]:bg-accent"
+            className=" px-2 py-1 md:py-2 text-center text-[12px]  sm:text-[14px] lg:text-[15px]  data-[state=open]:bg-accent"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (

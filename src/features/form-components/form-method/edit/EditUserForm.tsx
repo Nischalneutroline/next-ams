@@ -2,6 +2,7 @@
 
 import {
   AdminUserFormValues,
+  adminEditUserSchema,
   adminUserSchema,
 } from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef } from "react";
@@ -54,15 +55,20 @@ const EditUserForm = () => {
 
   // Submit handler
   const onSubmit = (data: any, id: any) => {
-    console.log("After Onsubmit", data);
     const addressAddedData = {
       email: data.email,
       password: data.password,
-      name: data.fullName,
+      name: data.name,
       phone: data.phone,
       role: data.role.toUpperCase(),
       isActive: data.isActive,
-      };
+      // address: {
+      //   street: data.street,
+      //   city: data.city,
+      //   country: data.country,
+      //   zipCode: "46400",
+      // },
+    };
     const transformedData = { ...dataToEdit, ...addressAddedData };
 
     dispatch(updateUser(transformedData, id));
@@ -86,7 +92,7 @@ const EditUserForm = () => {
     control,
   } = useForm({
     mode: "onSubmit",
-    // resolver: zodResolver(adminUserSchema),
+    resolver: zodResolver(adminEditUserSchema),
   });
 
   const form = {
@@ -111,8 +117,11 @@ const EditUserForm = () => {
 
   const formObj: any = dataToEdit
     ? {
-        fullName: {
-          common: fullNameProps({ defaultValue: dataToEdit.name }),
+        name: {
+          common: fullNameProps({
+            input: "name",
+            defaultValue: dataToEdit.name,
+          }),
           ...remaining,
         },
         email: {

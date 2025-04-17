@@ -9,15 +9,26 @@ interface OptionType {
   value: string;
 }
 
-interface MultiCheckboxProps extends InputSchema {
+interface GenericCheckboxProps extends InputSchema {
   options: OptionType[];
+  selectionType?: "single" | "multiple"; // default = multiple
 }
 
-export const CheckboxInput = (props: MultiCheckboxProps) => {
-  const [selected, setSelected] = useState<string[]>([]);
-  const { options, common, css, form } = props;
+export const CheckboxInput = (props: GenericCheckboxProps) => {
+  const {
+    options,
+    selectionType = "multiple", // fallback to multiple
+    common,
+    css,
+    form,
+  } = props;
+
   const { input, label, showImportant, icon } = common;
   const { errors, setValue } = form;
+
+  const [selected, setSelected] = useState<string[]>(
+    selectionType === "multiple" ? [] : [""]
+  );
 
   const errorMsg = getFormErrorMsg(errors, input);
 
@@ -28,14 +39,20 @@ export const CheckboxInput = (props: MultiCheckboxProps) => {
   const isSelected = (val: string) => selected.includes(val);
 
   const toggleOption = (value: string) => {
-    setSelected((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
-    );
+    if (selectionType === "multiple") {
+      setSelected((prev) =>
+        prev.includes(value)
+          ? prev.filter((v) => v !== value)
+          : [...prev, value]
+      );
+    } else {
+      setSelected([value]); // only one can be selected
+    }
   };
 
   useEffect(() => {
-    setValue(input, selected);
-  }, [selected, setValue, input]);
+    setValue(input, selectionType === "multiple" ? selected : selected[0]);
+  }, [selected, setValue, input, selectionType]);
 
   return (
     <div className={finalDivCss}>
@@ -46,7 +63,7 @@ export const CheckboxInput = (props: MultiCheckboxProps) => {
         </label>
       )}
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="flex  gap-8">
         {options.map((opt) => (
           <div
             key={opt.value}

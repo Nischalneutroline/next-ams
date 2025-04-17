@@ -1,17 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
-import { InputSchema } from "@/schemas/schema";
+import { InputSchema, SelectInputSchema } from "@/schemas/schema";
 import { DateInput, TimeInput } from "./dayinput";
 import { formDivCss, formErrorCss, formInputCss, formLabelCss } from "./props";
 import { getFormErrorMsg } from "@/utils/utils";
 import dayjs from "dayjs";
 
-export const ReminderCheckboxes = (props: InputSchema) => {
+export const ReminderCheckboxes = (props: SelectInputSchema) => {
   const [selected, setSelected] = useState<string[]>([]);
   const [reminderDate, setReminderDate] = useState<string>("");
   const [reminderTime, setReminderTime] = useState<string>("");
 
-  const { common, actions, form, css } = props;
+  const { common, actions, form, css, options } = props;
   const { input, label, showImportant, icon, type } = common;
   const { errors, setValue } = form;
 
@@ -28,31 +28,7 @@ export const ReminderCheckboxes = (props: InputSchema) => {
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
-
-  const options = [
-    {
-      label: `48 hours ${
-        type === "REMINDER" || type === "CANCELLATION" ? "before" : "after"
-      } appointment`,
-      value: "email",
-      offset: 2880,
-    },
-    {
-      label: `24 hours ${
-        type === "REMINDER" || type === "CANCELLATION" ? "before" : "after"
-      } appointment`,
-      value: "sms",
-      offset: 1440,
-    },
-    {
-      label: `1 hours ${
-        type === "REMINDER" || type === "CANCELLATION" ? "before" : "after"
-      } appointment`,
-      value: "push",
-      offset: 60,
-    },
-    { label: "Schedule Reminder", value: "schedule", offset: null },
-  ];
+  console.log(options.map((options) => options));
   // 🔁 Update final reminderOffset structure
   useEffect(() => {
     const sendBeforeValue =

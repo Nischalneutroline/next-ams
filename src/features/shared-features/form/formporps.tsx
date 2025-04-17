@@ -2,6 +2,8 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { FormPropsValueType } from "@/schemas/GlobalSchema";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
 
 export const fullNameProps = ({
   input,
@@ -19,35 +21,41 @@ export const fullNameProps = ({
   showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
-    <PersonOutlineIcon
-      className="text-gray-400"
+    <PersonIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
   ),
 });
-export const customerNameProps = ({ defaultValue }: any) => ({
-  input: "customerName",
-  label: "Customer Name",
-  type: "text",
-  placeholder: "Enter Customer Name",
-  showImportant: true,
+export const customerNameProps = ({
+  input,
+  label,
+  type,
+  placeholder,
+  showImportant,
+  defaultValue,
+  icon,
+}: any) => ({
+  input: input ?? "customerName",
+  label: label ?? "Customer Name",
+  type: type ?? "text",
+  placeholder: placeholder ?? "Enter Customer Name",
+  showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
-  icon: (
-    <PersonOutlineIcon
-      className="text-gray-400"
+  icon: icon ?? (
+    <PersonIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -61,14 +69,13 @@ export const titleProps = ({ defaultValue }: any) => ({
   showImportant: true,
   defaultValue: defaultValue ?? "",
   icon: (
-    <PersonOutlineIcon
-      className="text-gray-400"
+    <PersonIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -91,14 +98,13 @@ export const createdByIdProps = ({
   showImportant: true,
   defaultValue: defaultValue ?? "",
   icon: (
-    <PersonOutlineIcon
-      className="text-gray-400"
+    <PersonIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -113,14 +119,13 @@ export const statusProps = ({ defaultValue }: any) => ({
   showImportant: true,
   defaultValue: defaultValue ?? "",
   icon: (
-    <PersonOutlineIcon
-      className="text-gray-400"
+    <PersonIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -142,14 +147,13 @@ export const emailProps = ({
   showImportant: showImportant ?? true,
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
-    <MailOutlineIcon
-      className="text-gray-400"
+    <EmailIcon
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -172,13 +176,12 @@ export const phoneProps = ({
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -201,13 +204,12 @@ export const cityProps = ({
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -222,13 +224,12 @@ export const streetProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -243,13 +244,12 @@ export const countryProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -265,13 +265,12 @@ export const zipCodeProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -294,13 +293,12 @@ export const roleProps = ({
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -324,13 +322,12 @@ export const reminderCheckerProps = ({
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -346,13 +343,12 @@ export const serviceIdProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -368,13 +364,12 @@ export const dateProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -389,13 +384,12 @@ export const selectedDateProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -410,13 +404,12 @@ export const timeProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -431,13 +424,12 @@ export const selectedTimeProps = ({ defaultValue }: any) => ({
   defaultValue: defaultValue ?? "",
   icon: (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -460,13 +452,12 @@ export const messageProps = ({
   defaultValue: defaultValue ?? "",
   icon: icon ?? (
     <LocalPhoneIcon
-      className="text-gray-400"
+      className="text-[#6C757D]"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "16px",
         },
       }}
     />
@@ -474,7 +465,7 @@ export const messageProps = ({
 });
 export const isActiveProps = ({ defaultValue }: any) => ({
   input: "isActive",
-  label: "isActive",
+  label: "Active",
   showImportant: false,
   defaultValue: defaultValue ?? true,
   icon: (
@@ -482,10 +473,9 @@ export const isActiveProps = ({ defaultValue }: any) => ({
       className="text-black"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -501,10 +491,9 @@ export const isForSelfProps = ({ defaultValue }: any) => ({
       className="text-black"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -515,6 +504,7 @@ export const passwordProps = ({ defaultValue }: any) => ({
   label: "Password",
   showImportant: true,
   placeholder: "Enter your password",
+
   showForgotPassword: false,
   defaultValue: defaultValue ?? "",
   icon: (
@@ -522,10 +512,9 @@ export const passwordProps = ({ defaultValue }: any) => ({
       className="text-black"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -543,10 +532,9 @@ export const dayInputProps = ({ defaultValue }: any) => ({
       className="text-black"
       sx={{
         fontSize: {
-          xs: "18px",
-          sm: "20px",
-          lg: "22px",
-          xl: "24px",
+          xs: "16px",
+          sm: "16px",
+          lg: "18px",
         },
       }}
     />
@@ -577,7 +565,7 @@ export const commonActions = {
 };
 
 export const addUserBtnProps = {
-  title: "Create",
+  title: "Create Customer",
   type: "submit",
   css: {
     customCss:
@@ -590,7 +578,16 @@ export const addAppointmentBtnProps = () => ({
 
   css: {
     customCss:
-      "px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm cursor-pointer",
+      "text-[11px] px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm cursor-pointer",
+  },
+});
+export const addServiceBtnProps = () => ({
+  title: "Create Service",
+  type: "submit",
+
+  css: {
+    customCss:
+      "text-[11px] px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm cursor-pointer",
   },
 });
 export const cancelBtnProps = (handleClick: () => void) => ({
@@ -600,5 +597,28 @@ export const cancelBtnProps = (handleClick: () => void) => ({
   css: {
     customCss:
       "px-4 py-2 flex gap-1 justify-center items-center bg-gradient-to-l from-gray-500 to-gray-700 text-white font-[700] text-[14px] rounded-sm",
+  },
+});
+
+export const defaultBtnProps = ({ availability, handleAction }: any) => ({
+  title: "Deafult",
+  type: "button",
+  onClick: handleAction,
+  css: {
+    customCss:
+      availability === "default"
+        ? "px-4 py-2 flex gap-1 justify-center items-center bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white font-[700] text-[14px] rounded-sm cursor-pointer"
+        : "px-4 py-2 flex gap-1 justify-center items-center bg-gray-200 text-gray-700 font-[700] text-[14px] rounded-sm cursor-pointer hover:bg-gray-300",
+  },
+});
+export const customBtnProps = ({ availability, handleAction }: any) => ({
+  title: "Custom",
+  type: "button",
+  onClick: handleAction,
+  css: {
+    customCss:
+      availability === "cancel"
+        ? "px-4 py-2 flex gap-1 justify-center items-center bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white font-[700] text-[14px] rounded-sm cursor-pointer"
+        : "px-4 py-2 flex gap-1 justify-center items-center bg-gray-200 text-gray-700 font-[700] text-[14px] rounded-sm cursor-pointer hover:bg-gray-300",
   },
 });

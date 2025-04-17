@@ -29,6 +29,12 @@ import { setAddCustomerFormTrue } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import { createUser } from "@/state/admin/AdminServices";
 import { AdminCustomerFormSchema } from "@/state/admin/admin";
+import {
+  formContainerCss,
+  formSubTitleCss,
+  formTitleCss,
+  formTitleDivCss,
+} from "@/features/shared-features/form/props";
 
 const AddUserForm = () => {
   // Redux Variable
@@ -41,7 +47,6 @@ const AddUserForm = () => {
   );
   // Submit handler
   const onSubmit = (data: any) => {
-    console.log(data);
     dispatch(createUser(data));
     reset();
     console.log(isSuccess);
@@ -88,8 +93,10 @@ const AddUserForm = () => {
   ];
 
   const formObj: any = {
-    fullName: {
-      common: fullNameProps({}),
+    name: {
+      common: fullNameProps({
+        input: "name",
+      }),
       ...remaining,
     },
     email: {
@@ -156,25 +163,11 @@ const AddUserForm = () => {
             animate={{ y: 0, scale: [0.9, 1.02, 1] }}
             exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="h-[90%] sm:h-[80%] lg:h-[95%] w-[90%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col overflow-y-auto"
+            className={formContainerCss}
           >
-            <div className="relative h-[120px] lg:h-[140px] bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-items-center  py-2 gap-2 px-4">
-              <div className="flex md:flex-col items-center justify-center gap-2 md:gap-0 pt-3">
-                <PersonAddAltIcon
-                  sx={{
-                    fontSize: {
-                      xs: "20px",
-                      sm: "22px",
-                      lg: "24px",
-                      xl: "28px",
-                    },
-                  }}
-                />
-                <div className="text-[16px] sm:text-[18px] md:text-[20px] 2xl:text-[32px] font-normal lg:font-semibold ">
-                  Add New User
-                </div>
-              </div>
-              <div className="flex justify-center text-center text-[11px] sm:text-[13px] lg:text-[14px] text-[#455A64]">
+            <div className={formTitleDivCss}>
+              <div className={formTitleCss}>Add New User</div>
+              <div className={formSubTitleCss}>
                 You’re creating an account on behalf of a user. Please ensure
                 accuracy. ⚠️
               </div>

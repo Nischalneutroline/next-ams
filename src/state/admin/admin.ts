@@ -13,7 +13,7 @@ export type ServiceType = {
 };
 // Define Form Schema
 export interface AdminCustomerFormSchema {
-  fullName: string;
+  name: string;
   email: string;
   phone: string | number;
   role: string;
@@ -26,17 +26,18 @@ export interface AdminCustomerFormSchema {
   zipCode: string;
 }
 export interface AdminAppointmentFormSchema {
-  customerName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
-  status: string;
+  status?: string;
   serviceId: string;
   selectedDate: string;
   selectedTime: string;
-  createdById: string | number;
-  isForSelf: boolean;
+  createdById?: string | number;
+  isForSelf?: boolean;
   message: string;
-  user: {
+  user?: {
     id: string;
     email: string;
     name: string;

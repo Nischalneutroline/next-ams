@@ -1,12 +1,15 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import AdminReducer from "./admin/AdminSlice";
+import AuthReducer from "./admin/AdminSlice";
+
 // Adjust path based on your structure
 
 export const store = () => {
   return configureStore({
     reducer: {
-      admin: AdminReducer, // Adding admin slice to the store
+      admin: AdminReducer,
+      auth: AuthReducer, // Adding admin slice to the store
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

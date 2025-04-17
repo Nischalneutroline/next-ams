@@ -19,6 +19,7 @@ import AddSupportAndFaq from "@/features/form-components/form-method/add/AddSupp
 import AddBusinessPage from "@/features/form-components/form-method/add/AddBusinessForm";
 import AddBusinessAvailabilityForm from "@/features/form-components/form-method/add/AddBusinessAvailabilityForm";
 import EditAppointmentForm from "@/features/form-components/form-method/edit/EditAppointment";
+import EditServiceForm from "@/features/form-components/form-method/edit/EditServiceForm";
 
 export default function AdminLayout({
   children,
@@ -162,7 +163,7 @@ export default function AdminLayout({
   return (
     <div className="h-screen w-screen relative flex">
       <ResponsiveSidebar title={sidebarData.title} menus={sidebarData.menus} />
-      <div className="flex-1 w-full ">
+      <div className="flex-1">
         <Header
           icon={<HomeIcon className="text-white" />}
           pageTitle="Dashboard"
@@ -176,10 +177,11 @@ export default function AdminLayout({
         <AddBusinessPage />
         <AddBusinessAvailabilityForm />
         <EditAppointmentForm />
+        <EditServiceForm />
 
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]
-        w-full lg:min-w-[calc(100vw-90px)] py-4 px-3 md:px-4 overflow-hidden"
+        w-full lg:min-w-[100vw] py-4 px-3 md:px-4 overflow-hidden"
         >
           {children}
         </div>

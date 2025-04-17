@@ -8,10 +8,13 @@ import {
   //   APiType,
 } from "./admin";
 import {
+  createAppointment,
   createUser,
+  retrieveBusiness,
   retriveAppointment,
   retriveService,
   retriveUsers,
+  updateAppointment,
   updateUser,
 } from "./AdminServices";
 
@@ -28,36 +31,48 @@ const initialState: AdminSliceSchema = {
       _add_CustomerForm: {
         id: null,
         input: {
-          fullName: "",
+          name: "",
           email: "",
           phone: "",
           role: "",
           isActive: false,
           password: "",
+          street: "",
+          city: "",
+          country: "",
+          zipCode: "",
         },
         details: [],
       },
       _edit_CustomerForm: {
         id: null,
         input: {
-          fullName: "",
+          name: "",
           email: "",
           phone: "",
           role: "",
           isActive: false,
           password: "",
+          street: "",
+          city: "",
+          country: "",
+          zipCode: "",
         },
         details: [],
       },
       _view_CustomerForm: {
         id: null,
         input: {
-          fullName: "",
+          name: "",
           email: "",
           phone: "",
           role: "",
           isActive: false,
           password: "",
+          street: "",
+          city: "",
+          country: "",
+          zipCode: "",
         },
         details: [],
       },
@@ -66,7 +81,9 @@ const initialState: AdminSliceSchema = {
       _add_AppointmentForm: {
         id: null,
         input: {
-          customerName: "",
+          firstName: "",
+          lastName: "",
+
           email: "",
           phone: "",
           status: "",
@@ -94,7 +111,9 @@ const initialState: AdminSliceSchema = {
       _edit_AppointmentForm: {
         id: null,
         input: {
-          customerName: "",
+          firstName: "",
+          lastName: "",
+
           email: "",
           phone: "",
           status: "",
@@ -122,7 +141,9 @@ const initialState: AdminSliceSchema = {
       _view_AppointmentForm: {
         id: null,
         input: {
-          customerName: "",
+          firstName: "",
+          lastName: "",
+
           email: "",
           phone: "",
           status: "",
@@ -349,6 +370,12 @@ const adminSlice = createSlice({
     setAddAvailabilityFormTrue: (state, action) => {
       state.admin.availability.add.isFlag = action.payload;
     },
+    setEditServiceFormTrue: (state, action) => {
+      state.admin.service.edit.isFlag = action.payload;
+    },
+    setEditServiceId: (state, action) => {
+      state.platform.service._edit_ServiceForm.id = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -399,6 +426,24 @@ const adminSlice = createSlice({
         state.admin.user.edit.response.toastMsg = "User update failed.";
         state.admin.user.edit.response.error = action.payload as string;
       })
+      .addCase(createAppointment.pending, (state) => {
+        state.admin.appointment.add.response.isLoading = true;
+        state.admin.appointment.add.response.isSuccess = false;
+        state.admin.appointment.add.response.toastMsg = "";
+      })
+      .addCase(createAppointment.fulfilled, (state, action) => {
+        state.admin.appointment.add.response.isLoading = false;
+        state.admin.appointment.add.response.isSuccess = true;
+        state.admin.appointment.add.response.details = action.payload;
+        state.admin.appointment.add.response.toastMsg =
+          "User created successfully!";
+      })
+      .addCase(createAppointment.rejected, (state, action) => {
+        state.admin.appointment.add.response.isLoading = false;
+        state.admin.appointment.add.response.isSuccess = false;
+        state.admin.appointment.add.response.toastMsg = "User creation failed.";
+        state.admin.appointment.add.response.error = action.payload as string;
+      })
       .addCase(retriveAppointment.pending, (state) => {
         state.admin.appointment.view.response.isLoading = true;
         state.admin.appointment.view.response.error = null;
@@ -420,6 +465,25 @@ const adminSlice = createSlice({
 
         state.admin.appointment.view.response.error = action.payload as string; // Capture error if failed
       })
+      .addCase(updateAppointment.pending, (state) => {
+        state.admin.appointment.edit.response.isLoading = true;
+        state.admin.appointment.edit.response.error = null;
+        state.admin.appointment.add.response.toastMsg = "";
+      })
+      .addCase(updateAppointment.fulfilled, (state, action) => {
+        state.admin.appointment.edit.response.isLoading = false;
+        state.admin.appointment.edit.response.isSuccess = true;
+        state.admin.appointment.edit.response.details = action.payload;
+        state.admin.appointment.add.response.toastMsg =
+          "User updated successfully!";
+        state.admin.appointment.edit.response.error = null;
+      })
+      .addCase(updateAppointment.rejected, (state, action) => {
+        state.admin.appointment.edit.response.isLoading = false;
+        state.admin.appointment.edit.response.isSuccess = false;
+        state.admin.appointment.edit.response.toastMsg = "User update failed.";
+        state.admin.appointment.edit.response.error = action.payload as string;
+      })
       .addCase(retriveService.pending, (state) => {
         state.admin.service.view.response.isLoading = true;
         state.admin.service.view.response.error = null;
@@ -434,6 +498,21 @@ const adminSlice = createSlice({
       .addCase(retriveService.rejected, (state, action) => {
         state.admin.service.view.response.isLoading = false;
         state.admin.service.view.response.error = action.payload as string; // Capture error if failed
+      })
+      .addCase(retrieveBusiness.pending, (state) => {
+        state.admin.business.view.response.isLoading = true;
+        state.admin.business.view.response.error = null;
+      })
+      .addCase(
+        retrieveBusiness.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.admin.business.view.response.isLoading = false;
+          state.admin.business.view.response.details = action.payload; // Save the user data in the state
+        }
+      )
+      .addCase(retrieveBusiness.rejected, (state, action) => {
+        state.admin.business.view.response.isLoading = false;
+        state.admin.business.view.response.error = action.payload as string; // Capture error if failed
       });
   },
 });
@@ -455,5 +534,7 @@ export const {
   setAddAvailabilityFormTrue,
   setEditAppointmentId,
   setEditAppointmentFormTrue,
+  setEditServiceFormTrue,
+  setEditServiceId,
 } = adminSlice.actions;
 export default adminSlice.reducer;

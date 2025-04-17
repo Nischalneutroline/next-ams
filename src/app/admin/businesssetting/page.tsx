@@ -1,15 +1,35 @@
 "use client";
+import CustomerPageHeader from "@/features/customer/components/customerpageheader";
 
-import { setAddBusinessFormTrue } from "@/state/admin/AdminSlice";
-import { useAppDispatch } from "@/state/store";
-import React, { useEffect } from "react";
+import { usersData } from "@/features/shared-features/table/data";
+import React from "react";
+import {
+  UserColumns,
+  columns,
+} from "../../../features/shared-features/table/columns";
+import { CustomerDataTable } from "@/features/shared-features/table/data-table/customerdata-table";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
+import CustomerCardView from "@/features/shared-features/cards/CustomerCardView";
+import { retriveUsers } from "@/state/admin/AdminServices";
+import BusinessSettingPageHeader from "@/features/business-detail/components/businesssetiingpageheader";
 
 const page = () => {
-  const dispatch = useAppDispatch();
+  const { view } = useAppSelector(
+    (state: RootState) => state.admin.admin.user?.viewType
+  );
 
-  dispatch(setAddBusinessFormTrue(true));
+  // console.log("Data from Api:", details);
+  return (
+    <div className="w-full flex flex-col gap-4 ">
+      <BusinessSettingPageHeader />
 
-  return <div className="w-full flex flex-col gap-4 ">page</div>;
+      {view ? (
+        <CustomerDataTable columns={UserColumns} />
+      ) : (
+        <CustomerCardView user={usersData} />
+      )}
+    </div>
+  );
 };
 
 export default page;

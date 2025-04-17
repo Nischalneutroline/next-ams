@@ -28,7 +28,11 @@ export type PopupAreaSchema = { showPopup?: boolean; popupArea?: ReactNode };
 export type StatusSchema = {
   status?: "success" | "alert" | "warning" | "info";
 };
-export type OptionSchema = { label?: string; value?: string };
+export type OptionSchema = {
+  label?: string;
+  value?: string | undefined;
+  offset?: string | number;
+};
 export type LoadingSchema = {
   isLoading?: boolean;
   setIsLoading?: (val: boolean) => void;
@@ -80,4 +84,6 @@ export type FormPropsValueType = {
   showImportant?: boolean;
   defaultValue?: any;
   icon?: ReactNode;
+  disabledValue?: any;
+  format?: string;
 };

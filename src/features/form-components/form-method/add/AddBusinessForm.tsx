@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
   setAddAppointmentFormTrue,
+  setAddBusinessFormTrue,
   setAddNotificationFormTrue,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,7 +23,6 @@ import CustomerSupportPage from "../../forms/admin/support/CustomerSupportForm";
 import AddFAQ from "../../forms/admin/support/AddFAQ";
 
 const AddBusinessPage = () => {
-  const [supportType, setSupportType] = useState("Business Setting");
   // Redux Variable
   const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
@@ -38,10 +38,6 @@ const AddBusinessPage = () => {
     { label: "User", value: "user" },
     { label: "Staff", value: "staff" },
   ];
-
-  const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.notification.view.response
-  );
 
   useEffect(() => {
     dispatch(retriveUsers());
@@ -93,61 +89,24 @@ const AddBusinessPage = () => {
                   }}
                 />
                 <div className="text-[16px] sm:text-[18px] md:text-[20px] 2xl:text-[32px] font-normal lg:font-semibold ">
-                  Business Setting and Management
+                  Add Business Info
                 </div>
               </div>
               <div className="flex justify-center text-center text-[11px] sm:text-[13px] lg:text-[14px] text-[#455A64]">
-                Manage and send system notification to suers and staff.
+                Details about your business profile and information.
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setAddAppointmentFormTrue(false))}
+                onClick={(e: any) => dispatch(setAddBusinessFormTrue(false))}
               >
                 <CloseIcon />
               </div>
             </div>
-            <div className="flex px-4">
-              {" "}
-              <div className="flex justify-between bg-[#287AFF] px-4 w-full rounded-md h-[38px] items-center ">
-                <button
-                  className={`flex gap-2 justify-center items-center h-[20px] w-[120px] lg:w-[180px] sm:h-[24px] sm:w-[140px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                    supportType === "Business Setting"
-                      ? "bg-white text-black"
-                      : "bg-[#287AFF] text-white"
-                  }`}
-                  type="button"
-                  onClick={() => setSupportType("Business Setting")}
-                >
-                  Business Setting
-                </button>
-                <button
-                  className={`flex gap-2 justify-center items-center h-[20px] w-[120px] lg:w-[180px] sm:h-[24px] sm:w-[140px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                    supportType === "Staff Member"
-                      ? "bg-white text-black"
-                      : "bg-[#287AFF] text-white"
-                  }`}
-                  type="button"
-                  onClick={() => setSupportType("Staff Member")}
-                >
-                  Staff Member
-                </button>
-                <button
-                  className={`flex gap-2 justify-center items-center  h-[20px] w-[120px] lg:w-[180px] sm:h-[24px] sm:w-[140px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                    supportType === "Admin Member"
-                      ? "bg-white text-black"
-                      : "bg-[#287AFF] text-white"
-                  }`}
-                  type="button"
-                  onClick={() => setSupportType("Admin Member")}
-                >
-                  Admin Member
-                </button>
-              </div>
-            </div>
+
             <div className="py-4 w-full">
-              {supportType === "Business Setting" && <BusinessSettingForm />}
+              <BusinessSettingForm />
               {/* {supportType === "Staff Member" && <FAQForm />} */}
-              {supportType === "Admin Member" && <CustomerSupportPage />}
+              {/* {supportType === "Admin Member" && <CustomerSupportPage />} */}
             </div>
           </motion.div>
         </CenterSection>

@@ -58,14 +58,14 @@ const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 // Define your validation rules
 
 export const adminUserSchema = z.object({
-  full_name: z.string().min(1, { message: "First Name is required" }),
+  name: z.string().min(1, { message: "First Name is required" }),
 
   email: z
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Please enter a valid email address" }),
 
-  phone_number: z
+  phone: z
     .string()
     .optional()
     .refine(
@@ -91,29 +91,50 @@ export const adminUserSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be 8 character long." }),
-
-  // business_days: z
-  //   .array(z.enum(daysOfWeek))
-  //   .min(1, "At least one day must be selected.")
-  //   .default([]),
-
-  // password: z
-  //   .string({ required_error: "Password is required" })
-  //   .min(6, { message: "Password must be at least 6 characters long" })
-  //   .max(100, { message: "Password cannot exceed 100 characters" }),
-
-  // role: z.enum(["Admin", "User"], {
-  //   required_error: "Role is required",
-  //   message: "Role must be either 'Admin' or 'User'",
-  // }),
-
-  // isActive: z.boolean({ required_error: "isActive is required" }),
 });
 
 export type AdminUserFormValues = z.infer<typeof adminUserSchema>;
+export const adminEditUserSchema = z.object({
+  name: z.string().min(1, { message: "First Name is required" }),
+
+  email: z
+    .string()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Please enter a valid email address" }),
+
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (number: any) => {
+        try {
+          const phoneNumber = phoneUtil.parse(number);
+          return phoneUtil.isValidNumber(phoneNumber);
+        } catch (error) {
+          return false;
+        }
+      },
+      { message: "Invalid mobile number" }
+    ),
+  street: z.string().min(1, { message: "Street is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+
+  country: z.string().min(1, { message: "Country is required" }),
+
+  role: z.string().min(1, { message: "Role is required" }),
+
+  isActive: z.boolean().optional(),
+
+  password: z
+    .string()
+    .min(8, { message: "Password must be 8 character long." }),
+});
+
+export type AdminEditUserFormValues = z.infer<typeof adminEditUserSchema>;
 
 export const adminAppointmentSchema = z.object({
-  customerName: z.string().min(1, { message: "First Name is required" }),
+  firstName: z.string().min(1, { message: "First Name is required" }),
+  lastName: z.string().min(1, { message: "Last Name is required" }),
 
   email: z
     .string()
@@ -134,11 +155,10 @@ export const adminAppointmentSchema = z.object({
       },
       { message: "Invalid mobile number" }
     ),
-  status: z.string().min(1, { message: "Status is required" }),
 
   serviceId: z.string().min(1, { message: "Service is required" }),
   selectedDate: z.string().datetime(),
-
+  status: z.string().optional(),
   selectedTime: z.string().datetime(),
   // .union([z.string(), z.object({ hours: z.number(), minutes: z.number() })]) // Accepts either string or object
   // .transform((val) => {
@@ -155,46 +175,44 @@ export const adminAppointmentSchema = z.object({
   // .refine((val) => /^([0-9]{2}):([0-9]{2})$/.test(val), {
   //   message: "Time must be in the format HH:mm (e.g., 14:30)",
   // }),
-  createdById: z.string().min(1, { message: "Service is required" }),
-  isForSelf: z.boolean(),
+
   message: z.string().min(8, { message: "Message is Required" }),
 });
 
 export type AdminAppointmentFormValues = z.infer<typeof adminAppointmentSchema>;
 
+const TimeSlotSchema = z.object({
+  id: z.string().uuid(),
+  startTime: z.string().min(1, "Start time is required"),
+  endTime: z.string().min(1, "End time is required"),
+});
+
+// Define serviceHourDay array schema
+const ServiceHourDaySchema = z.array(
+  z.object({
+    weekDay: z.string().min(1, "Week day is required"),
+    timeSlots: z
+      .array(TimeSlotSchema)
+      .min(1, "At least one time slot is required"),
+  })
+);
+
+// Main form schema
 export const adminServiceSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.string().min(1, { message: "Description is required" }),
-  estimatedDuration: z.string().min(1, { message: "Duration is required" }),
-  status: z.string().min(1, { message: "Service Status is required" }),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  estimatedDuration: z.string().min(1, "Estimated duration is required"),
+  availabilities: z.boolean(),
+
+  coverPhoto: z.any().refine((file: FileList) => file && file.length > 0, {
+    message: "Cover photo is required",
+  }),
+
   serviceAvailability: z
-    .array(
-      z.object({
-        weekDay: z.string(),
-        timeSlots: z
-          .array(
-            z.object({
-              startTime: z.string().min(1, "Start time is required"),
-              endTime: z.string().min(1, "End time is required"),
-            })
-          )
-          .min(1, "At least one time slot required"),
-      })
-    )
-    .min(1, "Select at least one weekday"),
-  // business_days: z
-  //   .array(z.enum(daysOfWeek))
-  //   .min(1, "At least one day must be selected.")
-  //   .default([]),
-  // password: z
-  //   .string({ required_error: "Password is required" })
-  //   .min(6, { message: "Password must be at least 6 characters long" })
-  //   .max(100, { message: "Password cannot exceed 100 characters" }),
-  // role: z.enum(["Admin", "User"], {
-  //   required_error: "Role is required",
-  //   message: "Role must be either 'Admin' or 'User'",
-  // }),
-  // isActive: z.boolean({ required_error: "isActive is required" }),
+    .array(z.string())
+    .min(1, "Select at least one available day"),
+
+  serviceHourDay: ServiceHourDaySchema,
 });
 
 export type AdminServiceFormValues = z.infer<typeof adminServiceSchema>;

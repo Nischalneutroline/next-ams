@@ -26,6 +26,10 @@ export default function SwitchInput(props: InputSchema) {
   const [isChecked, setIsChecked] = useState<boolean>(defaultValue ?? false);
 
   useEffect(() => {
+    setIsChecked(defaultValue ?? false);
+  }, [defaultValue]);
+
+  useEffect(() => {
     setValue(input, isChecked); // Ensure form state updates
   }, [isChecked, setValue, input]);
 
@@ -86,7 +90,7 @@ export default function SwitchInput(props: InputSchema) {
         </div>
       ) : (
         <div
-          className={`${finalDivCss} lg:px-0 flex flex-row max-w-full h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]`}
+          className={`${finalDivCss} lg:px-0  max-w-full h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]`}
         >
           {label && (
             <label className={finalLabelCss} htmlFor={input}>
@@ -95,17 +99,17 @@ export default function SwitchInput(props: InputSchema) {
             </label>
           )}
 
-          <div className="flex items-center h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]">
-            <Switch
-              id={input}
-              {...(register && register(input))}
-              onChange={handleSwitchChange}
-              onClick={handleClick}
-              onKeyUp={handleKeyUp}
-              onKeyDown={handleKeyDown}
-              className={` rounded-md text-black  ${finalInputCss} bg-transparent`}
-            />
-          </div>
+          <Switch
+            id={input}
+            {...(register && register(input))}
+            onChange={handleSwitchChange}
+            onClick={handleClick}
+            onKeyUp={handleKeyUp}
+            onKeyDown={handleKeyDown}
+            className={`
+    ${finalInputCss}
+  `}
+          />
 
           <div className="-translate-y-17">
             {errorMsg && <FormSpanError {...errorProps} />}

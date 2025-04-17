@@ -42,7 +42,7 @@ const FAQForm = () => {
           handleAction={setIsOpen(true)}
         />
       </div>
-      <div className="flex flex-col w-full h-full px-4 gap-4">
+      {/* <div className="flex flex-col w-full h-full px-4 gap-4">
         <div className="flex flex-col w-full px-2 sm:px-3 py-1 rounded-md">
           <div className="flex justify-between text-[15px] font-semibold">
             <div>
@@ -202,7 +202,7 @@ const FAQForm = () => {
             contacting customer support.
           </div>
         </div>
-      </div>
+      </div> */}
       <Button {...addUserBtnProps} />
     </div>
   );

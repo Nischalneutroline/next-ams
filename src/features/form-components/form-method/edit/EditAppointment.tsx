@@ -2,12 +2,15 @@
 
 import {
   AdminUserFormValues,
+  adminAppointmentSchema,
   adminUserSchema,
 } from "@/schemas/validation/validationSchema";
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  addAppointmentBtnProps,
+  cancelBtnProps,
   commonActions,
   createdByIdProps,
   customerNameProps,
@@ -20,12 +23,14 @@ import {
   serviceIdProps,
   statusProps,
 } from "@/features/shared-features/form/formporps";
+import Button from "@/features/shared-features/common/button";
 import CenterSection from "@/features/shared-features/section/centersection";
 import UserForm from "../../forms/admin/UserForm";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
+  setAddAppointmentFormTrue,
   setEditAppointmentFormTrue,
   setEditAppointmentId,
 } from "@/state/admin/AdminSlice";
@@ -39,6 +44,13 @@ import { AdminCustomerFormSchema } from "@/state/admin/admin";
 import { passwordProps } from "../../../shared-features/form/formporps";
 import { IdCard } from "lucide-react";
 import AppointmentForm from "../../forms/admin/AppointmentForm";
+import { DateInput, TimeInput } from "@/features/shared-features/form/dayinput";
+import TextInput from "@/features/shared-features/form/inputtext";
+import {
+  formOuterDivCss,
+  formSubmitDivCss,
+} from "@/features/shared-features/form/props";
+import SelectInput from "@/features/shared-features/form/selectinput";
 
 const EditAppointmentForm = () => {
   // Redux Variable
@@ -63,10 +75,23 @@ const EditAppointmentForm = () => {
     (state: RootState) => state.admin.admin.appointment.view.response
   );
   const dataToEdit = details?.find((u: any) => u.id === id);
-
+  const handleCancleButton = () => {
+    dispatch(setEditAppointmentFormTrue(false));
+  };
   // Submit handler
   const onSubmit = (data: any, id: any) => {
-    const transformedData = { ...dataToEdit, ...data };
+    const updatedData = {
+      customerName: `${data.firstName} ${data.lastName}`,
+      email: data.email ?? dataToEdit.email,
+      phone: data.phone ?? dataToEdit.phone,
+      selectedDate: data.selectedDate ?? dataToEdit.selectedDate,
+      selectedTime: data.selectedTime ?? dataToEdit.selectedTime,
+      serviceId: data.serviceId ?? dataToEdit.serviceId,
+      message: data.message ?? dataToEdit.message,
+      status: data.status ?? dataToEdit.status,
+    };
+    const transformedData = { ...dataToEdit, ...updatedData };
+
     // dispatch(updateUser({ ...data, id: dataToEdit.id }));
 
     dispatch(setEditAppointmentId(""));
@@ -93,7 +118,7 @@ const EditAppointmentForm = () => {
     control,
   } = useForm({
     mode: "onSubmit",
-    // resolver: zodResolver(adminUserSchema),
+    resolver: zodResolver(adminAppointmentSchema),
   });
 
   const form = {
@@ -116,14 +141,6 @@ const EditAppointmentForm = () => {
     { label: "Super Admin", value: "SUPERADMIN" },
   ];
 
-  const status = [
-    { label: "Scheduled", value: "SCHEDULED" },
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Missed", value: "MISSED" },
-    { label: "Cancelled", value: "CANCELLED" },
-    { label: "Follow Up", value: "FOLLOW_UP" },
-  ];
-
   function getLabelValueArray(
     details: { id: string | number; name: string }[]
   ) {
@@ -144,12 +161,57 @@ const EditAppointmentForm = () => {
       }));
   }
 
+  const splitFullName = (
+    fullName?: string
+  ): { firstName: string; lastName: string } => {
+    if (!fullName || typeof fullName !== "string") {
+      return { firstName: "", lastName: "" };
+    }
+
+    const nameParts = fullName.trim().split(" ");
+
+    if (nameParts.length === 1) {
+      return { firstName: nameParts[0], lastName: "" };
+    }
+
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(" ");
+
+    return { firstName, lastName };
+  };
+  const { firstName, lastName } = splitFullName(dataToEdit?.customerName);
   const createdByOptions = getLabelValueArray(userDetails);
   const serviceOptions = getServiceOptions(serviceDetails);
+  const appointmentStatusOptions = [
+    { label: "Scheduled", value: "SCHEDULED" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Missed", value: "MISSED" },
+    { label: "Cancelled", value: "CANCELLED" },
+    { label: "Follow Up", value: "FOLLOW_UP" },
+  ];
 
   const formObj: any = {
-    customerName: {
-      common: customerNameProps({ defaultValue: dataToEdit?.customerName }),
+    firstName: {
+      common: customerNameProps({
+        input: "firstName",
+        label: "First Name",
+        type: "text",
+        placeholder: "Enter Customer First Name",
+        showImportant: true,
+        defaultValue: firstName,
+      }),
+      ...remaining,
+    },
+    lastName: {
+      common: customerNameProps({
+        input: "lastName",
+        label: "Last Name",
+        type: "text",
+        placeholder: "Enter Customer Last Name",
+        showImportant: true,
+        icon: <></>,
+        defaultValue: lastName,
+      }),
       ...remaining,
     },
     email: {
@@ -160,11 +222,7 @@ const EditAppointmentForm = () => {
       common: phoneProps({ defaultValue: dataToEdit?.phone }),
       ...remaining,
     },
-    status: {
-      common: statusProps({ defaultValue: dataToEdit?.status }),
-      options: status,
-      ...remaining,
-    },
+
     serviceId: {
       common: serviceIdProps({ defaultValue: dataToEdit?.serviceId }),
       options: serviceOptions,
@@ -174,19 +232,24 @@ const EditAppointmentForm = () => {
       common: selectedDateProps({ defaultValue: dataToEdit?.selectedDate }),
       ...remaining,
     },
+    status: {
+      common: customerNameProps({
+        input: "status",
+        label: "Status",
+        type: "text",
+        placeholder: "Select Status",
+        showImportant: true,
+        icon: <></>,
+        defaultValue: dataToEdit?.status,
+      }),
+      options: appointmentStatusOptions,
+      ...remaining,
+    },
     selectedTime: {
       common: selectedTimeProps({ defaultValue: dataToEdit?.selectedTime }),
       ...remaining,
     },
-    createdById: {
-      common: createdByIdProps({ defaultValue: dataToEdit?.createdById }),
-      options: createdByOptions,
-      ...remaining,
-    },
-    isForSelf: {
-      common: isForSelfProps({ defaultValue: dataToEdit?.isForSelf }),
-      ...remaining,
-    },
+
     message: {
       common: messageProps({ defaultValue: dataToEdit?.message }),
       ...remaining,
@@ -253,7 +316,30 @@ const EditAppointmentForm = () => {
                 <CloseIcon />
               </div>
             </div>
-            <AppointmentForm formObj={formObj} form={form} />
+            <form onSubmit={handleSubmit(onSubmit)} className={formOuterDivCss}>
+              <div className="flex flex-col sm:gap-2 ">
+                <div className="flex flex-row">
+                  <TextInput {...formObj.firstName} />
+                  <TextInput {...formObj.lastName} />
+                </div>
+                <TextInput {...formObj.email} />
+                <TextInput {...formObj.phone} />
+                <div className="flex flex-col sm:flex-row justify-between items-center">
+                  <SelectInput {...formObj.serviceId} />
+
+                  <SelectInput {...formObj.status} />
+                </div>
+                <div className="flex flex-col sm:flex-row justify-between items-center">
+                  <DateInput {...formObj.selectedDate} />
+                  <TimeInput {...formObj.selectedTime} />
+                </div>
+                <TextInput {...formObj.message} />
+              </div>
+              <div className={formSubmitDivCss}>
+                <Button {...cancelBtnProps(handleCancleButton)} />
+                <Button {...addAppointmentBtnProps()} />
+              </div>
+            </form>
           </motion.div>
         </CenterSection>
       )}

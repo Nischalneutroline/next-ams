@@ -122,14 +122,12 @@ const AddSupportAndFaq = () => {
                 </button>
                 <button
                   className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                    supportType === "Frequenlty Asked Questions (FAQs)"
+                    supportType === "FAQs"
                       ? "bg-white text-black"
                       : "bg-[#287AFF] text-white"
                   }`}
                   type="button"
-                  onClick={() =>
-                    setSupportType("Frequenlty Asked Questions (FAQs)")
-                  }
+                  onClick={() => setSupportType("FAQs")}
                 >
                   FAQs
                 </button>
@@ -161,9 +159,7 @@ const AddSupportAndFaq = () => {
               {supportType === "Customer Information" && (
                 <CustomerInfomationForm />
               )}
-              {/* {supportType === "Frequenlty Asked Questions (FAQs)" && (
-                <FAQForm/>
-              )} */}
+              {supportType === "FAQs" && <FAQForm />}
               {supportType === "Customer Support" && <CustomerSupportPage />}
               {supportType === "Admin Support" && <AdminSupportForm />}
             </div>

@@ -47,7 +47,9 @@ export default function SelectInput(props: SelectInputSchema) {
       <select
         id={`${input}`}
         {...register(input)}
-        className={`${finalInputCss} ${border}` + "[&>*]:p-8 w-20"}
+        className={
+          `${finalInputCss} ${border}` + "[&>*]:p-8  placholder::text-gray-400"
+        }
         type="text"
         placeholder={placeholder}
         key={`${input}-select`}
@@ -57,14 +59,22 @@ export default function SelectInput(props: SelectInputSchema) {
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
       >
-        <option key={"placeholder"} value="" disabled hidden>
+        <option
+          key={"placeholder"}
+          value=""
+          disabled
+          hidden
+          style={{ color: "#4B5563" }}
+        >
           {placeholder || "Select an option"}
         </option>
-        {options?.map((item: any, idx: number) => (
-          <option key={`${idx}. ${item.value}`} value={item.value}>
-            {item.label}
-          </option>
-        ))}
+        {options?.map((item: any, idx: number) => {
+          return (
+            <option key={`${idx}. ${item.value}`} value={item.value}>
+              {item.label}
+            </option>
+          );
+        })}
       </select>
 
       <div className="-translate-y-17">

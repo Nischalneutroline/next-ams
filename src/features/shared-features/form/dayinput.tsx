@@ -22,25 +22,31 @@ export interface OptionSchema {
 export function DaysSelection(props: SelectInputSchema) {
   // Props
   const { common, form, css, options } = props;
-  // Props variables
-  const { input, label, defaultValue, placeholder, showImportant, icon, type } =
-    common;
+  const {
+    input,
+    label,
+    defaultValue,
+    placeholder,
+    showImportant,
+    icon,
+    format,
+  } = common;
   const { setValue, errors } = form;
-  const { divCss, labelCss, errorCss } = css!;
+  const { divCss, labelCss, errorCss } = css ?? {};
 
-  // States
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const daysOfWeek = options;
-  // Values
+  // State
+  const [selectedDays, setSelectedDays] = useState<string[]>(
+    defaultValue ? defaultValue : []
+  );
+  const message =
+    "Service days are set based on working days. To modify, update working days in Business Settings > Availability > Business Days.";
   const errorMsg = getFormErrorMsg(errors, input);
-
-  // Css
   const finalDivCss = divCss ?? formDivCss;
   const finalLabelCss = labelCss ?? formLabelCss;
 
-  // Update form value when selectedDays changes
+  // Sync selectedDays with form value
   useEffect(() => {
-    setValue(input, selectedDays); // Register the selected days to React Hook Form
+    setValue(input, selectedDays);
   }, [selectedDays, setValue, input]);
 
   const toggleDay = (day: string) => {
@@ -50,44 +56,61 @@ export function DaysSelection(props: SelectInputSchema) {
   };
 
   return (
-    <div className={finalDivCss}>
+    <div className={`${finalDivCss} px-4  pb-2`}>
       {label && (
-        <label
-          // className="text-black font-semibold flex gap-2 text-[12px] sm:text-[14px] lg:text-[16px] 2xl:text-[18px] items-center"
-          className={finalLabelCss}
-          htmlFor={input}
-        >
+        <label className={finalLabelCss} htmlFor={input}>
           {icon && icon} {label}
           {showImportant && <span className="text-red-400">*</span>}
         </label>
       )}
 
-      <div className="flex flex-wrap gap-8 gap-y-4">
-        {daysOfWeek.map((day: any) => {
+      <div
+        className={`${
+          options.length === 7
+            ? " grid grid-cols-3 sm:grid-cols-5 gap-8 gap-y-4"
+            : "flex flex-wrap gap-8"
+        }`}
+      >
+        {options.map((day: any) => {
           const isSelected = selectedDays.includes(day.value);
+
+          // Determine if the day should be disabled based on `type`
+          const isDisabled =
+            format === "default"
+              ? !defaultValue?.includes(day.value)
+              : defaultValue && !defaultValue.includes(day.value);
+
           return (
             <div
               key={day.value}
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => toggleDay(day.value)}
+              className="flex items-center justify-center space-x-2"
+              onClick={() => {
+                if (!isDisabled) toggleDay(day.value);
+              }}
             >
               {/* Checkbox Icon */}
               <div
-                className={`w-5 h-5 flex items-center justify-center rounded-sm border transition-all
-                  ${
-                    isSelected
-                      ? "bg-blue-600 border-blue-600 text-white"
-                      : "border-gray-400 text-gray-500"
-                  }`}
+                className={`w-5 h-5 flex text-[12px] justify-center-center rounded-sm border transition-all cursor-pointer hidden sm:block ${
+                  isDisabled
+                    ? "bg-red-500/90 border-red-500/90 text-white cursor-not-allowed"
+                    : isSelected
+                    ? "bg-blue-500 border-blue-500 text-white"
+                    : "border-gray-400 text-gray-500"
+                }`}
               >
-                {isSelected ? "✓" : "-"}
+                <div className="flex items-center justify-center">
+                  {isDisabled ? "✕" : isSelected ? "✓" : "-"}
+                </div>
               </div>
+
               {/* Day Label */}
               <span
-                className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px] w-[60px]
+                className={`border justify-center h-[35px] rounded-md transition-all flex items-center text-[14px] cursor-pointer min-w-[50px]  px-4
                   ${
-                    isSelected
-                      ? "bg-blue-600 text-white border-blue-600"
+                    isDisabled
+                      ? "bg-red-500/90 text-white border-red-500/90 cursor-not-allowed"
+                      : isSelected
+                      ? "bg-blue-500 text-white border-blue-500"
                       : "border-gray-400 text-black"
                   }`}
               >
@@ -97,6 +120,17 @@ export function DaysSelection(props: SelectInputSchema) {
           );
         })}
       </div>
+      {input === "serviceAvailability" && (
+        <div className="text-gray-700  text-[11px]">
+          Service days are set based on working days. To modify, update working
+          days in{" "}
+          <strong className="text-gray-700 text-[11px]">
+            Business Settings
+          </strong>{" "}
+          &gt; <strong>Availability</strong> &gt; <strong>Business Days</strong>
+          .
+        </div>
+      )}
 
       {errorMsg && (
         <FormSpanError
@@ -178,28 +212,41 @@ export function DateInput(props: InputSchema) {
                   onClick: handleClick,
                   onKeyDown: handleKeyDown,
                   onKeyUp: handleKeyUp,
-
+                  fullWidth: true,
+                  size: "small",
                   error: false,
                   sx: {
                     "& .MuiInputBase-root": {
-                      borderRadius: "0.375rem", // rounded-md
+                      borderRadius: "0.5rem", // rounded-lg
                       height: {
-                        xs: "36px",
-                        sm: "40px",
-                        lg: "45px",
+                        xs: "30px", // h-[40px]
+                        sm: "34px", // sm:h-[44px]
+                        lg: "38px", // lg:h-[42px]
                       },
-                      display: "flex",
-                      px: "0.5rem", // px-2
-                      gap: "0.25rem", // gap-1
-                      fontSize: "13px",
-                      color: "black",
-                      backgroundColor: "#F8F9FA",
-                      borderColor: "#cbd5e0", // border-gray-400
+                      px: "0.75rem", // px-3
+                      fontSize: {
+                        xs: "11px", // h-[40px]
+                        sm: "12px", // sm:h-[44px]
+                        lg: "14px", // lg:h-[42px]
+                      }, // text-[14px]
+                      color: "#1F2937", // text-gray-800 (#1F2937)
+                      backgroundColor: "#F9FAFB", // bg-[#F9FAFB]
+                      border: "1px solid #D1D5DB", // border-gray-300
+                      boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)", // shadow-sm
 
-                      alignItems: "center",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#cbd5e0", // border-gray-400
+                      placeholder: {
+                        color: "#9CA3AF", // placeholder:text-gray-400
+                      },
+                      transition: "all 0.2s ease-in-out", // transition-all duration-200 ease-in-out
+                      "&:focus-within": {
+                        outline: "none",
+                        borderColor: "#3B82F6", // focus:border-blue-500
+                        boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.5)", // focus:ring-2 focus:ring-blue-500
+                      },
+                      "& .MuiSvgIcon-root": {
+                        justifyItems: "start",
+                        fontSize: "18px",
+                      },
                     },
                   },
                 },
@@ -283,26 +330,39 @@ export function TimeInput(props: InputSchema) {
                   onKeyDown: handleKeyDown,
                   onKeyUp: handleKeyUp,
                   error: false,
+                  fullWidth: true,
+                  size: "small",
                   sx: {
                     "& .MuiInputBase-root": {
-                      borderRadius: "0.375rem", // rounded-md
+                      borderRadius: "0.5rem", // rounded-lg
                       height: {
-                        xs: "36px", // Default for small screens
-                        sm: "40px", // Medium screens
-                        lg: "45px", // Large screens
+                        xs: "30px", // h-[40px]
+                        sm: "34px", // sm:h-[44px]
+                        lg: "38px", // lg:h-[42px]
                       },
-                      display: "flex",
-                      px: "0.5rem", // px-2
-                      gap: "0.25rem", // gap-1
-                      fontSize: "13px", // Adjust font size
-                      color: "black",
-                      backgroundColor: "#F8F9FA",
-                      borderColor: "#cbd5e0", // border-gray-400
-                      width: "100%",
-                      alignItems: "center",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#cbd5e0", // border-gray-400
+                      px: "0.75rem", // px-3
+                      fontSize: {
+                        xs: "11px", // h-[40px]
+                        sm: "12px", // sm:h-[44px]
+                        lg: "14px", // lg:h-[42px]
+                      }, /// text-[14px]
+                      color: "#1F2937", // text-gray-800 (#1F2937)
+                      backgroundColor: "#F9FAFB", // bg-[#F9FAFB]
+                      border: "1px solid #D1D5DB", // border-gray-300
+                      boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)", // shadow-sm
+                      width: "100%", // w-full
+                      placeholder: {
+                        color: "#9CA3AF", // placeholder:text-gray-400
+                      },
+                      transition: "all 0.2s ease-in-out", // transition-all duration-200 ease-in-out
+                      "&:focus-within": {
+                        outline: "none",
+                        borderColor: "#3B82F6", // focus:border-blue-500
+                        boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.5)", // focus:ring-2 focus:ring-blue-500
+                      },
+                      "& .MuiSvgIcon-root": {
+                        fontSize: "18px",
+                      },
                     },
                   },
                 },
