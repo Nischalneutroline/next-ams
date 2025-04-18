@@ -12,6 +12,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 
 export interface OptionSchema {
   label: string;
@@ -195,8 +197,8 @@ export function DateInput(props: InputSchema) {
           control={control}
           defaultValue={defaultValue ?? null}
           render={({ field }) => (
-            <DatePicker
-              className="datePicker"
+            <DesktopDatePicker
+              className="datepicker"
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => {
                 if (date?.isValid()) {
@@ -212,14 +214,14 @@ export function DateInput(props: InputSchema) {
                   onClick: handleClick,
                   onKeyDown: handleKeyDown,
                   onKeyUp: handleKeyUp,
+                  error: false,
                   fullWidth: true,
                   size: "small",
-                  error: false,
                   sx: {
                     "& .MuiInputBase-root": {
                       borderRadius: "0.5rem", // rounded-lg
                       height: {
-                        xs: "30px", // h-[40px]
+                        xs: "34px", // h-[40px]
                         sm: "34px", // sm:h-[44px]
                         lg: "38px", // lg:h-[42px]
                       },
@@ -228,12 +230,12 @@ export function DateInput(props: InputSchema) {
                         xs: "11px", // h-[40px]
                         sm: "12px", // sm:h-[44px]
                         lg: "14px", // lg:h-[42px]
-                      }, // text-[14px]
+                      }, /// text-[14px]
                       color: "#1F2937", // text-gray-800 (#1F2937)
                       backgroundColor: "#F9FAFB", // bg-[#F9FAFB]
                       border: "1px solid #D1D5DB", // border-gray-300
                       boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)", // shadow-sm
-
+                      width: "100%", // w-full
                       placeholder: {
                         color: "#9CA3AF", // placeholder:text-gray-400
                       },
@@ -244,7 +246,6 @@ export function DateInput(props: InputSchema) {
                         boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.5)", // focus:ring-2 focus:ring-blue-500
                       },
                       "& .MuiSvgIcon-root": {
-                        justifyItems: "start",
                         fontSize: "18px",
                       },
                     },
@@ -315,7 +316,7 @@ export function TimeInput(props: InputSchema) {
           control={control}
           defaultValue={defaultValue ?? ""}
           render={({ field }) => (
-            <TimePicker
+            <DesktopTimePicker
               className="datePicker"
               value={field.value ? dayjs(field.value) : null}
               onChange={(newValue) => {
@@ -336,7 +337,7 @@ export function TimeInput(props: InputSchema) {
                     "& .MuiInputBase-root": {
                       borderRadius: "0.5rem", // rounded-lg
                       height: {
-                        xs: "30px", // h-[40px]
+                        xs: "34px", // h-[40px]
                         sm: "34px", // sm:h-[44px]
                         lg: "38px", // lg:h-[42px]
                       },

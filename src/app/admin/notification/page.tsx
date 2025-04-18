@@ -4,13 +4,16 @@ import NotificationPageHeader from "@/features/announcement-offer/components/not
 import CustomerPageHeader from "@/features/customer/components/customerpageheader";
 import { NotificationColumns } from "@/features/shared-features/table/columns";
 import { NotificationDataTable } from "@/features/shared-features/table/data-table/notificationdata-table";
-import { RootState, useAppSelector } from "@/state/store";
+import { retriveService } from "@/state/admin/AdminServices";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import React from "react";
 
 const page = () => {
+  const dispatch = useAppDispatch();
   const { view } = useAppSelector(
     (state: RootState) => state.admin.admin.user?.viewType
   );
+  dispatch(retriveService());
 
   // console.log("Data from Api:", details);
   return (

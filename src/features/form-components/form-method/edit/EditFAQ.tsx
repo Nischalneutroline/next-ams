@@ -14,7 +14,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextInput from "@/features/shared-features/form/inputtext";
 import Button from "@/features/shared-features/common/button";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import { setAddFAQFormTrue } from "@/state/admin/AdminSlice";
+import {
+  setAddFAQFormTrue,
+  setEditFAQFormTrue,
+} from "@/state/admin/AdminSlice";
 import { useEffect, useRef } from "react";
 import {
   formContainerCss,
@@ -26,7 +29,7 @@ import {
   formTitleDivCss,
 } from "@/features/shared-features/form/props";
 
-const AddFAQ = () => {
+const EditFAQ = () => {
   // On submit funciton
   const onSubmit = (data: any) => {
     console.log("Transformed data:", data);
@@ -36,7 +39,7 @@ const AddFAQ = () => {
 
   const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
-    (state: RootState) => state.admin.admin.faq.add
+    (state: RootState) => state.admin.admin.faq.edit
   );
 
   // React-hook-form with Zod validation
@@ -101,7 +104,7 @@ const AddFAQ = () => {
         formRef.current?.contains(event.target as Node) ?? false;
 
       if (!clickedInsideForm && !clickedInsideCalendar) {
-        dispatch(setAddFAQFormTrue(false));
+        dispatch(setEditFAQFormTrue(false));
       }
     };
     if (isFlag) {
@@ -127,7 +130,7 @@ const AddFAQ = () => {
             className={`${formSmallContainerCss} lg:h-[40%]`}
           >
             <div className={formTitleDivCss}>
-              <div className={formTitleCss}>Add New FAQ</div>
+              <div className={formTitleCss}>Edit FAQ</div>
               <div className={formSubTitleCss}>
                 You’re creating an account on behalf of a user. Please ensure
                 accuracy. ⚠️
@@ -135,10 +138,12 @@ const AddFAQ = () => {
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className={`${formOuterDivCss} overflow-y-hidden `}
+              className={`${formOuterDivCss} overflow-y-hidden gap-4`}
             >
-              <TextInput {...formObj.question} />
-              <TextInput {...formObj.answer} />
+              <div className="flex flex-col gap-3">
+                <TextInput {...formObj.question} />
+                <TextInput {...formObj.answer} />
+              </div>
               <div className=" flex flex-col mb-4  justify-center gap-4">
                 <Button {...addUserBtnProps} />
               </div>
@@ -150,4 +155,4 @@ const AddFAQ = () => {
   );
 };
 
-export default AddFAQ;
+export default EditFAQ;

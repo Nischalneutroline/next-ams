@@ -9,7 +9,6 @@ import {
   emailProps,
   emptyFormProps,
   fullNameProps,
-  messageProps,
   phoneProps,
   roleProps,
 } from "@/features/shared-features/form/formporps";
@@ -17,16 +16,11 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch } from "@/state/store";
 import { setAddNotificationFormTrue } from "@/state/admin/AdminSlice";
 import Button from "@/features/shared-features/common/button";
-import SelectInput from "@/features/shared-features/form/selectinput";
-import { ReminderCheckboxes } from "@/features/shared-features/form/remindercheckerinput";
 import TextInput from "@/features/shared-features/form/inputtext";
-import {
-  DateInput,
-  DaysSelection,
-  TimeInput,
-} from "@/features/shared-features/form/dayinput";
+import { DateInput } from "@/features/shared-features/form/dayinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
+import { formOuterDivCss } from "@/features/shared-features/form/props";
 
 const CustomerInfomationForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
@@ -164,68 +158,70 @@ const CustomerInfomationForm = () => {
       ...remaining,
     },
   };
-  const handleCancleButton = () => {
-    dispatch(setAddNotificationFormTrue(false));
-  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full gap-4"
+      className={`${formOuterDivCss}  gap-8 lg:w-[880px]`}
     >
-      <div className="flex flex-col jutify-start px-2  ">
-        <h1 className="text-black font-semibold text-[18px]">What to Show?</h1>
-        <p className="italic text-[12px] text-slate-600">
-          Following details will be shown to users on About and Support & Help
-          section
-        </p>
-      </div>
-      <div className="flex flex-col jutify-start px-2  ">
-        <div className="flex">
+      <div className="flex flex-col gap-3">
+        {" "}
+        <div className="flex flex-col jutify-start px-2  gap-2   ">
           <h1 className="text-black font-semibold text-[18px]">
-            <SwitchInput {...formObj.useBusinessInfo} />
+            What to Show?
           </h1>
+          <p className="italic text-[12px] sm:text-[14px] text-slate-600">
+            Following details will be shown to users on About and Support & Help
+            section
+          </p>
         </div>
-        <p className="italic text-[11px] text-slate-600 px-2 flex flex-col">
-          <span>
-            To let users know who to reach out to for specific issues.
-          </span>
-          <span>
-            Following details are taken from Business Settings Business Details
-          </span>
-        </p>
+        <div className="flex flex-col jutify-start px-2  ">
+          <div className="flex">
+            <div className="text-black font-semibold text-[18px] felex flex-row ">
+              <SwitchInput {...formObj.useBusinessInfo} />
+            </div>
+          </div>
+          <p className="italic text-[11px] sm:text-[14px] text-slate-600 px-2 flex flex-col">
+            <span>
+              To let users know who to reach out to for specific issues.{" "}
+            </span>
+            <span>
+              Following details are taken from Business Settings & Business
+              Details
+            </span>
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-1">
+            <div className="col-span-1">
+              <TextInput {...formObj.companyName} />
+            </div>
+            <div className="col-span-1">
+              <TextInput {...formObj.supportEmail} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-1 ">
+            <div className="cols-span-1">
+              <TextInput {...formObj.physcialAddress} />
+            </div>
+            <div className="cols-span-1">
+              <TextInput {...formObj.mapAddress} />
+            </div>
+          </div>
+          <TextInput {...formObj.phoneNumber} />
+          <div className="h-[170px]">
+            <DayAndTimeSelection {...formObj.businessHours} />
+          </div>
+          <div className="flex flex-col w-full">
+            <div className="text-[17px] font-semibold text-black">Holiday</div>
+            <div className="flex ">
+              <DateInput {...formObj.hoildayStart} />
+              <DateInput {...formObj.holidayEnd} />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.companyName} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.supportEmail} />
-          </div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="cols-span-1">
-            <TextInput {...formObj.physcialAddress} />
-          </div>
-          <div className="cols-span-1">
-            <TextInput {...formObj.mapAddress} />
-          </div>
-        </div>
-        <TextInput {...formObj.phoneNumber} />
-        <div className="h-[170px]">
-          <DayAndTimeSelection {...formObj.businessHours} />
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="text-[17px] font-semibold text-black">Holiday</div>
-          <div className="flex ">
-            <DateInput {...formObj.hoildayStart} />
-            <DateInput {...formObj.holidayEnd} />
-          </div>
-        </div>
-      </div>
-      <div className=" flex mb-4 w-full justify-center gap-4">
-        <Button {...cancelBtnProps(handleCancleButton)} />
-
+      <div className=" flex flex-col mb-4  justify-center gap-4">
         <Button {...addUserBtnProps} />
       </div>
     </form>

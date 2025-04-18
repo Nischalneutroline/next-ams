@@ -17,7 +17,7 @@ import AnnouncementForm from "../../forms/admin/notification/AnnouncementForm";
 import Button from "@/features/shared-features/common/button";
 import ReminderForm from "../../forms/admin/notification/NotificationForm";
 import BusinessSettingForm from "../../forms/admin/business-setting/BusinessSettingForm";
-import FAQForm from "../../forms/admin/support/FAQForm";
+import FAQForm from "../../forms/admin/support/FAQPage";
 import AdminSupportForm from "../../forms/admin/support/AdminSupportForm";
 import CustomerSupportPage from "../../forms/admin/support/CustomerSupportForm";
 import AddFAQ from "../../forms/admin/support/AddFAQ";

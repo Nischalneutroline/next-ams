@@ -129,7 +129,7 @@ model Reminder {
   services       Service[] // Relationship to reminders
   notifications  Notification[] // can have or or more notification way
   reminderOffset ReminderOffset[] // can have one or more offset: time for sending 
-}
+} 
 
 model ReminderOffset {
   id          String   @id @default(cuid())

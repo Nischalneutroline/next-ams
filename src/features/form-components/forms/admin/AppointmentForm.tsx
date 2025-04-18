@@ -39,7 +39,7 @@ const AppointmentForm = (props: any) => {
         <TextInput {...formObj.email} />
         <TextInput {...formObj.phone} />
         <SelectInput {...formObj.serviceId} />
-        <div className="flex flex-col sm:flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center">
           <DateInput {...formObj.selectedDate} />
           <TimeInput {...formObj.selectedTime} />
         </div>

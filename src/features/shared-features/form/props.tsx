@@ -1,9 +1,14 @@
 // Form container and Title Css
 
+export const pageContainerCss =
+  "absolute  top-[10%] left-[12%] h-[90%] sm:h-[80%] lg:h-[85%] lg:pb-8 w-[90%] sm:w-[75%] lg:w-[80%] bg-white rounded-2xl shadow-xl flex flex-col z-[8] ";
+
 export const formContainerCss =
   "h-[90%] sm:h-[80%] lg:h-[80%] lg:pb-8 w-[95%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col";
+export const formSmallContainerCss =
+  "h-[70%] sm:h-[60%] lg:h-[50%] lg:pb-8 w-[85%] sm:w-[65%] lg:w-[40%] bg-white rounded-2xl shadow-xl flex flex-col";
 export const formTitleDivCss =
-  "relative  flex flex-col text-black justify-items-center  pt-4 sm:pt-10 px-2 pb-4-2xl sm:px-10 ";
+  "relative  flex flex-col text-black justify-items-center  pt-4 sm:pt-14 px-2 pb-4 sm:px-10 ";
 export const formTitleCss =
   "flex  items-center justify-start text-[18px] sm:text-[18px] md:text-[20px] 2xl:text-[24px] font-semibold lg:font-[600] px-2 text-[#287AFF]";
 export const formSubTitleCss =
@@ -11,7 +16,7 @@ export const formSubTitleCss =
 
 // Form and Form Input Css
 export const formOuterDivCss =
-  "relative flex flex-col gap-8 px-4 sm:px-8 lg::px-12 pt-4 pb-8 overflow-y-auto scrollbar";
+  "relative flex flex-col gap-2 px-4 sm:px-8 lg:px-12 pt-4 pb-8 overflow-y-auto scrollbar";
 export const formDivCss =
   "relative pt-2 flex flex-col gap-2 text-sm text-gray-800 w-full max-w-full px-2 sm:px-3 lg:px-4";
 export const formTextBoxDivCss =
@@ -19,11 +24,11 @@ export const formTextBoxDivCss =
 export const formSwitchDivCss =
   " relative h-[40px] top-[-20px] flex gap-2 lg:gap-3 text-[11px] text-black w-11/12 w-full px-2";
 export const formLabelCss =
-  "font-medium flex items-center gap-2 text-[13px] sm:text-[15px] lg:text-[15px] text-[#1F2937] tracking-wide";
+  "font-medium flex items-center gap-2 text-[14px] sm:text-[15px] lg:text-[15px] text-[#1F2937] tracking-wide";
 export const formInputCss =
   "rounded-sm sm:rounded-lg h-[32px] sm:h-[44px] lg:h-[38px] px-3 text-[11px] sm:text-[14px] text-gray-800 bg-[#F9FAFB] border border-gray-300 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out";
 export const formFileInputCss =
-  "rounded-sm flex sm:rounded-lg h-[32px] sm:h-[44px] lg:h-[38px] px-3 text-[11px] sm:text-[14px] text-gray-800 bg-[#F9FAFB] border border-gray-300 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out pt-2";
+  "absolute opacity-0 w-0 h-0 rounded-sm flex sm:rounded-lg h-[32px] sm:h-[44px] lg:h-[38px] px-3 text-[11px] sm:text-[14px] text-gray-800 bg-[#F9FAFB] border border-gray-300 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out pt-2";
 export const formFileDivCss =
   "relative pt-2 flex flex-col gap-2 text-sm text-gray-800 w-full max-w-full px-2 sm:px-3 lg:px-4";
 export const formSmallInputCss =

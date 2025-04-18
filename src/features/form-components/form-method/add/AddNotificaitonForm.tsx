@@ -11,10 +11,16 @@ import {
   setAddNotificationFormTrue,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
-import { retriveUsers } from "@/state/admin/AdminServices";
+import { retriveService, retriveUsers } from "@/state/admin/AdminServices";
 import AnnouncementForm from "../../forms/admin/notification/AnnouncementForm";
 import Button from "@/features/shared-features/common/button";
 import ReminderForm from "../../forms/admin/notification/NotificationForm";
+import {
+  formContainerCss,
+  formSubTitleCss,
+  formTitleCss,
+  formTitleDivCss,
+} from "@/features/shared-features/form/props";
 
 const AddNotificationForm = () => {
   // Redux Variable
@@ -37,9 +43,24 @@ const AddNotificationForm = () => {
   const { details } = useAppSelector(
     (state: RootState) => state.admin.admin.notification.view.response
   );
+  const { details: serviceDetails } = useAppSelector(
+    (state: RootState) => state.admin.admin.service.view.response
+  );
+
+  function getServiceOptions(
+    services: { id: string; title: string; status: string }[]
+  ) {
+    return services
+      .filter((service) => service.status === "ACTIVE")
+      .map((service) => ({
+        label: service.title,
+        value: service.id,
+      }));
+  }
+  const serviceOptions = getServiceOptions(serviceDetails);
 
   useEffect(() => {
-    dispatch(retriveUsers());
+    // dispatch(retriveUsers());
     const handleClickOutside = (event: MouseEvent) => {
       const popup = document.querySelector(
         '.MuiPickersPopper-root, [role="dialog"]'
@@ -73,13 +94,11 @@ const AddNotificationForm = () => {
             animate={{ y: 0, scale: [0.9, 1.02, 1] }}
             exit={{ y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="h-[90%]   bg-white rounded-2xl shadow-xl flex flex-col  gap-5"
+            className={formContainerCss}
           >
-            <div className="relative  bg-gradient-to-b from-blue-300 to-white flex flex-col text-black justify-items-center  pt-10  px-10 bg-gray-600">
-              <div className="flex  items-center justify-start text-[16px] sm:text-[18px] md:text-[20px] 2xl:text-[24px] font-normal lg:font-[600] px-2 text-[#287AFF]">
-                Notification and Reminder
-              </div>
-              <div className="flex justify-start text-center text-[11px] sm:text-[13px] lg:text-[14px] text-[#6C757D] px-2">
+            <div className={formTitleDivCss}>
+              <div className={formTitleCss}>Notification and Reminder</div>
+              <div className={formSubTitleCss}>
                 Manage System Notification and Reminder here.
               </div>
             </div>
@@ -113,7 +132,9 @@ const AddNotificationForm = () => {
               </div>
             </div>
             <div className=" w-full overflow-y-auto scrollbar">
-              {notificationType === "Reminder" && <ReminderForm />}
+              {notificationType === "Reminder" && (
+                <ReminderForm serviceOptions={serviceOptions} />
+              )}
               {notificationType === "Announcement" && <AnnouncementForm />}
             </div>
           </motion.div>

@@ -40,7 +40,7 @@ const UserForm = (props: any) => {
           </div>
         )}
         <SelectInput {...formObj.role} />
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col gap-2">
           <PasswordInput {...formObj.password} />
           <SwitchInput {...formObj.isActive} />
         </div>

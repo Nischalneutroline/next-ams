@@ -28,7 +28,7 @@ export const ReminderCheckboxes = (props: SelectInputSchema) => {
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
-  console.log(options.map((options) => options));
+
   // 🔁 Update final reminderOffset structure
   useEffect(() => {
     const sendBeforeValue =
@@ -61,7 +61,6 @@ export const ReminderCheckboxes = (props: SelectInputSchema) => {
       })
       .filter(Boolean);
     setValue("reminderOffset", reminderOffset);
-    console.log("inside useeffect:", reminderOffset);
   }, [selected, reminderDate, reminderTime, setValue]);
 
   return (
@@ -78,7 +77,7 @@ export const ReminderCheckboxes = (props: SelectInputSchema) => {
       )}
 
       <div className="grid grid-cols-2 gap-2">
-        {options.map((opt) => (
+        {options?.map((opt) => (
           <div
             key={opt.value}
             className="cols-span-1 flex items-center space-x-2 cursor-pointer"

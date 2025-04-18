@@ -20,6 +20,8 @@ import AddBusinessPage from "@/features/form-components/form-method/add/AddBusin
 import AddBusinessAvailabilityForm from "@/features/form-components/form-method/add/AddBusinessAvailabilityForm";
 import EditAppointmentForm from "@/features/form-components/form-method/edit/EditAppointment";
 import EditServiceForm from "@/features/form-components/form-method/edit/EditServiceForm";
+import AddFAQ from "@/features/form-components/forms/admin/support/AddFAQ";
+import EditFAQ from "@/features/form-components/form-method/edit/EditFAQ";
 
 export default function AdminLayout({
   children,
@@ -178,6 +180,8 @@ export default function AdminLayout({
         <AddBusinessAvailabilityForm />
         <EditAppointmentForm />
         <EditServiceForm />
+        <AddFAQ />
+        <EditFAQ />
 
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]

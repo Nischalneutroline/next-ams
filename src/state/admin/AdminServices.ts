@@ -189,6 +189,24 @@ export const updateService = createAsyncThunk(
     return response.data;
   }
 );
+export const deleteService = createAsyncThunk(
+  "admin/deleteAppointment",
+  async (payload: {
+    id: string;
+    title: string;
+    description: string;
+    createdAt: string;
+    status: string;
+    estimatedDuration: number;
+    businessDetailsId: string;
+  }) => {
+    console.log("Deleting appointment with payload:", payload);
+    const response = await axios.delete(`/api/service`, {
+      data: payload, // 👈 this is required to pass body in DELETE request
+    });
+    return response.data;
+  }
+);
 export const createBusiness = createAsyncThunk(
   "admin/business/add",
   async (formData: BusinessDetail, { rejectWithValue }) => {

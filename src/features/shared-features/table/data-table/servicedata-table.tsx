@@ -29,6 +29,7 @@ import { DataTablePagination } from "../data-table-pagination";
 import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import { retriveService } from "@/state/admin/AdminServices";
+import { ServiceDataTableToolbar } from "../data-table-toolbar/servicedata-table-toolbar";
 
 interface DataTableProps<TValue> {
   columns: ColumnDef<TValue>[];
@@ -79,16 +80,16 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
 
   return (
     <div className="space-y-4 lg:max-w-[calc(100vw-120px)]">
-      <CustomerDataTableToolbar table={table} />
+      <ServiceDataTableToolbar table={table} />
 
-      <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-520px)] rounded-md border scrollbar ">
+      <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-601px)] rounded-md border scrollbar ">
         <Table className="min-w-full text-[11px] sm:text-[13px] lg:text-[14px]">
           <TableHeader className=" z-20 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
-                    className="px-2 py-1 md:py-2  text-center text-[12px] sm:text-[14px] lg:text-[16px] bg-slate-200"
+                    className="px-2 py-1 md:py-2  text-start text-[12px] sm:text-[14px] lg:text-[16px] bg-slate-200"
                     key={header.id}
                     colSpan={header.colSpan}
                   >

@@ -5,11 +5,12 @@ import {
   addUserBtnProps,
   cancelBtnProps,
   commonActions,
+  fullNameProps,
   messageProps,
   roleProps,
 } from "@/features/shared-features/form/formporps";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "@/state/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import { setAddNotificationFormTrue } from "@/state/admin/AdminSlice";
 import Button from "@/features/shared-features/common/button";
 import SelectInput from "@/features/shared-features/form/selectinput";
@@ -19,20 +20,24 @@ import { DaysSelection } from "@/features/shared-features/form/dayinput";
 import {
   formDivCss,
   formLabelCss,
+  formOuterDivCss,
+  formSubmitDivCss,
 } from "@/features/shared-features/form/props";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import MarkUnreadChatAltIcon from "@mui/icons-material/MarkUnreadChatAlt";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import { CheckboxInput } from "@/features/shared-features/form/checkboxinput";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
+import { retriveService } from "@/state/admin/AdminServices";
+import { Service } from "../../../../../data/structure";
 
-const ReminderForm = () => {
+const ReminderForm = (props: any) => {
+  const { serviceOptions } = props;
+  const dispatch = useAppDispatch();
   const [reminderType, setReminderType] = useState("Upcoming");
   const [scenario, setScenario] = useState("default");
 
   // Redux Variable
-  const dispatch = useAppDispatch();
-
   const prepareNotification = (notification?: string[]) => {
     if (!notification || !Array.isArray(notification)) return [];
     return notification.map((method) => ({ method }));
@@ -40,15 +45,18 @@ const ReminderForm = () => {
 
   // Submit handler
   const onSubmit = (data: any) => {
-    const notification = data.notification; // Make sure this exists
-    const transformedData = {
-      ...data,
-      type: reminderType,
-      notification: prepareNotification(notification),
-    };
+    // const notification = data.notification; // Make sure this exists
+    // const transformedData = {
+    //   ...data,
+    //   type: reminderType,
+    //   notification: prepareNotification(notification),
+    // };
 
-    console.log("Transformed data:", transformedData);
+    console.log("Transformed data:", data);
   };
+  // const { detials } = useAppSelector(
+  //   (state: RootState) => state.admin.admin.service.view.response
+  // );
 
   // React-hook-form with Zod validation
   const {
@@ -174,6 +182,24 @@ const ReminderForm = () => {
     }
   };
   const formObj: any = {
+    title: {
+      common: fullNameProps({
+        input: "title",
+        label: "Title",
+        placeholder: `Enter a title for this ${reminderType} reminder`,
+        showImportant: true,
+      }),
+      ...remaining,
+    },
+    description: {
+      common: messageProps({
+        input: "description",
+        label: "Description",
+        placeholder: `Enter a short description for this ${reminderType} reminder`,
+        showImportant: true,
+      }),
+      ...remaining,
+    },
     message: {
       common: messageProps({
         placeholder:
@@ -190,13 +216,26 @@ const ReminderForm = () => {
       options: notificationOptions,
       ...remaining,
     },
-    services: {
+    serviceId: {
       common: roleProps({
-        input: "services",
+        input: "serviceId",
         label: "Service",
         placeholder: "Select a service associated with this reminder",
+        showImportant: true,
+        icon: (
+          <MarkUnreadChatAltIcon
+            className="text-[#6C757D]"
+            sx={{
+              fontSize: {
+                xs: "16px",
+                sm: "16px",
+                lg: "16px",
+              },
+            }}
+          />
+        ),
       }),
-      options: notificationOptions,
+      options: serviceOptions,
       ...remaining,
     },
 
@@ -337,8 +376,8 @@ const ReminderForm = () => {
     dispatch(setAddNotificationFormTrue(false));
   };
   return (
-    <div className="relative flex flex-col gap3 px-10 pb-8">
-      <div className="flex gap-2 items-center justify-start px-6 py-2">
+    <div className="relative flex flex-col gap-2 pb-8">
+      <div className="flex gap-2 items-center justify-start px-16 pt-8">
         <div
           onClick={() => setScenario("default")}
           className={`cursor-pointer border rounded-lg px-4 py-1 transition-colors ${
@@ -360,11 +399,8 @@ const ReminderForm = () => {
           Custom
         </div>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full"
-      >
-        <div className="flex flex-col gap-2 px-4 py-2">
+      <form onSubmit={handleSubmit(onSubmit)} className={`${formOuterDivCss} `}>
+        <div className="flex flex-col gap-2 px-4 py-2 ">
           <div className="flex gap-2 items-center">
             <AllInboxIcon
               className="text-[#6C757D]"
@@ -439,16 +475,18 @@ const ReminderForm = () => {
             Notify user about their {reminderType} appointment
           </div>
         </div>
-        {reminderType !== "Custom" && (
-          <>
-            <SelectInput {...formObj.appointment} />
+        {scenario === "default" && (
+          <div className="flex flex-col gap-2 ">
+            <TextInput {...formObj.title} />
+            <TextInput {...formObj.description} />
+            <SelectInput {...formObj.serviceId} />
             <ReminderCheckboxes {...formObj.reminderOffset} />
             <DaysSelection {...formObj.notification} />
             <CheckboxInput {...formObj.expireAt} />
             <TextInput {...formObj.message} />
-          </>
+          </div>
         )}
-        {reminderType === "Custom" && (
+        {scenario === "custom" && (
           <>
             <ReminderCheckboxes {...customFormObj.scheduleAt} />
             <DaysSelection {...customFormObj.notification} />
@@ -460,26 +498,10 @@ const ReminderForm = () => {
           </>
         )}
 
-        {/* <ReminderCheckboxes {...formObj.appointmnet} /> */}
-        {/* <TextInput {...formObj.email} />
-      <TextInput {...formObj.phone_number} />
-      <div className="flex flex-col md:flex-row gap-2">
-        <TextInput {...formObj.address.street} />
-        <TextInput {...formObj.address.city} />
-        <TextInput {...formObj.address.country} />
-      </div>
-      <SwitchInput {...formObj.isActive} />
-      <PasswordInput {...formObj.password} /> */}
-        <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
+        <div className={formSubmitDivCss}>
           <Button {...cancelBtnProps(handleCancleButton)} />
 
           <Button {...addUserBtnProps} />
-          {/* <button
-          className="px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm"
-          type="submit"
-        >
-          Submit
-        </button> */}
         </div>
       </form>
     </div>

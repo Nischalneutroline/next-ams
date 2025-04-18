@@ -19,6 +19,8 @@ import { DaysSelection } from "@/features/shared-features/form/dayinput";
 import { CheckboxInput } from "@/features/shared-features/form/checkboxinput";
 import { CheckboxWithSchedule } from "@/features/shared-features/form/checkboxwithschedule";
 import { XIcon } from "lucide-react";
+import { Message } from "@mui/icons-material";
+import { formSubmitDivCss } from "@/features/shared-features/form/props";
 
 const AnnouncementForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
@@ -31,46 +33,99 @@ const AnnouncementForm = () => {
     return notification.map((method) => ({ method }));
   };
 
+  const extractDateTime = (dateStr: string, timeStr: string): string | null => {
+    try {
+      const date = new Date(dateStr);
+      const time = new Date(timeStr);
+
+      // Add one day to the date
+      const merged = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate() + 1, // ✅ Add one day
+        time.getHours(),
+        time.getMinutes(),
+        time.getSeconds()
+      );
+
+      return merged.toISOString(); // 👉 "2025-05-23T09:30:00.000Z"
+    } catch (err) {
+      console.error("Error parsing date/time:", err);
+      return null;
+    }
+  };
   // Submit handler
   const onSubmit = (data: any) => {
-    const scheduledTime = data.scheduledTime || {};
-
-    const expiryReminder = data.expiryReminder?.[0]?.method || "THIRTY_DAYS";
-    const showOn = data.showOn?.[0]?.method || "BANNER";
-    const hasDate = scheduledTime?.date;
-    const hasTime = scheduledTime?.time;
-
+    const showOn = data.showOn[0].method;
+    const title = data.title;
+    const description = data.description;
+    const message = data.message;
+    const audience = data.targetAudience;
+    const expiredAt = data.expiryReminder[0].method;
+    const isImmediate =
+      data.announcement[0].method === "Immediately" ? true : false;
     let scheduledAt: string | null = null;
 
-    const isValidDate = (val: any) =>
-      typeof val === "string" && val.trim().length > 0;
-    const isValidTime = (val: any) =>
-      typeof val === "string" && val.trim().length > 0;
-
-    const isImmediate = !(isValidDate(hasDate) && isValidTime(hasTime));
-
-    if (!isImmediate) {
-      const isoString = new Date(`${hasDate}T${hasTime}`);
-      if (!isNaN(isoString.getTime())) {
-        scheduledAt = isoString.toISOString();
-      } else {
-        console.error("Invalid date/time:", hasDate, hasTime);
-      }
+    if (isImmediate) {
+      scheduledAt = new Date().toISOString(); // ✅ use current time
+    } else {
+      scheduledAt = extractDateTime(
+        data.scheduledTime.date,
+        data.scheduledTime.time
+      ); // ✅ use extracted +1 day
     }
+    // const scheduledTime = data.scheduledTime || {};
 
+    // const hasDate = scheduledTime?.date;
+    // const hasTime = scheduledTime?.time;
+
+    // const isValidDate = (val: any) =>
+    //   typeof val === "string" && val.trim().length > 0;
+    // const isValidTime = (val: any) =>
+    //   typeof val === "string" && val.trim().length > 0;
+
+    // const isImmediate = !(isValidDate(hasDate) && isValidTime(hasTime));
+
+    // let scheduledAt: string | null = null;
+    // if (!isImmediate) {
+    //   const isoString = new Date(`${hasDate}T${hasTime}`);
+    //   if (!isNaN(isoString.getTime())) {
+    //     scheduledAt = isoString.toISOString();
+    //   } else {
+    //     console.error("Invalid date/time:", hasDate, hasTime);
+    //   }
+    // }
+
+    // const transformedData = {
+    //   title: data.title,
+    //   description: data.description || "",
+    //   message: data.message || "",
+    //   audience: data.targetAudience || "ALL",
+    //   isImmediate,
+    //   scheduledAt,
+    //   showOn: data.showOn?.[0]?.method || "BANNER", // this must match Prisma enum type
+    //   expiredAt: data.expiryReminder?.[0]?.method || "THIRTY_DAYS", // also must match Prisma enum
+    // };
     const transformedData = {
-      title: data.title,
-      description: data.description || "",
-      message: data.message || "",
-      audience: data.targetAudience || "ALL",
+      title,
+      description,
+      message,
+      audience,
       isImmediate,
       scheduledAt,
       showOn,
-      expiredAt: expiryReminder,
-      type: reminderType,
+      expiredAt,
+      type: reminderType, // assuming reminderType is available in the scope
     };
+    console.log(data);
+    console.log(transformedData, "transformedData");
 
-    console.log("Transformed data:", transformedData);
+    // Optional: send to API
+    // await fetch("/api/announcements", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(transformedData),
+    // });
   };
 
   // React-hook-form with Zod validation
@@ -101,17 +156,17 @@ const AnnouncementForm = () => {
   const remaining = { actions: commonActions, form, css: {} };
 
   const targetAudienceOptions = [
-    { label: "Appointments Users", value: "APPOINTMENT_USERS" },
+    { label: "Appointments Users", value: "APPOINTED_USERS" },
     { label: "Cancelled Users", value: "CANCELLED_USERS" },
     { label: "All", value: "ALL" },
   ];
   const announcemnetOptions = [
     { label: "Immediately", value: "Immediately", showSchedule: false },
-    { label: "Schedule", value: "schedule", showSchedule: true },
+    { label: "Schedule", value: "Schedule", showSchedule: true },
   ];
 
   const showOnOptions = [
-    { label: "Top Banner", value: "TOP_BANNER", showSchedule: false },
+    { label: "Top Banner", value: "BANNER", showSchedule: false },
     {
       label: "Push Notification",
       value: "PUSH_NOTIFICATION",
@@ -129,33 +184,32 @@ const AnnouncementForm = () => {
     },
   ];
   const expiryReminderOptions = [
-    { label: "1 days", value: "1", showSchedule: false },
+    { label: "1 day", value: "ONE_DAY", showSchedule: false },
     {
       label: "3 days",
-      value: "3",
+      value: "THREE_DAYS",
       showSchedule: false,
     },
     {
       label: "7 days",
-      value: "7",
+      value: "SEVEN_DAYS",
       showSchedule: false,
     },
     {
       label: "30 days",
-      value: "30",
+      value: "THIRTY_DAYS",
       showSchedule: false,
     },
     {
       label: "Never",
-      value: "never",
+      value: "NEVER",
       showSchedule: false,
     },
   ];
   const formObj: any = {
     message: {
       common: messageProps({
-        placeholder:
-          "“Your appointment on {selected_appointment_date} for {selected_service_name} has been cancelled. If you’d like to reschedule, please visit your dashboard or contact us.”",
+        placeholder: "Enter a message to show with announcement.",
       }),
       ...remaining,
     },
@@ -254,107 +308,23 @@ const AnnouncementForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full"
     >
-      <div className="flex justify-between bg-slate-200 px-2 w-full rounded-md h-[38px] items-center">
-        <button
-          className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[14px] rounded-md cursor-pointer ${
-            reminderType === "REMINDER"
-              ? "bg-white text-black"
-              : "bg-slate-200 text-black"
-          }`}
-          type="button"
-          onClick={() => setReminderType("REMINDER")}
-        >
-          Up-Coming
-        </button>
-        <button
-          className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[14px] rounded-md cursor-pointer ${
-            reminderType === "FOLLOW_UP"
-              ? "bg-white text-black"
-              : "bg-slate-200 text-black"
-          }`}
-          type="button"
-          onClick={() => setReminderType("FOLLOW_UP")}
-        >
-          Follow-up
-        </button>
-        <button
-          className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[14px] rounded-md cursor-pointer ${
-            reminderType === "CANCELLATION"
-              ? "bg-white text-black"
-              : "bg-slate-200 text-black"
-          }`}
-          type="button"
-          onClick={() => setReminderType("CANCELLATION")}
-        >
-          Cancellation
-        </button>
-        <button
-          className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[14px] rounded-md cursor-pointer ${
-            reminderType === "MISSED"
-              ? "bg-white text-black"
-              : "bg-slate-200 text-black"
-          }`}
-          type="button"
-          onClick={() => setReminderType("MISSED")}
-        >
-          Missed
-        </button>
-        <button
-          className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[14px] rounded-md cursor-pointer ${
-            reminderType === "CUSTOM"
-              ? "bg-white text-black"
-              : "bg-slate-200 text-black"
-          }`}
-          type="button"
-          onClick={() => setReminderType("CUSTOM")}
-        >
-          Custom
-        </button>
-      </div>
       <TextInput {...formObj.title} />
       <TextInput {...formObj.description} />
+      <TextInput {...formObj.message} />
+
       <CheckboxInput {...formObj.targetAudience} selectionType="single" />
 
-      <div className="grid grid-cols-2">
-        <div className="cols-span-1">
-          <SelectInput {...formObj.customer} />
-        </div>
-
-        <div className="cols-span-1">
-          <SelectInput {...formObj.host} />
-        </div>
-      </div>
       <CheckboxWithSchedule {...formObj.announcement} selectionType="single" />
-      <CheckboxWithSchedule {...formObj.showOn} />
+      <CheckboxWithSchedule {...formObj.showOn} selectionType="single" />
       <CheckboxWithSchedule
         {...formObj.expiryReminder}
         selectionType="single"
       />
 
-      {/* <DaysSelection {...formObj.notification} /> */}
-      {/* <ReminderCheckboxes {...formObj.reminderOffset} /> */}
-      {/* <TextInput {...formObj.message} /> */}
-
-      {/* <ReminderCheckboxes {...formObj.appointmnet} /> */}
-      {/* <TextInput {...formObj.email} />
-      <TextInput {...formObj.phone_number} />
-      <div className="flex flex-col md:flex-row gap-2">
-        <TextInput {...formObj.address.street} />
-        <TextInput {...formObj.address.city} />
-        <TextInput {...formObj.address.country} />
-      </div>
-      <SwitchInput {...formObj.isActive} />
-      <PasswordInput {...formObj.password} /> */}
-      <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
+      <div className={formSubmitDivCss}>
         <Button {...cancelBtnProps(handleCancleButton)} />
 
         <Button {...addUserBtnProps} />
-        {/* <button
-          className="px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-r from-[#2B73FF] to-[#038FFF] text-white  font-[700] text-[14px] rounded-sm"
-          type="submit"
-        >
-          Submit
-        </button> */}
       </div>
     </form>
   );

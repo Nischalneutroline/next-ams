@@ -63,11 +63,11 @@ export const CheckboxInput = (props: GenericCheckboxProps) => {
         </label>
       )}
 
-      <div className="flex  gap-8">
+      <div className="flex-1 gap-3 space-y-2">
         {options.map((opt) => (
           <div
             key={opt.value}
-            className="cols-span-1 flex items-center space-x-2 cursor-pointer"
+            className=" flex w-full items-center space-x-2 cursor-pointer"
             onClick={() => toggleOption(opt.value)}
           >
             <div
@@ -81,7 +81,7 @@ export const CheckboxInput = (props: GenericCheckboxProps) => {
               {isSelected(opt.value) ? "✓" : "-"}
             </div>
             <span
-              className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[14px]
+              className={`border px-4 py-[6px] h-[35px] rounded-md transition-all flex items-center text-[12px] sm:text-[14px]
                 ${
                   isSelected(opt.value)
                     ? "bg-blue-600 text-white border-blue-600"

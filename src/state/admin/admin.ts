@@ -77,6 +77,11 @@ export interface AdminServiceFormSchema {
   serviceAvailability: ServiceAvailability[];
 }
 
+export interface AdminFAQFormSchema {
+  question: string;
+  answer: string;
+}
+
 // Define The Platform Schema for Each of the Form Driven Section of Admin
 export interface CustomerPlatformSchema {
   id?: string | number | null;
@@ -94,6 +99,17 @@ export interface ServicePlatformSchema {
   id?: string | number | null;
   input: AdminServiceFormSchema;
   details: AdminServiceFormSchema[];
+}
+
+export interface NotificationPlatformSchema {
+  id?: string | number | null;
+  input: AdminServiceFormSchema;
+  details: AdminServiceFormSchema[];
+}
+export interface FAQPlatformSchema {
+  id?: string | number | null;
+  input: AdminFAQFormSchema;
+  details: AdminFAQFormSchema[];
 }
 
 // Create the Platform Schema for Each of the form associated with CRUD
@@ -114,6 +130,16 @@ export interface ServicePlatform {
   _edit_ServiceForm: ServicePlatformSchema;
   _view_ServiceForm: ServicePlatformSchema;
 }
+export interface NotificationPlatform {
+  _add_NotificationForm: ServicePlatformSchema;
+  _edit_NotificationForm: ServicePlatformSchema;
+  _view_NotificationForm: ServicePlatformSchema;
+}
+export interface FAQPlatform {
+  _add_FAQForm: FAQPlatformSchema;
+  _edit_FAQForm: FAQPlatformSchema;
+  _view_FAQForm: FAQPlatformSchema;
+}
 
 export type AdminApi = {
   user: ServiceType;
@@ -124,6 +150,7 @@ export type AdminApi = {
   support: ServiceType;
   business: ServiceType;
   availability: ServiceType;
+  faq: ServiceType;
 };
 
 export interface AdminSliceSchema {
@@ -132,6 +159,7 @@ export interface AdminSliceSchema {
     appointment: AppointmentPlatform;
     service: ServicePlatform;
     notification: ServicePlatform;
+    faq: FAQPlatform;
   };
   admin: AdminApi;
 }

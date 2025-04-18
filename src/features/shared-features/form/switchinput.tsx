@@ -89,11 +89,9 @@ export default function SwitchInput(props: InputSchema) {
           </div>
         </div>
       ) : (
-        <div
-          className={`${finalDivCss} lg:px-0  max-w-full h-[40px] sm:h-[35px] lg:h-[40px] 2xl:h-[45px]`}
-        >
+        <div className={`${finalDivCss}  flex flex-row items-center gap-4`}>
           {label && (
-            <label className={finalLabelCss} htmlFor={input}>
+            <label className={`${finalLabelCss}`} htmlFor={input}>
               {icon && icon} {label}
               {showImportant && <span className="text-red-400">*</span>}
             </label>

@@ -14,7 +14,7 @@ import {
 } from "../components/ui/dropdown-menu";
 import { useAppDispatch } from "@/state/store";
 
-import { deleteUser } from "@/state/admin/AdminServices";
+import { deleteService, deleteUser } from "@/state/admin/AdminServices";
 import {
   setEditServiceFormTrue,
   setEditServiceId,
@@ -56,7 +56,7 @@ export function ServiceDataTableRowActions<TData>({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            dispatch(deleteUser(row.original));
+            dispatch(deleteService(row.original));
           }}
         >
           Delete

@@ -299,6 +299,32 @@ const initialState: AdminSliceSchema = {
         details: [],
       },
     },
+    faq: {
+      _add_FAQForm: {
+        id: null,
+        input: {
+          question: "",
+          answer: "",
+        },
+        details: [],
+      },
+      _edit_FAQForm: {
+        id: null,
+        input: {
+          question: "",
+          answer: "",
+        },
+        details: [],
+      },
+      _view_FAQForm: {
+        id: null,
+        input: {
+          question: "",
+          answer: "",
+        },
+        details: [],
+      },
+    },
   },
   admin: {
     user: InitialServiceData,
@@ -309,6 +335,7 @@ const initialState: AdminSliceSchema = {
     support: InitialServiceData,
     business: InitialServiceData,
     availability: InitialServiceData,
+    faq: InitialServiceData,
   },
 };
 
@@ -375,6 +402,15 @@ const adminSlice = createSlice({
     },
     setEditServiceId: (state, action) => {
       state.platform.service._edit_ServiceForm.id = action.payload;
+    },
+    setAddFAQFormTrue: (state, action) => {
+      state.admin.faq.add.isFlag = action.payload;
+    },
+    setEditFAQFormTrue: (state, action) => {
+      state.admin.faq.edit.isFlag = action.payload;
+    },
+    setEditFAQId: (state, action) => {
+      state.platform.faq._edit_FAQForm.id = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -536,5 +572,8 @@ export const {
   setEditAppointmentFormTrue,
   setEditServiceFormTrue,
   setEditServiceId,
+  setAddFAQFormTrue,
+  setEditFAQId,
+  setEditFAQFormTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;

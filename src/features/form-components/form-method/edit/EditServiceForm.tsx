@@ -164,7 +164,8 @@ const EditServiceForm = () => {
     control,
     trigger,
   };
-
+  const availabilityDefaultValue =
+    dataToEdit?.status === "ACTIVE" ? true : false;
   const remaining = { actions: commonActions, form, css: {} };
 
   const statusOptions = [
@@ -284,7 +285,7 @@ const EditServiceForm = () => {
         input: "availabilities",
         label: "Avaiability",
         showImportant: true,
-        defaultValue: dataToEdit?.status === "ACTIVE" ? true : false,
+        defaultValue: availabilityDefaultValue,
         icon: (
           <PersonSearchIcon
             className="text-[#6C757D]"
