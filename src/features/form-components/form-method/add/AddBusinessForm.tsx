@@ -19,7 +19,7 @@ import ReminderForm from "../../forms/admin/notification/NotificationForm";
 import BusinessSettingForm from "../../forms/admin/business-setting/BusinessSettingForm";
 import FAQForm from "../../forms/admin/support/FAQPage";
 import AdminSupportForm from "../../forms/admin/support/AdminSupportForm";
-import CustomerSupportPage from "../../forms/admin/support/CustomerSupportForm";
+import CustomerSupportPage from "../../forms/admin/support/CustomerSupportPage";
 import AddFAQ from "../../forms/admin/support/AddFAQ";
 
 const AddBusinessPage = () => {

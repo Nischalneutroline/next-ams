@@ -336,6 +336,8 @@ const initialState: AdminSliceSchema = {
     business: InitialServiceData,
     availability: InitialServiceData,
     faq: InitialServiceData,
+    ticket: InitialServiceData,
+    businessDetails: InitialServiceData,
   },
 };
 
@@ -411,6 +413,15 @@ const adminSlice = createSlice({
     },
     setEditFAQId: (state, action) => {
       state.platform.faq._edit_FAQForm.id = action.payload;
+    },
+    setAddTicketFormTrue: (state, action) => {
+      state.admin.ticket.add.isFlag = action.payload;
+    },
+    setEditTicketFormTrue: (state, action) => {
+      state.admin.ticket.edit.isFlag = action.payload;
+    },
+    setAddBusinessDetailTrue: (state, action) => {
+      state.admin.businessDetails.add.isFlag = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -575,5 +586,8 @@ export const {
   setAddFAQFormTrue,
   setEditFAQId,
   setEditFAQFormTrue,
+  setAddTicketFormTrue,
+  setEditTicketFormTrue,
+  setAddBusinessDetailTrue,
 } = adminSlice.actions;
 export default adminSlice.reducer;

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import {
+  addTicketBtnProps,
   addUserBtnProps,
   cancelBtnProps,
   cityProps,
@@ -27,6 +28,7 @@ import {
 } from "@/features/shared-features/form/dayinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
+import { formOuterDivCss } from "@/features/shared-features/form/props";
 
 const AdminSupportForm = () => {
   // Redux Variable
@@ -65,10 +67,10 @@ const AdminSupportForm = () => {
   const remaining = { actions: commonActions, form, css: {} };
 
   const notificationOptions = [
-    { label: "Techinical Issue", value: "techinincal-issue" },
+    { label: "Techinical Issue", value: "TECHNICAL" },
     {
       label: "Business Information Update Request ",
-      value: "business-infomation-update-request",
+      value: "GENERAL",
     },
     { label: "Notification/Reminder Issue", value: "notification-issue" },
     { label: "Payment and Billing Issue", value: "payment-issue" },
@@ -156,62 +158,47 @@ const AdminSupportForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full gap-4"
+      className={`${formOuterDivCss}  gap-8 w-full lg:w-[880px]`}
     >
-      <div className="flex flex-col jutify-start px-2  ">
-        <h1 className="text-black font-semibold text-[18px]">What to Show?</h1>
-        <p className="italic text-[12px] text-slate-600">
-          Following details will be shown to users on About and Support & Help
-          section
-        </p>
-      </div>
-      <div className="flex flex-col jutify-start px-2  ">
-        <div className="flex">
-          <h1 className="text-black font-semibold text-[18px]">
-            {/* <SwitchInput {...formObj.useBusinessInfo} /> */}
-          </h1>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col jutify-start px-2  gap-2   ">
+          <h1 className="text-black font-semibold text-[18px]">Any Queries?</h1>
+          <p className="italic text-[12px] sm:text-[14px] text-slate-600">
+            Following details will be used to create an Admin Ticket
+          </p>
         </div>
-        <p className="italic text-[11px] text-slate-600 px-2 flex flex-col">
-          <span>
-            To let users know who to reach out to for specific issues.
-          </span>
-          <span>
-            Following details are taken from Business Settings Business Details
-          </span>
-        </p>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.fullName} />
-          </div>
-          <div className="col-span-1">
-            <TextInput {...formObj.email} />
-          </div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="cols-span-1">
-            <TextInput {...formObj.phone} />
-          </div>
-          <div className="cols-span-1">
-            <SelectInput {...formObj.category} />
-          </div>
-        </div>
-        <TextInput {...formObj.subject} />
-        <TextInput {...formObj.description} />
-        <div className="grid grid-cols-2">
-          <div className="cols-span-1">
-            <TextInput {...formObj.attachment} />
-          </div>
-          <div className="cols-span-1">
-            <SelectInput {...formObj.priorityLevel} />
-          </div>
-        </div>
-      </div>
-      <div className=" flex mb-4 w-full justify-center gap-4">
-        <Button {...cancelBtnProps(handleCancleButton)} />
 
-        <Button {...addUserBtnProps} />
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+            <div className="col-span-1">
+              <TextInput {...formObj.fullName} />
+            </div>
+            <div className="col-span-1">
+              <TextInput {...formObj.email} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+            <div className="cols-span-1">
+              <TextInput {...formObj.phone} />
+            </div>
+            <div className="cols-span-1">
+              <SelectInput {...formObj.category} />
+            </div>
+          </div>
+          <TextInput {...formObj.subject} />
+          <TextInput {...formObj.description} />
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+            <div className="cols-span-1">
+              <TextInput {...formObj.attachment} />
+            </div>
+            <div className="cols-span-1">
+              <SelectInput {...formObj.priorityLevel} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" flex flex-col mb-4 w-full justify-center gap-4">
+        <Button {...addTicketBtnProps} />
       </div>
     </form>
   );

@@ -1,35 +1,18 @@
 "use client";
-import CustomerPageHeader from "@/features/customer/components/customerpageheader";
 
-import { usersData } from "@/features/shared-features/table/data";
-import React from "react";
-import {
-  UserColumns,
-  columns,
-} from "../../../features/shared-features/table/columns";
-import { CustomerDataTable } from "@/features/shared-features/table/data-table/customerdata-table";
-import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import CustomerCardView from "@/features/shared-features/cards/CustomerCardView";
-import { retriveUsers } from "@/state/admin/AdminServices";
-import BusinessSettingPageHeader from "@/features/business-detail/components/businesssetiingpageheader";
+import React, { useEffect } from "react";
+
+import { useAppDispatch } from "@/state/store";
+
+import { setAddBusinessDetailTrue } from "@/state/admin/AdminSlice";
 
 const page = () => {
-  const { view } = useAppSelector(
-    (state: RootState) => state.admin.admin.user?.viewType
-  );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setAddBusinessDetailTrue(true));
+  }, []);
 
-  // console.log("Data from Api:", details);
-  return (
-    <div className="w-full flex flex-col gap-4 ">
-      <BusinessSettingPageHeader />
-
-      {view ? (
-        <CustomerDataTable columns={UserColumns} />
-      ) : (
-        <CustomerCardView user={usersData} />
-      )}
-    </div>
-  );
+  return <div className="w-full flex flex-col gap-4 "></div>;
 };
 
 export default page;

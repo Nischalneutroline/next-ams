@@ -88,7 +88,7 @@ const CustomerInfomationForm = () => {
     phoneNumber: {
       common: phoneProps({
         input: "phoneNumber",
-        label: "Phone Number (if available)",
+        label: "Phone Number",
 
         type: "phone",
         showImportant: false,
@@ -110,7 +110,7 @@ const CustomerInfomationForm = () => {
     physcialAddress: {
       common: cityProps({
         input: "physcialAddress",
-        label: "Physical Address (if applicable)",
+        label: "Physical Address",
         placeholder: "Enter the Physcial Address",
         type: "text",
         showImportant: false,
@@ -121,7 +121,7 @@ const CustomerInfomationForm = () => {
     mapAddress: {
       common: cityProps({
         input: "mapAddress",
-        label: "Google Map (if applicable)",
+        label: "Google Map",
         placeholder: "Enter the your Google Map link",
         type: "text",
         showImportant: false,
@@ -192,7 +192,7 @@ const CustomerInfomationForm = () => {
           </p>
         </div>
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 sm:grid-cols-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2">
             <div className="col-span-1">
               <TextInput {...formObj.companyName} />
             </div>
@@ -200,16 +200,17 @@ const CustomerInfomationForm = () => {
               <TextInput {...formObj.supportEmail} />
             </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-1 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 ">
             <div className="cols-span-1">
               <TextInput {...formObj.physcialAddress} />
             </div>
             <div className="cols-span-1">
               <TextInput {...formObj.mapAddress} />
             </div>
+
+            <TextInput {...formObj.phoneNumber} />
           </div>
-          <TextInput {...formObj.phoneNumber} />
-          <div className="h-[170px]">
+          <div className="h-fit">
             <DayAndTimeSelection {...formObj.businessHours} />
           </div>
           <div className="flex flex-col w-full">

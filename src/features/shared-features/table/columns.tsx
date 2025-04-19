@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { AppointmentDataTableRowActions } from "./datatable-row-actions/appointmentdatatable-row-actions";
 import { capitalizeFirstChar } from "@/utils/utils";
 import { ServiceDataTableRowActions } from "./datatable-row-actions/servicedatatable-row-actions";
+import { Ticket } from "@/features/ticket/types/types";
 const getRoleBadgeStyle = (role: string) => {
   switch (role) {
     case "admin":
@@ -542,6 +543,88 @@ export const NotificationColumns: ColumnDef<User>[] = [
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
+    ),
+  },
+
+  {
+    id: "actions",
+    cell: ({ row }) => <CustomerDataTableRowActions row={row} />,
+  },
+];
+
+export const TicketsColumns: ColumnDef<Ticket>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-0.5"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-0.5"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "subject",
+    header: "Issue",
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+  },
+  // {
+  //   accessorKey: "dateOfBirth",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Date of Birth" />
+  //   ),
+  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
+  // },
+  {
+    accessorKey: "priority",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Priority" />
+    ),
+    cell: ({ row }) => {
+      const priority = row.getValue("priority");
+
+      return (
+        <span
+          className={` py-1.5 min-w-[120px] text-center inline-block rounded-full text-white text-sm font-medium `}
+        >
+          {`${priority}`}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+  },
+  {
+    accessorKey: "assignedTo",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Assigned To" />
     ),
   },
 

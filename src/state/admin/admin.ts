@@ -151,6 +151,8 @@ export type AdminApi = {
   business: ServiceType;
   availability: ServiceType;
   faq: ServiceType;
+  ticket: ServiceType;
+  businessDetails:ServiceType
 };
 
 export interface AdminSliceSchema {

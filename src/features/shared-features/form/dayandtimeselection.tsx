@@ -109,7 +109,7 @@ export function DayAndTimeSelection(props: any) {
             )}
 
             {/* Day Buttons */}
-            <div className="grid grid-cols-3 sm:flex gap-8  mb-4">
+            <div className="grid grid-cols-3 sm:flex gap-x-8 gap-y-3    mb-4">
               {daysOfWeek.map((day) => (
                 <button
                   key={day.value}
@@ -138,7 +138,7 @@ export function DayAndTimeSelection(props: any) {
               {selectedDaySlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="flex flex-col sm:flex-row gap-1 items-center justify-between gap-2"
+                  className="flex flex-row gap-1 items-center justify-between gap-2"
                 >
                   <input
                     type="time"
@@ -157,22 +157,24 @@ export function DayAndTimeSelection(props: any) {
                       updateSlotValue(slot.id, "endTime", e.target.value)
                     }
                   />
-                  {selectedDaySlots.length > 1 && (
+                  <div className="flex lfex-row sm:flex-col gap-3 ">
+                    {selectedDaySlots.length > 1 && (
+                      <button
+                        type="button"
+                        className="text-red-500 text-[13px]"
+                        onClick={() => removeTimeSlot(slot.id)}
+                      >
+                        ✕
+                      </button>
+                    )}
                     <button
                       type="button"
-                      className="text-red-500 text-[13px]"
-                      onClick={() => removeTimeSlot(slot.id)}
+                      onClick={addTimeSlot}
+                      className="px-[6px] pb-[1px] rounded bg-blue-500 text-white text-[13px] hover:bg-blue-600 transition-all"
                     >
-                      ✕
+                      +
                     </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={addTimeSlot}
-                    className="px-[6px] pb-[1px] rounded bg-blue-500 text-white text-[13px] hover:bg-blue-600 transition-all"
-                  >
-                    +
-                  </button>
+                  </div>
                 </div>
               ))}
             </div>

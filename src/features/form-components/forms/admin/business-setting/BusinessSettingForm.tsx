@@ -32,6 +32,7 @@ import {
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
 import { createBusiness } from "@/state/admin/AdminServices";
+import { formOuterDivCss } from "@/features/shared-features/form/props";
 
 const BusinessSettingForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
@@ -42,10 +43,10 @@ const BusinessSettingForm = () => {
   // Submit handler
   const onSubmit = (data: any) => {
     const businessTransformed = {
-      name: data.businessName,
-      industry: data.category,
+      name: data.name,
+      industry: data.industry,
       email: data.email,
-      phone: data.phoneNumber,
+      phone: data.phone,
       website: `https://${data.website}`,
       businessRegistrationNumber: data.registrationNumber,
       status: data.status,
@@ -152,18 +153,18 @@ const BusinessSettingForm = () => {
   ];
 
   const formObj: any = {
-    businessName: {
+    name: {
       common: emptyFormProps({
-        input: "businessName",
+        input: "name",
         placeholder: "Enter Your Business Name",
         label: "Business Name",
         showImportant: true,
       }),
       ...remaining,
     },
-    category: {
+    industry: {
       common: fullNameProps({
-        input: "category",
+        input: "industry",
         label: "Company/Industry ",
         placeholder: "Select Industry",
         showImportant: true,
@@ -172,9 +173,9 @@ const BusinessSettingForm = () => {
       options: industryOptions,
       ...remaining,
     },
-    phoneNumber: {
+    phone: {
       common: phoneProps({
-        input: "phoneNumber",
+        input: "phone",
         label: "Phone Number",
         placeholder: "Enter your number",
         type: "phone",
@@ -217,16 +218,6 @@ const BusinessSettingForm = () => {
       ...remaining,
     },
 
-    state: {
-      common: cityProps({
-        input: "state",
-        label: "State",
-        placeholder: "Enter your State name",
-        type: "text",
-        showImportant: true,
-      }),
-      ...remaining,
-    },
     street: {
       common: roleProps({
         input: "street",
@@ -328,49 +319,55 @@ const BusinessSettingForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative flex flex-col gap-2 sm:gap-4 px-4 w-full gap-4"
+      className={`${formOuterDivCss}   gap-8 lg:w-[880px]`}
     >
-      <div className="flex flex-col gap-4 text-black">
-        <div className="font-bold text-[20px] px-4">Business Details</div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.businessName} />
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col jutify-start px-2  gap-2   ">
+          <h1 className="text-black font-semibold text-[18px]">
+            Edit Business ?
+          </h1>
+          <p className="italic text-[12px] sm:text-[14px] text-slate-600">
+            Business Details and Information can be changed here.
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              <div className="col-span-1">
+                <TextInput {...formObj.name} />
+              </div>
+              <div className="col-span-1">
+                <SelectInput {...formObj.industry} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              <TextInput {...formObj.email} />
+              <TextInput {...formObj.website} />
+              <TextInput {...formObj.phone} />
+            </div>
           </div>
-          <div className="col-span-1">
-            <SelectInput {...formObj.category} />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 ">
+            <TextInput {...formObj.country} />
+            <TextInput {...formObj.street} />
+            <TextInput {...formObj.city} />
+            <TextInput {...formObj.zipCode} />
+            <TextInput {...formObj.googleMap} />
           </div>
-        </div>
-        <div className="grid grid-cols-3">
-          <TextInput {...formObj.email} />
-          <TextInput {...formObj.website} />
-          <TextInput {...formObj.phoneNumber} />
-        </div>
-        <div className="font-bold text-[20px] px-4">Address and Location</div>
 
-        <div className="grid grid-cols-4">
-          <TextInput {...formObj.country} />
-          <TextInput {...formObj.state} />
-          <TextInput {...formObj.street} />
-          <TextInput {...formObj.city} />
-        </div>
-
-        <div className="grid grid-cols-4">
-          <TextInput {...formObj.zipCode} />
-          <div></div>
-
-          <TextInput {...formObj.googleMap} />
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1">
-            <TextInput {...formObj.registrationNumber} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 ">
+            <div className="col-span-1">
+              <TextInput {...formObj.registrationNumber} />
+            </div>
+            <div className="col-span-1">
+              <SelectInput {...formObj.status} />
+            </div>
           </div>
-          <div className="col-span-1">
-            <SelectInput {...formObj.status} />
-          </div>
-        </div>
-        <DayAndTimeSelection {...formObj.businessAvailability} />
 
-        <HoliDaysSelection {...formObj.holiday} />
+          <DayAndTimeSelection {...formObj.businessAvailability} />
+
+          <HoliDaysSelection {...formObj.holiday} />
+        </div>
       </div>
 
       <div className=" flex mb-4 w-full justify-center gap-4">

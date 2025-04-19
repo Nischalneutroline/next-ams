@@ -27,13 +27,15 @@ import {
   pageContainerCss,
 } from "@/features/shared-features/form/props";
 import FAQPage from "../../forms/admin/support/FAQPage";
+import AddBusinessAvailabilityForm from "./AddBusinessAvailabilityForm";
+import BusinessSettingForm from "../../forms/admin/business-setting/BusinessSettingForm";
 
-const SupportAndFaqPage = () => {
-  const [supportType, setSupportType] = useState("Customer Information");
+const BusinessDetailsPage = () => {
+  const [supportType, setSupportType] = useState("Business Details");
   // Redux Variable
   const dispatch = useAppDispatch();
   const { isFlag } = useAppSelector(
-    (state: RootState) => state.admin.admin.support.add
+    (state: RootState) => state.admin.admin.businessDetails.add
   );
 
   const isOpen = true;
@@ -87,63 +89,50 @@ const SupportAndFaqPage = () => {
           className={`${pageContainerCss}`}
         >
           <div className={formTitleDivCss}>
-            <div className={formTitleCss}>Support and Help</div>
+            <div className={formTitleCss}>Business Deatils</div>
             <div className={formSubTitleCss}>
               Manage and send system notification to suers and staff.
             </div>
           </div>
           <div className="flex lg:px-18">
-            <div className="flex gap-8 bg-[#287AFF] px-4 rounded-md h-[38px] items-center ">
+            <div className="flex gap-8 bg-[#287AFF] px-4  rounded-md h-[38px] items-center ">
               <button
                 className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[180px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                  supportType === "Customer Information"
+                  supportType === "Business Details"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"
                 }`}
                 type="button"
-                onClick={() => setSupportType("Customer Information")}
+                onClick={() => setSupportType("Business Details")}
               >
-                Customer Information
+                Business Details
               </button>
               <button
                 className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                  supportType === "FAQs"
+                  supportType === "Staffs"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"
                 }`}
                 type="button"
-                onClick={() => setSupportType("FAQs")}
+                onClick={() => setSupportType("Staffs")}
               >
-                FAQs
+                Staffs
               </button>
               <button
                 className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[160px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                  supportType === "Customer Support"
+                  supportType === "Admins"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"
                 }`}
                 type="button"
-                onClick={() => setSupportType("Customer Support")}
+                onClick={() => setSupportType("Admins")}
               >
-                Customer Support
-              </button>
-              <button
-                className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[160px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
-                  supportType === "Admin Support"
-                    ? "bg-white text-black"
-                    : "bg-[#287AFF] text-white"
-                }`}
-                type="button"
-                onClick={() => setSupportType("Admin Support")}
-              >
-                Admin Support
+                Admins
               </button>
             </div>
           </div>
           <div className="pt-4  h-full overflow-y-auto scrollbar flex justify-center">
-            {supportType === "Customer Information" && (
-              <CustomerInfomationForm />
-            )}
+            {supportType === "Business Details" && <BusinessSettingForm />}
             {supportType === "FAQs" && <FAQPage />}
             {supportType === "Customer Support" && <CustomerSupportPage />}
             {supportType === "Admin Support" && <AdminSupportForm />}
@@ -154,4 +143,4 @@ const SupportAndFaqPage = () => {
   );
 };
 
-export default SupportAndFaqPage;
+export default BusinessDetailsPage;
