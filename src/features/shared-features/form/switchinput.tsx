@@ -26,6 +26,7 @@ export default function SwitchInput(props: InputSchema) {
   const [isChecked, setIsChecked] = useState<boolean>(defaultValue ?? false);
 
   useEffect(() => {
+    console.log("Default:", defaultValue);
     setIsChecked(defaultValue ?? false);
   }, [defaultValue]);
 

@@ -84,38 +84,38 @@ export async function POST(req: NextRequest) {
     // User prisma logic
     const newSupportDetail = await prisma.supportBusinessDetail.create({
       data: {
-        supportBusinessName: parsedData.supportBusinessName,
-        supportEmail: parsedData.supportEmail,
-        supportPhone: parsedData.supportPhone,
-        businessId: parsedData.businessId,
-        supportAddress: {
-          create: parsedData.supportAddress.map((address) => ({
-            street: address.street,
-            city: address.city,
-            country: address.country,
-            zipCode: address.zipCode,
-            googleMap: address.googleMap || "",
-          })),
-        },
-        supportAvailability: {
-          create: parsedData.supportAvailability.map((availability) => ({
-            weekDay: availability.weekDay,
-            type: availability.type,
-            timeSlots: {
-              create: availability.timeSlots.map((timeSlot) => ({
-                startTime: timeSlot.startTime,
-                endTime: timeSlot.endTime,
-              })),
-            },
-          })),
-        },
-        supportHoliday: {
-          create: parsedData.supportHoliday.map((holiday) => ({
-            holiday: holiday.holiday as WeekDays,
-            type: holiday.type,
-            date: holiday.date,
-          })),
-        },
+          supportBusinessName: parsedData.supportBusinessName,
+          supportEmail: parsedData.supportEmail,
+          supportPhone: parsedData.supportPhone,
+          businessId: parsedData.businessId,
+          supportAddress: {
+            create: parsedData.supportAddress.map((address) => ({
+              street: address.street,
+              city: address.city,
+              country: address.country,
+              zipCode: address.zipCode,
+              googleMap: address.googleMap || "",
+            })),
+          },
+          supportAvailability: {
+            create: parsedData.supportAvailability.map((availability) => ({
+              weekDay: availability.weekDay,
+              type: availability.type,
+              timeSlots: {
+                create: availability.timeSlots.map((timeSlot) => ({
+                  startTime: timeSlot.startTime,
+                  endTime: timeSlot.endTime,
+                })),
+              },
+            })),
+          },
+          supportHoliday: {
+            create: parsedData.supportHoliday.map((holiday) => ({
+              holiday: holiday.holiday as WeekDays,
+              type: holiday.type,
+              date: holiday.date,
+            })),
+          },
       },
       include: {
         supportAddress: true,

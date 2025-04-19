@@ -51,6 +51,13 @@ export function DaysSelection(props: SelectInputSchema) {
     setValue(input, selectedDays);
   }, [selectedDays, setValue, input]);
 
+  useEffect(() => {
+    if (defaultValue) {
+      setSelectedDays(defaultValue);
+    }
+  }, [defaultValue]);
+
+  // console.log(defaultValue, "defaultvalue");
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
@@ -200,12 +207,13 @@ export function DateInput(props: InputSchema) {
             <DesktopDatePicker
               className="datepicker"
               value={field.value ? dayjs(field.value) : null}
-              onChange={(date) => {
-                if (date?.isValid()) {
-                  field.onChange(date.startOf("day").toISOString());
-                } else {
-                  field.onChange(null);
-                }
+              onChange={(newValue) => {
+                const formattedDate = newValue
+                  ? newValue
+                      .startOf("day")
+                      .format("YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")
+                  : "";
+                field.onChange(formattedDate);
               }}
               slotProps={{
                 textField: {

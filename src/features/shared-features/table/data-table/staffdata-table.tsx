@@ -28,14 +28,16 @@ import {
 import { DataTablePagination } from "../data-table-pagination";
 import { CustomerDataTableToolbar } from "../data-table-toolbar/customerdata-table-toolbar";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
-import { retriveService } from "@/state/admin/AdminServices";
-import { ServiceDataTableToolbar } from "../data-table-toolbar/servicedata-table-toolbar";
+import { retriveStaff, retriveUsers } from "@/state/admin/AdminServices";
+import { useEffect } from "react";
+import { TicketsDataTableToolbar } from "../data-table-toolbar/ticketsdata-table-toolbar";
+import { StaffDataTableToolbar } from "../data-table-toolbar/staffdata-table-toolbar";
 
 interface DataTableProps<TValue> {
   columns: ColumnDef<TValue>[];
 }
 
-export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
+export function StaffDataTable<TValue>({ columns }: DataTableProps<TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -43,19 +45,18 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
     []
   );
   const { isSuccess } = useAppSelector(
-    (state: RootState) => state.admin.admin.service.add.response
+    (state: RootState) => state.admin.admin.user.add.response
   );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const dispatch = useAppDispatch();
-  React.useEffect(() => {
-    dispatch(retriveService());
+  useEffect(() => {
+    dispatch(retriveStaff());
   }, [dispatch, isSuccess]);
 
   const { details } = useAppSelector(
-    (state: RootState) => state.admin.admin.service.view.response
+    (state: RootState) => state.admin.admin.resources.staff.view.response
   );
   const data = details;
-  console.log(data, "data");
-  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -81,7 +82,7 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
 
   return (
     <div className="space-y-4 lg:max-w-[calc(100vw-120px)]">
-      <ServiceDataTableToolbar table={table} />
+      <StaffDataTableToolbar table={table} />
 
       <div className="overflow-y-auto max-w-screen overflow-x-auto  max-h-[300px] sm:max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-280px)] lg:max-h-[calc(100vh-601px)] rounded-md border scrollbar ">
         <Table className="min-w-full text-[11px] sm:text-[13px] lg:text-[14px]">

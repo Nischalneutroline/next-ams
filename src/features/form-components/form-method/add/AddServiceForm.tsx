@@ -47,8 +47,8 @@ const AddServiceForm = () => {
       title: data.title,
       description: data.description,
       estimatedDuration: Number(data.estimatedDuration),
-      status: data?.avalability ? "ACTIVE" : "INACTIVE", // Or pull from `data.status` if available
-      businessDetailId: data.businessDetailId ?? "cm9gvwy4s0003vdg0f24wf178", // Add actual fallback or source
+      status: data.avalabilities ? "ACTIVE" : "INACTIVE",
+      businessDetailId: data.businessDetailId ?? "cm9gvwy4s0003vdg0f24wf178",
 
       // Parse the weekly availability with time slots
       serviceAvailability: data.serviceHourDay?.map((day: any) => ({
@@ -230,17 +230,7 @@ const AddServiceForm = () => {
           "font-medium flex items-center gap-2 text-sm sm:text-[15px] lg:text-[15px] text-[#1F2937] tracking-wide",
       },
     },
-    status: {
-      common: roleProps({
-        input: "status",
-        label: "Status",
 
-        placeholder: "Select a Current Service Status",
-        showImportant: true,
-      }),
-      options: statusOptions,
-      ...remaining,
-    },
     serviceAvailability: {
       common: roleProps({
         input: "serviceAvailability",
@@ -263,9 +253,9 @@ const AddServiceForm = () => {
       ...remaining,
       css: { divCss: "min-h-[150px] gap-y-4" },
     },
-    availabilities: {
+    avalabilities: {
       common: emptyFormProps({
-        input: "availabilities",
+        input: "avalabilities",
         label: "Avaiability",
         showImportant: true,
         icon: (

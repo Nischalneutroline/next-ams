@@ -14,6 +14,7 @@ import { RootState, useAppSelector } from "@/state/store";
 import React from "react";
 import AppointmentPageHeader from "@/features/appointment/components/appointmentpageheader";
 import { AppointmentDataTable } from "@/features/shared-features/table/data-table/appointmentdata-table";
+import AddAppointmentForm from "@/features/form-components/form-method/add/AddAppointmentForm";
 
 const page = () => {
   const { view } = useAppSelector(
@@ -21,14 +22,17 @@ const page = () => {
   );
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <AppointmentPageHeader />
-      {view ? (
-        <AppointmentDataTable columns={AppointmentColumns} />
-      ) : (
-        <AppointmentCardView user={usersData} />
-      )}
-    </div>
+    <>
+      {/* <AddAppointmentForm /> */}
+      <div className="w-full flex flex-col gap-4">
+        <AppointmentPageHeader />
+        {view ? (
+          <AppointmentDataTable columns={AppointmentColumns} />
+        ) : (
+          <AppointmentCardView user={usersData} />
+        )}
+      </div>
+    </>
   );
 };
 

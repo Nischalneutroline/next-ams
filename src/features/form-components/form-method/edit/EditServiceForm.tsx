@@ -45,6 +45,7 @@ import { passwordProps } from "../../../shared-features/form/formporps";
 import { IdCard } from "lucide-react";
 import ServiceForm from "../../forms/admin/ServiceForm";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import { ServiceAvailability } from "../../../service/types/types";
 import {
   formContainerCss,
   formSubTitleCss,
@@ -136,7 +137,7 @@ const EditServiceForm = () => {
 
   //  Ref for closing modal on outside click
   const formRef = useRef<HTMLDivElement>(null);
-
+  console.log(dataToEdit, "dataToEdit");
   // React-hook-form with Zod validation
   const {
     register,
@@ -166,6 +167,7 @@ const EditServiceForm = () => {
   };
   const availabilityDefaultValue =
     dataToEdit?.status === "ACTIVE" ? true : false;
+  console.log(availabilityDefaultValue, "availabilityDefaultValue");
   const remaining = { actions: commonActions, form, css: {} };
 
   const statusOptions = [
@@ -215,26 +217,11 @@ const EditServiceForm = () => {
       }),
       ...remaining,
     },
-
-    // address: {
-    //   street: {
-    //     common: streetProps({}),
-    //     ...remaining,
-    //   },
-    //   city: {
-    //     common: cityProps({}),
-    //     ...remaining,
-    //   },
-    //   country: {
-    //     common: countryProps({}),
-    //     ...remaining,
-    //   },
-    // },
     estimatedDuration: {
       common: roleProps({
         input: "estimatedDuration",
         label: " Duration",
-
+        defaultValue: dataToEdit?.estimatedDuration,
         placeholder: "Select Estimated Duration",
         showImportant: true,
       }),
@@ -246,17 +233,6 @@ const EditServiceForm = () => {
         labelCss:
           "font-medium flex items-center gap-2 text-sm sm:text-[15px] lg:text-[15px] text-[#1F2937] tracking-wide",
       },
-    },
-    status: {
-      common: roleProps({
-        input: "status",
-        label: "Status",
-
-        placeholder: "Select a Current Service Status",
-        showImportant: true,
-      }),
-      options: statusOptions,
-      ...remaining,
     },
     serviceAvailability: {
       common: roleProps({
@@ -275,17 +251,18 @@ const EditServiceForm = () => {
         input: "serviceHourDay",
         label: "Service Hour / Day",
         showImportant: true,
+        defaultValue: dataToEdit?.serviceAvailability,
       }),
       options,
       ...remaining,
       css: { divCss: "min-h-[150px] gap-y-4" },
     },
-    availabilities: {
+    avalabilities: {
       common: emptyFormProps({
         input: "availabilities",
         label: "Avaiability",
         showImportant: true,
-        defaultValue: availabilityDefaultValue,
+        defaultValue: dataToEdit?.status,
         icon: (
           <PersonSearchIcon
             className="text-[#6C757D]"

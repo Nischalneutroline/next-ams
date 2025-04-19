@@ -14,6 +14,7 @@ import { AppointmentDataTableRowActions } from "./datatable-row-actions/appointm
 import { capitalizeFirstChar } from "@/utils/utils";
 import { ServiceDataTableRowActions } from "./datatable-row-actions/servicedatatable-row-actions";
 import { Ticket } from "@/features/ticket/types/types";
+import { StaffDataTableRowActions } from "./datatable-row-actions/staffdatatable-row-actions";
 const getRoleBadgeStyle = (role: string) => {
   switch (role) {
     case "admin":
@@ -227,11 +228,18 @@ export const UserColumns: ColumnDef<User>[] = [
 
       return (
         <span
-          className={` py-1.5 min-w-[120px] text-center inline-block rounded-full text-white text-sm font-medium ${
-            isActive ? "bg-green-500/70" : "bg-yellow-400/60"
+          className={`  gap-3 py-[5px] sm:py-1.5 w-[70px] sm:min-w-[120px] flex items-center justify-center rounded-full text-[12px] sm:text-[14px] font-medium ${
+            isActive
+              ? "bg-[#ECFDF3] text-[#649C68]"
+              : "bg-[#FDF9EC] text-[#B57200]"
           }`}
         >
-          {isActive ? "Active" : "Inactive"}
+          <div
+            className={`h-[5px] sm:h-[6px] w-[5px] sm:w-[6px] ${
+              isActive ? "bg-[#649C68]" : "bg-[#B57200]"
+            } rounded-full`}
+          ></div>
+          <>{isActive ? "Active" : "Inactive"}</>
         </span>
       );
     },
@@ -246,7 +254,7 @@ export const UserColumns: ColumnDef<User>[] = [
 
       return (
         <span
-          className={` py-1.5 min-w-[135px] text-center inline-block rounded-full text-white text-sm font-medium ${getRoleBadgeStyle(
+          className={` py-1 w-[80px] sm:min-w-[135px] text-center inline-block rounded-full text-white text-[12px] sm:text-sm font-medium ${getRoleBadgeStyle(
             role.toLocaleLowerCase()
           )}`}
         >
@@ -631,5 +639,89 @@ export const TicketsColumns: ColumnDef<Ticket>[] = [
   {
     id: "actions",
     cell: ({ row }) => <CustomerDataTableRowActions row={row} />,
+  },
+];
+
+export const StaffColumns: ColumnDef<Ticket>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="translate-y-0.5"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="translate-y-0.5"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone" />
+    ),
+  },
+  // {
+  //   accessorKey: "dateOfBirth",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Date of Birth" />
+  //   ),
+  //   cell: ({ row }) => format(new Date(row.original.dateOfBirth), "PPP"),
+  // },
+  {
+    accessorKey: "role",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Role" />
+    ),
+    cell: ({ row }) => {
+      const role: string = row.getValue("role");
+
+      return (
+        <span
+          className={` py-1 w-[80px] sm:min-w-[135px] text-center inline-block rounded-full text-white text-[12px] sm:text-sm font-medium ${getRoleBadgeStyle(
+            role.toLocaleLowerCase()
+          )}`}
+        >
+          {capitalizeFirstChar(role.toLocaleLowerCase())}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "address",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Address" />
+    ),
+  },
+  {
+    accessorKey: "businessId",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Business" />
+    ),
+  },
+
+  {
+    id: "actions",
+    cell: ({ row }) => <StaffDataTableRowActions row={row} />,
   },
 ];

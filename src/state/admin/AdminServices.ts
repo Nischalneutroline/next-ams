@@ -1,7 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AdminAppointmentFormSchema, AdminCustomerFormSchema } from "./admin";
+import {
+  AdminAppointmentFormSchema,
+  AdminCustomerFormSchema,
+  AdminResourceFormSchema,
+} from "./admin";
 import axios from "axios";
-import { BusinessDetail, Service, User } from "@/data/structure";
+import {
+  BusinessDetail,
+  Service,
+  SupportBusinessDetail,
+  User,
+} from "@/data/structure";
 // Post User data
 export const createUser = createAsyncThunk(
   "admin/user/add",
@@ -154,10 +163,14 @@ export const deleteAppointment = createAsyncThunk(
   }
 );
 
+// Services Serivces
 export const createService = createAsyncThunk(
   "admin/business/add",
   async (formData: Service, { rejectWithValue }) => {
-    console.log("Transformed Data:", formData);
+    const transformedData = {
+      ...formData,
+      status: formData.status ?? "ACTIVE",
+    };
     try {
       const res = await axios.post("/api/service", formData);
       return res.data;
@@ -167,7 +180,6 @@ export const createService = createAsyncThunk(
     }
   }
 );
-// Services Serivces
 export const retriveService = createAsyncThunk(
   "admin/service/view", // action type
   async (_, { rejectWithValue }) => {
@@ -207,6 +219,8 @@ export const deleteService = createAsyncThunk(
     return response.data;
   }
 );
+
+// Business
 export const createBusiness = createAsyncThunk(
   "admin/business/add",
   async (formData: BusinessDetail, { rejectWithValue }) => {
@@ -229,6 +243,70 @@ export const retrieveBusiness = createAsyncThunk(
     } catch (err: any) {
       console.log(err);
       return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
+// Resource Staff/Admin
+export const createStaff = createAsyncThunk(
+  "admin/business/add",
+  async (formData: AdminResourceFormSchema, { rejectWithValue }) => {
+    const transformedData = {
+      ...formData,
+      businessId: "cm9gvwy4s0003vdg0f24wf178",
+    };
+    try {
+      const res = await axios.post("/api/resource", transformedData);
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      return rejectWithValue(err.response.data || err.message);
+    }
+  }
+);
+
+export const retriveStaff = createAsyncThunk(
+  "admin/resource/staff/view", // action type
+  async (_, { rejectWithValue }) => {
+    try {
+      // Assuming the API endpoint for viewing a user is /api/users/{id}
+      const response = await axios.get(`/api/resource`);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
+export const deleteStaff = createAsyncThunk(
+  "admin/resource/staff/delete",
+  async (payload) => {
+    console.log("Deleting appointment with payload:", payload);
+    const response = await axios.delete(`/api/resource`, {
+      data: payload, // 👈 this is required to pass body in DELETE request
+    });
+    return response.data;
+  }
+);
+
+// Support Business details
+
+export const createSupportBusinessDetails = createAsyncThunk(
+  "admin/support-business-detail/add",
+  async (formData: any, { rejectWithValue }) => {
+    const transformedData = {
+      ...formData,
+      businessId: "cm9gvwy4s0003vdg0f24wf178",
+    };
+    try {
+      const res = await axios.post(
+        "/api/support-business-deatil",
+        transformedData
+      );
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      return rejectWithValue(err.response.data || err.message);
     }
   }
 );

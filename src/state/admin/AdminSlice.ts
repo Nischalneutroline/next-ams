@@ -9,10 +9,13 @@ import {
 } from "./admin";
 import {
   createAppointment,
+  createService,
+  createSupportBusinessDetails,
   createUser,
   retrieveBusiness,
   retriveAppointment,
   retriveService,
+  retriveStaff,
   retriveUsers,
   updateAppointment,
   updateUser,
@@ -325,6 +328,44 @@ const initialState: AdminSliceSchema = {
         details: [],
       },
     },
+    resource: {
+      _add_ResourceForm: {
+        id: null,
+        input: {
+          name: "",
+          email: "",
+          phone: "",
+          role: "",
+          address: "",
+          service: [{ id: "" }],
+        },
+        details: [],
+      },
+      _edit_ResourceForm: {
+        id: null,
+        input: {
+          name: "",
+          email: "",
+          phone: "",
+          role: "",
+          address: "",
+          service: [{ id: "" }],
+        },
+        details: [],
+      },
+      _view_ResourceForm: {
+        id: null,
+        input: {
+          name: "",
+          email: "",
+          phone: "",
+          role: "",
+          address: "",
+          service: [{ id: "" }],
+        },
+        details: [],
+      },
+    },
   },
   admin: {
     user: InitialServiceData,
@@ -338,6 +379,11 @@ const initialState: AdminSliceSchema = {
     faq: InitialServiceData,
     ticket: InitialServiceData,
     businessDetails: InitialServiceData,
+    resources: {
+      staff: InitialServiceData,
+      admin: InitialServiceData,
+    },
+    supportBusinessDetails: InitialServiceData,
   },
 };
 
@@ -423,9 +469,26 @@ const adminSlice = createSlice({
     setAddBusinessDetailTrue: (state, action) => {
       state.admin.businessDetails.add.isFlag = action.payload;
     },
+    setAddStaffResourceTrue: (state, action) => {
+      state.admin.resources.staff.add.isFlag = action.payload;
+    },
+    setEditStaffResourceTrue: (state, action) => {
+      state.admin.resources.staff.edit.isFlag = action.payload;
+    },
+    setEditAdminResourceTrue: (state, action) => {
+      state.admin.resources.admin.edit.isFlag = action.payload;
+    },
+    setAddAdminResourceTrue: (state, action) => {
+      state.admin.resources.admin.add.isFlag = action.payload;
+    },
+    setEditStaffId: (state, action) => {
+      state.platform.resource._edit_ResourceForm.id = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
+
+      // User / Customer
       .addCase(createUser.pending, (state) => {
         state.admin.user.add.response.isLoading = true;
         state.admin.user.add.response.isSuccess = false;
@@ -473,6 +536,8 @@ const adminSlice = createSlice({
         state.admin.user.edit.response.toastMsg = "User update failed.";
         state.admin.user.edit.response.error = action.payload as string;
       })
+
+      // Appointment
       .addCase(createAppointment.pending, (state) => {
         state.admin.appointment.add.response.isLoading = true;
         state.admin.appointment.add.response.isSuccess = false;
@@ -531,6 +596,26 @@ const adminSlice = createSlice({
         state.admin.appointment.edit.response.toastMsg = "User update failed.";
         state.admin.appointment.edit.response.error = action.payload as string;
       })
+
+      // Service
+      .addCase(createService.pending, (state) => {
+        state.admin.service.add.response.isLoading = true;
+        state.admin.service.add.response.isSuccess = false;
+        state.admin.service.add.response.toastMsg = "";
+      })
+      .addCase(createService.fulfilled, (state, action) => {
+        state.admin.service.add.response.isLoading = false;
+        state.admin.service.add.response.isSuccess = true;
+        state.admin.service.add.response.details = action.payload;
+        state.admin.service.add.response.toastMsg =
+          "User created successfully!";
+      })
+      .addCase(createService.rejected, (state, action) => {
+        state.admin.service.add.response.isLoading = false;
+        state.admin.service.add.response.isSuccess = false;
+        state.admin.service.add.response.toastMsg = "User creation failed.";
+        state.admin.service.add.response.error = action.payload as string;
+      })
       .addCase(retriveService.pending, (state) => {
         state.admin.service.view.response.isLoading = true;
         state.admin.service.view.response.error = null;
@@ -560,6 +645,46 @@ const adminSlice = createSlice({
       .addCase(retrieveBusiness.rejected, (state, action) => {
         state.admin.business.view.response.isLoading = false;
         state.admin.business.view.response.error = action.payload as string; // Capture error if failed
+      })
+      .addCase(retriveStaff.pending, (state) => {
+        state.admin.resources.staff.view.response.isLoading = true;
+        state.admin.resources.staff.view.response.error = null;
+        state.admin.resources.staff.add.response.toastMsg = "";
+      })
+      .addCase(retriveStaff.fulfilled, (state, action: PayloadAction<any>) => {
+        state.admin.resources.staff.view.response.isLoading = false;
+        state.admin.resources.staff.edit.response.isSuccess = true;
+        state.admin.resources.staff.view.response.details = action.payload; // Save the user data in the state
+      })
+      .addCase(retriveStaff.rejected, (state, action) => {
+        state.admin.resources.staff.view.response.isLoading = false;
+        state.admin.resources.staff.edit.response.isSuccess = false;
+        state.admin.resources.staff.edit.response.toastMsg =
+          "Appointment update failed.";
+
+        state.admin.resources.staff.view.response.error =
+          action.payload as string; // Capture error if failed
+      })
+      .addCase(createSupportBusinessDetails.pending, (state) => {
+        state.admin.supportBusinessDetails.add.response.isLoading = true;
+        state.admin.supportBusinessDetails.add.response.isSuccess = false;
+        state.admin.supportBusinessDetails.add.response.toastMsg = "";
+      })
+      .addCase(createSupportBusinessDetails.fulfilled, (state, action) => {
+        state.admin.supportBusinessDetails.add.response.isLoading = false;
+        state.admin.supportBusinessDetails.add.response.isSuccess = true;
+        state.admin.supportBusinessDetails.add.response.details =
+          action.payload;
+        state.admin.supportBusinessDetails.add.response.toastMsg =
+          "User created successfully!";
+      })
+      .addCase(createSupportBusinessDetails.rejected, (state, action) => {
+        state.admin.supportBusinessDetails.add.response.isLoading = false;
+        state.admin.supportBusinessDetails.add.response.isSuccess = false;
+        state.admin.supportBusinessDetails.add.response.toastMsg =
+          "User creation failed.";
+        state.admin.supportBusinessDetails.add.response.error =
+          action.payload as string;
       });
   },
 });
@@ -589,5 +714,10 @@ export const {
   setAddTicketFormTrue,
   setEditTicketFormTrue,
   setAddBusinessDetailTrue,
+  setAddStaffResourceTrue,
+  setAddAdminResourceTrue,
+  setEditStaffResourceTrue,
+  setEditAdminResourceTrue,
+  setEditStaffId,
 } = adminSlice.actions;
 export default adminSlice.reducer;

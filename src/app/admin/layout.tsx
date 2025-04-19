@@ -15,7 +15,6 @@ import AddAppointmentForm from "@/features/form-components/form-method/add/AddAp
 import EditUserForm from "@/features/form-components/form-method/edit/EditUserForm";
 import AddServiceForm from "@/features/form-components/form-method/add/AddServiceForm";
 import AddNotificationForm from "@/features/form-components/form-method/add/AddNotificaitonForm";
-import AddSupportAndFaq from "@/features/form-components/form-method/add/AddSupportandFAQ";
 import AddBusinessPage from "@/features/form-components/form-method/add/AddBusinessForm";
 import AddBusinessAvailabilityForm from "@/features/form-components/form-method/add/AddBusinessAvailabilityForm";
 import EditAppointmentForm from "@/features/form-components/form-method/edit/EditAppointment";
@@ -25,6 +24,8 @@ import EditFAQ from "@/features/form-components/form-method/edit/EditFAQ";
 import AddTicket from "@/features/form-components/forms/admin/support/AddTicketForm";
 import SupportAndFaqPage from "@/features/form-components/form-method/add/AddSupportandFAQ";
 import BusinessDetailsPage from "@/features/form-components/form-method/add/AddBusinessDetail";
+import AddResources from "@/features/form-components/form-method/add/AddResources";
+import EditStaffResources from "@/features/form-components/form-method/edit/EditResources";
 
 export default function AdminLayout({
   children,
@@ -187,10 +188,12 @@ export default function AdminLayout({
         <EditFAQ />
         <AddTicket />
         <BusinessDetailsPage />
+        <AddResources />
+        <EditStaffResources />
 
         <div
           className="absolute  min-h-[calc(100vh-376px)] lg:ml-[90px]
-        w-full lg:min-w-[100vw] py-4 px-3 md:px-4 overflow-hidden"
+        w-full lg:min-w-[100vw] py-4 px-3 md:px-4 overflow-t-auto"
         >
           {children}
         </div>

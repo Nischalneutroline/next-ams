@@ -29,6 +29,8 @@ import {
 import FAQPage from "../../forms/admin/support/FAQPage";
 import AddBusinessAvailabilityForm from "./AddBusinessAvailabilityForm";
 import BusinessSettingForm from "../../forms/admin/business-setting/BusinessSettingForm";
+import StaffPage from "../../forms/admin/business-setting/StaffPage";
+import AdminPage from "../../forms/admin/business-setting/AdminPage";
 
 const BusinessDetailsPage = () => {
   const [supportType, setSupportType] = useState("Business Details");
@@ -116,7 +118,7 @@ const BusinessDetailsPage = () => {
                 type="button"
                 onClick={() => setSupportType("Staffs")}
               >
-                Staffs
+                Staff Members
               </button>
               <button
                 className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[160px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
@@ -127,15 +129,14 @@ const BusinessDetailsPage = () => {
                 type="button"
                 onClick={() => setSupportType("Admins")}
               >
-                Admins
+                Admin Members
               </button>
             </div>
           </div>
           <div className="pt-4  h-full overflow-y-auto scrollbar flex justify-center">
             {supportType === "Business Details" && <BusinessSettingForm />}
-            {supportType === "FAQs" && <FAQPage />}
-            {supportType === "Customer Support" && <CustomerSupportPage />}
-            {supportType === "Admin Support" && <AdminSupportForm />}
+            {supportType === "Staffs" && <StaffPage />}
+            {supportType === "Admins" && <AdminPage />}
           </div>
         </motion.div>
       )}

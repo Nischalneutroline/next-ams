@@ -21,6 +21,7 @@ import { DateInput } from "@/features/shared-features/form/dayinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
 import { formOuterDivCss } from "@/features/shared-features/form/props";
+import { createSupportBusinessDetails } from "@/state/admin/AdminServices";
 
 const CustomerInfomationForm = () => {
   const [reminderType, setReminderType] = useState("REMINDER");
@@ -29,8 +30,46 @@ const CustomerInfomationForm = () => {
   const dispatch = useAppDispatch();
 
   // Submit handler
-  const onSubmit = (data: any) => {
-    console.log("Transformed data:", data);
+  const onSubmit = (formData: any) => {
+    const transformedData = {
+      supportBusinessName: formData.supportBusinessName,
+      supportEmail: formData.supportEmail,
+      supportPhone: formData.supportPhone,
+      supportAddress: [
+        {
+          street: formData.supportAddress,
+          city: "", // Fill if available
+          country: "", // Fill if available
+          zipCode: "", // Fill if available
+          googleMap: formData.supportGoogleMap || "",
+        },
+      ],
+      supportAvailability: formData.supportAvailability.map(
+        (availability: any) => ({
+          weekDay: availability.weekDay,
+          type: "SUPPORT",
+          timeSlots: availability.timeSlots.map((slot: any) => {
+            const today = new Date().toISOString().split("T")[0]; // "2025-04-19"
+            return {
+              startTime: new Date(
+                `${today}T${slot.startTime}:00Z`
+              ).toISOString(),
+              endTime: new Date(`${today}T${slot.endTime}:00Z`).toISOString(),
+            };
+          }),
+        })
+      ),
+      supportHoliday: [
+        {
+          holiday: "SUNDAY", // fallback or you can derive it from the date if needed
+          type: "SUPPORT",
+          date: formData.holidayStart,
+        },
+      ],
+      businessId: "cm9gvwy4s0003vdg0f24wf178",
+    };
+    console.log("Transformed data:", transformedData);
+    dispatch(createSupportBusinessDetails(transformedData));
   };
 
   // React-hook-form with Zod validation
@@ -76,18 +115,18 @@ const CustomerInfomationForm = () => {
       }),
       ...remaining,
     },
-    companyName: {
+    supportBusinessName: {
       common: fullNameProps({
-        input: "companyName",
+        input: "supportBusinessName",
         label: "Company/Business Name",
         placeholder: "Enter Business Name",
       }),
       options: notificationOptions,
       ...remaining,
     },
-    phoneNumber: {
+    supportPhone: {
       common: phoneProps({
-        input: "phoneNumber",
+        input: "supportPhone",
         label: "Phone Number",
 
         type: "phone",
@@ -107,20 +146,20 @@ const CustomerInfomationForm = () => {
 
       ...remaining,
     },
-    physcialAddress: {
+    supportAddress: {
       common: cityProps({
-        input: "physcialAddress",
+        input: "supportAddress",
         label: "Physical Address",
-        placeholder: "Enter the Physcial Address",
+        placeholder: "Enter Street, City, Country",
         type: "text",
         showImportant: false,
       }),
 
       ...remaining,
     },
-    mapAddress: {
+    supportGoogleMap: {
       common: cityProps({
-        input: "mapAddress",
+        input: "supportGoogleMap",
         label: "Google Map",
         placeholder: "Enter the your Google Map link",
         type: "text",
@@ -129,9 +168,9 @@ const CustomerInfomationForm = () => {
 
       ...remaining,
     },
-    businessHours: {
+    supportAvailability: {
       common: roleProps({
-        input: "businessHours",
+        input: "supportAvailability",
         label: "Business Day/Hour",
         showImportant: true,
       }),
@@ -146,15 +185,6 @@ const CustomerInfomationForm = () => {
         showImportant: true,
       }),
 
-      ...remaining,
-    },
-    holidayEnd: {
-      common: emptyFormProps({
-        input: "holidayEnd",
-        label: "End",
-        placeholder: "Holiday ends at",
-        showImportant: true,
-      }),
       ...remaining,
     },
   };
@@ -194,7 +224,7 @@ const CustomerInfomationForm = () => {
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2">
             <div className="col-span-1">
-              <TextInput {...formObj.companyName} />
+              <TextInput {...formObj.supportBusinessName} />
             </div>
             <div className="col-span-1">
               <TextInput {...formObj.supportEmail} />
@@ -202,22 +232,21 @@ const CustomerInfomationForm = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 ">
             <div className="cols-span-1">
-              <TextInput {...formObj.physcialAddress} />
+              <TextInput {...formObj.supportAddress} />
             </div>
             <div className="cols-span-1">
-              <TextInput {...formObj.mapAddress} />
+              <TextInput {...formObj.supportGoogleMap} />
             </div>
 
-            <TextInput {...formObj.phoneNumber} />
+            <TextInput {...formObj.supportPhone} />
           </div>
           <div className="h-fit">
-            <DayAndTimeSelection {...formObj.businessHours} />
+            <DayAndTimeSelection {...formObj.supportAvailability} />
           </div>
           <div className="flex flex-col w-full">
             <div className="text-[17px] font-semibold text-black">Holiday</div>
             <div className="flex ">
               <DateInput {...formObj.hoildayStart} />
-              <DateInput {...formObj.holidayEnd} />
             </div>
           </div>
         </div>

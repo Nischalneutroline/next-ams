@@ -1,31 +1,19 @@
 "use client";
 import Button from "@/features/shared-features/common/button";
-import {
-  addAppointmentBtnProps,
-  addServiceBtnProps,
-  addUserBtnProps,
-  customBtnProps,
-  defaultBtnProps,
-  roleProps,
-} from "@/features/shared-features/form/formporps";
+import { addServiceBtnProps } from "@/features/shared-features/form/formporps";
 import TextInput from "@/features/shared-features/form/inputtext";
 import SelectInput from "@/features/shared-features/form/selectinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import React, { useEffect, useState } from "react";
 import { cancelBtnProps } from "../../../shared-features/form/formporps";
-import {
-  setAddAppointmentFormTrue,
-  setAddServiceFormTrue,
-} from "@/state/admin/AdminSlice";
+import { setAddServiceFormTrue } from "@/state/admin/AdminSlice";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
 import { retrieveBusiness } from "@/state/admin/AdminServices";
 import { DaysSelection } from "@/features/shared-features/form/dayinput";
-import { ServiceAvailability } from "../../../service/types/types";
-import { CheckboxWithSchedule } from "@/features/shared-features/form/checkboxwithschedule";
-import { CheckboxWithCompulsorySchedule } from "@/features/shared-features/form/checkboxwithcompulsoryschedule";
+
 import {
   formOuterDivCss,
   formSubmitDivCss,
@@ -51,19 +39,6 @@ const ServiceForm = (props: any) => {
 
   const handleCancleButton = () => {
     dispatch(setAddServiceFormTrue(false));
-  };
-
-  const businessOptions = getLabelValueArray(details);
-
-  const formObjUpdated = {
-    ...formObj,
-    serviceAvailability: {
-      ...formObj.serviceAvailability,
-      common: {
-        ...formObj.serviceAvailability.common,
-        format: availaibility, // Corrected variable name `availability`
-      },
-    },
   };
 
   useEffect(() => {
@@ -118,12 +93,12 @@ const ServiceForm = (props: any) => {
             </div>
           </div>
         </div>
-        <DaysSelection {...formObj.serviceAvailability} type={availaibility} />
+        <DaysSelection {...formObj.serviceAvailability} />
 
         <DayAndTimeSelection {...formObj.serviceHourDay} />
 
         <div className="flex flex-col sm:flex-row justify-between">
-          <SwitchInput {...formObj.availabilities} />
+          <SwitchInput {...formObj.avalabilities} />
           <SelectInput {...formObj.estimatedDuration} />
         </div>
 

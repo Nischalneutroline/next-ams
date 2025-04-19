@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   addUserBtnProps,
   cancelBtnProps,
@@ -14,7 +14,7 @@ import {
   roleProps,
 } from "@/features/shared-features/form/formporps";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "@/state/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/state/store";
 import {
   setAddBusinessFormTrue,
   setAddNotificationFormTrue,
@@ -31,15 +31,22 @@ import {
 } from "@/features/shared-features/form/dayinput";
 import SwitchInput from "@/features/shared-features/form/switchinput";
 import { DayAndTimeSelection } from "@/features/shared-features/form/dayandtimeselection";
-import { createBusiness } from "@/state/admin/AdminServices";
+import { createBusiness, retrieveBusiness } from "@/state/admin/AdminServices";
 import { formOuterDivCss } from "@/features/shared-features/form/props";
 
 const BusinessSettingForm = () => {
-  const [reminderType, setReminderType] = useState("REMINDER");
-
   // Redux Variable
   const dispatch = useAppDispatch();
 
+  const { details } = useAppSelector(
+    (state: RootState) => state.admin.admin.business.view.response
+  );
+
+  const dataToEdit = details?.find(
+    (u: any) => u.id === "cm9gvwy4s0003vdg0f24wf178"
+  );
+
+  console.log(dataToEdit, "inside business detail");
   // Submit handler
   const onSubmit = (data: any) => {
     const businessTransformed = {
@@ -114,11 +121,6 @@ const BusinessSettingForm = () => {
 
   const remaining = { actions: commonActions, form, css: {} };
 
-  const notificationOptions = [
-    { label: "Push Notification", value: "Push Notification" },
-    { label: "Email", value: "Email" },
-    { label: "SMS", value: "SMS" },
-  ];
   const industryOptions = [
     { label: "Salon & Spa", value: "Salon & Spa" },
     { label: "Medical & Health", value: "Medical & Health" },
@@ -130,12 +132,6 @@ const BusinessSettingForm = () => {
     { label: "IT Services", value: "IT Services" },
   ];
 
-  const priorityLevelOptions = [
-    { label: "Low", value: "LOW" },
-    { label: "Medium", value: "MEDIUM" },
-    { label: "High", value: "HIGH" },
-    { label: "Urgent", value: "URGENT" },
-  ];
   const statusOptions = [
     { label: "Active", value: "ACTIVE" },
     { label: "Inactive", value: "INACTIVE" },
@@ -157,6 +153,7 @@ const BusinessSettingForm = () => {
       common: emptyFormProps({
         input: "name",
         placeholder: "Enter Your Business Name",
+        defaultValue: dataToEdit?.name,
         label: "Business Name",
         showImportant: true,
       }),
@@ -166,6 +163,8 @@ const BusinessSettingForm = () => {
       common: fullNameProps({
         input: "industry",
         label: "Company/Industry ",
+        defaultValue: dataToEdit?.industry,
+
         placeholder: "Select Industry",
         showImportant: true,
         type: "select",
@@ -178,6 +177,8 @@ const BusinessSettingForm = () => {
         input: "phone",
         label: "Phone Number",
         placeholder: "Enter your number",
+        defaultValue: dataToEdit?.phone,
+
         type: "phone",
         showImportant: true,
       }),
@@ -188,6 +189,7 @@ const BusinessSettingForm = () => {
       common: emailProps({
         input: "email",
         label: "Email",
+        defaultValue: dataToEdit?.email,
         placeholder: "Enter your Email Address",
         type: "email",
         showImportant: true,
@@ -199,6 +201,8 @@ const BusinessSettingForm = () => {
       common: cityProps({
         input: "website",
         label: "Website",
+        defaultValue: dataToEdit?.website,
+
         placeholder: "Your Business Website URL",
         type: "website",
         showImportant: true,
@@ -211,6 +215,8 @@ const BusinessSettingForm = () => {
         input: "country",
         label: "Country",
         placeholder: "Enter your Country name",
+        defaultValue: dataToEdit?.address[0].country,
+
         type: "text",
         showImportant: true,
       }),
@@ -222,6 +228,8 @@ const BusinessSettingForm = () => {
       common: roleProps({
         input: "street",
         label: "Street",
+        defaultValue: dataToEdit?.address[0].street,
+
         placeholder: "Enter your Street Name",
         type: "text",
         showImportant: true,
@@ -234,6 +242,8 @@ const BusinessSettingForm = () => {
         input: "city",
         label: "City ",
         placeholder: "Enter your City Name",
+        defaultValue: dataToEdit?.address[0].city,
+
         type: "text",
         showImportant: true,
       }),
@@ -245,6 +255,8 @@ const BusinessSettingForm = () => {
         input: "zipCode",
         label: "Zip Code",
         placeholder: "Enter your Zip Code",
+        defaultValue: dataToEdit?.address[0].zipCode,
+
         type: "text",
         showImportant: true,
       }),
@@ -256,6 +268,8 @@ const BusinessSettingForm = () => {
         input: "googleMap",
         label: "Google Map",
         placeholder: "Upload Your Map",
+        defaultValue: dataToEdit?.address[0].googleMap,
+
         showImportant: true,
         type: "text",
       }),
@@ -266,6 +280,8 @@ const BusinessSettingForm = () => {
       common: emptyFormProps({
         input: "registrationNumber",
         label: "Business Registration Number",
+        defaultValue: dataToEdit?.registrationNumber,
+
         placeholder: "Enter Business Registration Number",
         showImportant: true,
       }),
@@ -275,6 +291,8 @@ const BusinessSettingForm = () => {
       common: emptyFormProps({
         input: "status",
         label: "Business Status",
+        defaultValue: dataToEdit?.status,
+
         placeholder: "Select your current business Status",
         showImportant: true,
       }),
@@ -316,6 +334,9 @@ const BusinessSettingForm = () => {
   const handleCancleButton = () => {
     dispatch(setAddBusinessFormTrue(false));
   };
+  useEffect(() => {
+    dispatch(retrieveBusiness());
+  }, [dispatch]);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

@@ -82,6 +82,14 @@ export interface AdminFAQFormSchema {
   answer: string;
 }
 
+export interface AdminResourceFormSchema {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  address: string;
+  service: { id: string }[];
+}
 // Define The Platform Schema for Each of the Form Driven Section of Admin
 export interface CustomerPlatformSchema {
   id?: string | number | null;
@@ -110,6 +118,11 @@ export interface FAQPlatformSchema {
   id?: string | number | null;
   input: AdminFAQFormSchema;
   details: AdminFAQFormSchema[];
+}
+export interface ResourcePlatformSchema {
+  id?: string | number | null;
+  input: AdminResourceFormSchema;
+  details: AdminResourceFormSchema[];
 }
 
 // Create the Platform Schema for Each of the form associated with CRUD
@@ -140,6 +153,11 @@ export interface FAQPlatform {
   _edit_FAQForm: FAQPlatformSchema;
   _view_FAQForm: FAQPlatformSchema;
 }
+export interface ResourcePlatform {
+  _add_ResourceForm: ResourcePlatformSchema;
+  _edit_ResourceForm: ResourcePlatformSchema;
+  _view_ResourceForm: ResourcePlatformSchema;
+}
 
 export type AdminApi = {
   user: ServiceType;
@@ -152,7 +170,12 @@ export type AdminApi = {
   availability: ServiceType;
   faq: ServiceType;
   ticket: ServiceType;
-  businessDetails:ServiceType
+  businessDetails: ServiceType;
+  resources: {
+    staff: ServiceType;
+    admin: ServiceType;
+  };
+  supportBusinessDetails: ServiceType;
 };
 
 export interface AdminSliceSchema {
@@ -162,6 +185,7 @@ export interface AdminSliceSchema {
     service: ServicePlatform;
     notification: ServicePlatform;
     faq: FAQPlatform;
+    resource: ResourcePlatform;
   };
   admin: AdminApi;
 }
