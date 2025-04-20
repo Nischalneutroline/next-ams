@@ -81,7 +81,7 @@ export const adminUserSchema = z.object({
     ),
   street: z.string().optional(),
   city: z.string().optional(),
-
+  zipCode: z.number().optional(),
   country: z.string().optional(),
 
   role: z.string().min(1, { message: "Role is required" }),
@@ -182,7 +182,6 @@ export const adminAppointmentSchema = z.object({
 export type AdminAppointmentFormValues = z.infer<typeof adminAppointmentSchema>;
 
 const TimeSlotSchema = z.object({
-  id: z.string().uuid(),
   startTime: z.string().min(1, "Start time is required"),
   endTime: z.string().min(1, "End time is required"),
 });

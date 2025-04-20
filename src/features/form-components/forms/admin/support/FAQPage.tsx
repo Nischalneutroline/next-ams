@@ -91,16 +91,18 @@ const FAQPage = () => {
       </div>
       <div className="w-full max-h-[100%-40px] overflow-y-auto scrollbar flex flex-col gap-8 px-3">
         {dummyFAQs?.map((faqs: FAQ, index: number) => (
-          <div className="w-full flex flex-col gap-2">
+          <div key={index} className="w-full flex flex-col gap-2">
             <div className="flex justify-between w-full pr-4">
               <div className="flex gap-2 text-[15px] font-[500] leading-[100%] traccking-[-1%] items-center">
-                <div className="w-5 h-5 rounded-sm border-[1px] border-gray-200 flex items-center justify-center">
+                <div className="w-4 sm:w-5 h-4 sm:h-5 rounded-sm border-[1px] border-gray-200 flex items-center justify-center">
                   <TagIcon
                     className="text-gray-600"
-                    style={{ fontSize: "16px" }}
+                    sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                   />
                 </div>
-                <div className="text-[16px] font-[500]">FAQ{index + 1}</div>
+                <div className="text-[13px] sm:text-[16px] font-[500]">
+                  FAQ{index + 1}
+                </div>
               </div>
               <div className="flex gap-6">
                 <div
@@ -110,10 +112,12 @@ const FAQPage = () => {
                     dispatch(setEditFAQFormTrue(true));
                   }}
                 >
-                  <div className="text-[16px] font-[500]">Edit</div>
+                  <div className="text-[13px] sm:text-[16px] font-[500]">
+                    Edit
+                  </div>
                   <DriveFileRenameOutlineIcon
                     className="text-green-500"
-                    style={{ fontSize: "18px" }}
+                    sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                   />
                 </div>
                 <div
@@ -122,32 +126,36 @@ const FAQPage = () => {
                     dispatch(setEditFAQId(index));
                   }}
                 >
-                  <div className="text-[15px] font-[500]">Delete</div>
+                  <div className="text-[13px] sm:text-[16px] font-[500]">
+                    Delete
+                  </div>
                   <DeleteSweepOutlinedIcon
                     className="text-red-500"
-                    style={{ fontSize: "18px" }}
+                    sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                   />
                 </div>
               </div>
             </div>
             <div className="flex gap-2 text-[15px] font-[400] leading-[100%] traccking-[-1%] items-center text-black">
-              <div className="w-5 h-5 rounded-sm border-[1px] border-gray-200 flex items-center justify-center">
+              <div className="w-4 sm:w-5 h-4 sm:h-5 rounded-sm border-[1px] border-gray-200 flex items-center justify-center">
                 <QuizIcon
                   className="text-gray-500"
-                  style={{ fontSize: "16px" }}
+                  sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                 />
               </div>
-              <div>{faqs.question}</div>
+              <div className="text-[13px] sm:text-[16px] font-[400]">
+                {faqs.question}
+              </div>
             </div>
             <div className="flex-1 w-full justify-start">
-              <div className="min-h-[50px] bg-gray-200/40 border-gray-300 border-[1px] px-1 py-3 flex gap-1 items-center  rounded-md">
+              <div className="min-h-[50px] bg-gray-200/40 border-gray-300 border-[1px] px-1 py-1.5 sm:py-3 flex gap-1 items-center  rounded-md">
                 <div>
                   <KeyboardArrowRightIcon
                     className="text-gray-500"
-                    style={{ fontSize: "20px" }}
+                    sx={{ fontSize: { xs: "12px", sm: "14px", md: "16px" } }}
                   />
                 </div>
-                <div className="text-[14px] italic text-gray-700">
+                <div className="text-[12px] sm:text-[14px] italic text-gray-700">
                   {faqs.answer}
                 </div>
               </div>

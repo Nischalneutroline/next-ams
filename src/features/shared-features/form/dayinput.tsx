@@ -65,7 +65,7 @@ export function DaysSelection(props: SelectInputSchema) {
   };
 
   return (
-    <div className={`${finalDivCss} px-4  pb-2`}>
+    <div className={`${finalDivCss} px-4  h-[110px] sm:h-auto`}>
       {label && (
         <label className={finalLabelCss} htmlFor={input}>
           {icon && icon} {label}
@@ -76,7 +76,7 @@ export function DaysSelection(props: SelectInputSchema) {
       <div
         className={`${
           options.length === 7
-            ? " grid grid-cols-3 sm:grid-cols-5 gap-8 gap-y-4"
+            ? " grid grid-cols-4 sm:flex gap-x-4 gap-y-3 "
             : "flex flex-wrap gap-8"
         }`}
       >
@@ -114,7 +114,7 @@ export function DaysSelection(props: SelectInputSchema) {
 
               {/* Day Label */}
               <span
-                className={`border justify-center h-[35px] rounded-md transition-all flex items-center text-[14px] cursor-pointer min-w-[50px]  px-4
+                className={`flex justify-center w-[70px] sm:w-[80px] py-1.5 sm:py-2 rounded-lg border text-[12px] sm:text-[13px]  font-medium transition-all 
                   ${
                     isDisabled
                       ? "bg-red-500/90 text-white border-red-500/90 cursor-not-allowed"
@@ -396,7 +396,7 @@ export function HoliDaysSelection(props: SelectInputSchema) {
     common;
   const { setValue, errors } = form;
   const { divCss, labelCss, errorCss } = css!;
-
+  console.log(defaultValue, "holi Selecion");
   // States
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const daysOfWeek = options;
@@ -407,6 +407,11 @@ export function HoliDaysSelection(props: SelectInputSchema) {
   const finalDivCss = divCss ?? formDivCss;
   const finalLabelCss = labelCss ?? formLabelCss;
 
+  useEffect(() => {
+    if (defaultValue) {
+      setSelectedDays(defaultValue);
+    }
+  }, [defaultValue]);
   // Update form value when selectedDays changes
   useEffect(() => {
     setValue(input, selectedDays); // Register the selected days to React Hook Form
@@ -419,7 +424,7 @@ export function HoliDaysSelection(props: SelectInputSchema) {
   };
 
   return (
-    <div className={finalDivCss}>
+    <div className={`${finalDivCss} h-[120px] sm:h-auto`}>
       {label && (
         <label
           // className="text-black font-semibold flex gap-2 text-[12px] sm:text-[14px] lg:text-[16px] 2xl:text-[18px] items-center"
@@ -431,7 +436,7 @@ export function HoliDaysSelection(props: SelectInputSchema) {
         </label>
       )}
 
-      <div className="flex flex-wrap gap-8 gap-y-4">
+      <div className="grid grid-cols-4 grid-cols-5 gap-x-8 sm:gap-x-3 gap-y-3 ">
         {daysOfWeek.map((day: any) => {
           const isSelected = selectedDays.includes(day.value);
           return (
@@ -442,7 +447,7 @@ export function HoliDaysSelection(props: SelectInputSchema) {
             >
               {/* Checkbox Icon */}
               <div
-                className={`w-5 h-5 flex items-center justify-center rounded-sm border transition-all
+                className={`w-5 h-5 flex hidden sm:block items-center justify-center rounded-sm border transition-all
                   ${
                     isSelected
                       ? "bg-red-600 text-white border-red-600"

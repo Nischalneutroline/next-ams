@@ -39,9 +39,9 @@ const BusinessAvailabilityForm = (props: any) => {
     >
       <TextInput {...formObj.timeZone} />
       <DaysSelection {...formObj.businessDay} />
-      <div className="h-[170px]">
-        <DayAndTimeSelection {...formObj.businessHours} />
-      </div>
+
+      <DayAndTimeSelection {...formObj.businessHours} />
+
       <HoliDaysSelection {...formObj.holiDays} />
       {/* <TextInput {...formObj.phone_number} />
       <div className="flex flex-col md:flex-row gap-2">
@@ -52,7 +52,7 @@ const BusinessAvailabilityForm = (props: any) => {
       <SelectInput {...formObj.role} />
       <SwitchInput {...formObj.isActive} />
       <PasswordInput {...formObj.password} /> */}
-      <div className=" flex mb-4 w-full justify-center bottom-4 gap-4">
+      <div className=" flex  w-full justify-center gap-4">
         <Button {...cancelBtnProps(handleCancleButton)} />
 
         <Button {...addUserBtnProps} />

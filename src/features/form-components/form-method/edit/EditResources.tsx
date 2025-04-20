@@ -57,8 +57,6 @@ const EditStaffResources = () => {
   );
   const dataToEdit = resourceDetails?.find((u: any) => u.id === id);
 
-  console.log(dataToEdit, "dataToEdit");
-
   function getServiceOptions(
     services: { id: string; title: string; status: string }[]
   ) {
@@ -184,7 +182,6 @@ const EditStaffResources = () => {
     };
   }, [isFlag]);
 
-  console.log(formObj.name, "formObj.name");
   return (
     <AnimatePresence>
       {isFlag && (

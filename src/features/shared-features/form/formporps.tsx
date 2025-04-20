@@ -612,7 +612,7 @@ export const addFAQBtnProps = (handleClick: () => void) => ({
   handleAction: handleClick,
   css: {
     customCss:
-      "text-[11px] px-4 py-2 flex gap-1 justify-center items-center  bg-gradient-to-b from-[#2B73FF] to-[#038FFF] text-white  font-[600] text-[14px] rounded-sm cursor-pointer",
+      "px-4 py-2 flex w-[100px] gap-1 justify-center items-center  bg-gradient-to-b from-[#2B73FF] to-[#038FFF] text-white  font-[600] text-[11px] rounded-sm cursor-pointer",
   },
 });
 export const newFAQBtnProps = (handleClick: () => void) => ({

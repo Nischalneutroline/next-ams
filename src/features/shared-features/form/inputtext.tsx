@@ -33,11 +33,6 @@ export default function TextInput(props: InputSchema) {
   const formDivCss1: string =
     type === "textbox" ? formTextBoxDivCss : formDivCss;
 
-  const formInputCss2: string =
-    type === "file" ? formFileInputCss : formInputCss;
-
-  const formDivCss2: string = type === "file" ? formFileDivCss : formDivCss;
-
   // Css
   const highlightBorder =
     "border focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
@@ -46,9 +41,9 @@ export default function TextInput(props: InputSchema) {
   const border = errorMsg ? errorBorder : highlightBorder;
 
   // Final Css
-  const finalDivCss = divCss ?? (formDivCss1 || formDivCss2);
+  const finalDivCss = divCss ?? formDivCss1;
   const finalLabelCss = labelCss ?? formLabelCss;
-  const finalInputCss = inputCss ?? (formInputCss1 || formInputCss2);
+  const finalInputCss = inputCss ?? formInputCss1;
 
   // Error Props
   const errorProps = {
@@ -79,17 +74,8 @@ export default function TextInput(props: InputSchema) {
       )}
 
       {/* Render for different input types */}
-      {type === "file" ? (
-        <>
-          <input
-            id={input}
-            {...(register && register(input))}
-            type="file"
-            className={formFileInputCss}
-            onChange={handleInputChange}
-          />
-        </>
-      ) : type === "textbox" ? (
+
+      {type === "textbox" ? (
         <input
           id={input}
           {...(register && register(input))}

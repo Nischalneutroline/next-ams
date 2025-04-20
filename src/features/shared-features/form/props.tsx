@@ -1,7 +1,7 @@
 // Form container and Title Css
 
 export const pageContainerCss =
-  "absolute  top-[10%] left-[12%] h-[90%] sm:h-[80%] lg:h-[85%] lg:pb-8 w-[90%] sm:w-[75%] lg:w-[80%] bg-white rounded-2xl shadow-xl flex flex-col z-[8] ";
+  "absolute  top-[10%] left-[4%] sm:left-[12%] h-[90%] sm:h-[80%] lg:h-[85%] lg:pb-8 w-[90%] sm:w-[75%] lg:w-[80%] bg-white rounded-2xl shadow-xl flex flex-col z-[8] ";
 
 export const formContainerCss =
   "h-[90%] sm:h-[80%] lg:h-[80%] lg:pb-8 w-[95%] sm:w-[75%] lg:w-[50%] bg-white rounded-2xl shadow-xl flex flex-col";

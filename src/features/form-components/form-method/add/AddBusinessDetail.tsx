@@ -96,10 +96,10 @@ const BusinessDetailsPage = () => {
               Manage and send system notification to suers and staff.
             </div>
           </div>
-          <div className="flex lg:px-18">
-            <div className="flex gap-8 bg-[#287AFF] px-4  rounded-md h-[38px] items-center ">
+          <div className="flex px-3 lg:px-18 ">
+            <div className="flex gap-8 bg-[#287AFF] px-4  rounded-md h-[38px] items-center w-full">
               <button
-                className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[180px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
+                className={`flex gap-2 justify-center items-center h-[20px] w-[100px] lg:w-[180px] sm:h-[24px] sm:w-[100px] lg:h-[34px] font-medium   text-[11px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
                   supportType === "Business Details"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"
@@ -110,7 +110,7 @@ const BusinessDetailsPage = () => {
                 Business Details
               </button>
               <button
-                className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[120px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
+                className={`flex gap-2 justify-center items-center h-[20px] w-[100px] lg:w-[120px] sm:h-[24px] sm:w-[100px] lg:h-[34px] font-medium   text-[11px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
                   supportType === "Staffs"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"
@@ -121,7 +121,7 @@ const BusinessDetailsPage = () => {
                 Staff Members
               </button>
               <button
-                className={`flex gap-2 justify-center items-center h-[20px] w-[60px] lg:w-[160px] sm:h-[24px] sm:w-[80px] lg:h-[34px] font-medium   text-[12px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
+                className={`flex gap-2 justify-center items-center h-[20px] w-[100px] lg:w-[160px] sm:h-[24px] sm:w-[100px] lg:h-[34px] font-medium   text-[11px] sm:text-[12px] lg:text-[13px] rounded-md cursor-pointer ${
                   supportType === "Admins"
                     ? "bg-white text-black"
                     : "bg-[#287AFF] text-white"

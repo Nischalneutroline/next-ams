@@ -11,7 +11,7 @@ import React from "react";
 
 const StaffPage = () => {
   return (
-    <div className="flex flex-col gap-10 w-full px-20 pt-4 ">
+    <div className="flex flex-col gap-10 w-full px-2 sm:px-20 pt-4 ">
       <div className="w-[100%] h-[53px] flex flex-col justify-start gap-4 rounded-md px-[11px]">
         <StaffPageHeader />
         <StaffDataTable columns={StaffColumns} />

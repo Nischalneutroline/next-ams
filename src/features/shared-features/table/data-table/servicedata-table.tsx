@@ -54,7 +54,7 @@ export function ServiceDataTable<TValue>({ columns }: DataTableProps<TValue>) {
     (state: RootState) => state.admin.admin.service.view.response
   );
   const data = details;
-  console.log(data, "data");
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({

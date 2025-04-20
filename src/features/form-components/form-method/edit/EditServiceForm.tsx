@@ -33,6 +33,7 @@ import {
   setAddServiceFormTrue,
   setEditCustomerFormTrue,
   setEditServiceFormTrue,
+  setEditServiceId,
 } from "@/state/admin/AdminSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -137,7 +138,7 @@ const EditServiceForm = () => {
 
   //  Ref for closing modal on outside click
   const formRef = useRef<HTMLDivElement>(null);
-  console.log(dataToEdit, "dataToEdit");
+
   // React-hook-form with Zod validation
   const {
     register,
@@ -167,7 +168,20 @@ const EditServiceForm = () => {
   };
   const availabilityDefaultValue =
     dataToEdit?.status === "ACTIVE" ? true : false;
-  console.log(availabilityDefaultValue, "availabilityDefaultValue");
+
+  const transformAvailability = (apiData: any[]): ServiceAvailability[] => {
+    return apiData?.map((entry) => ({
+      weekDay: entry.weekDay,
+      timeSlots: entry.timeSlots.map(
+        (slot: { id: string; startTime: string; endTime: string }) => ({
+          id: slot.id,
+          startTime: new Date(slot.startTime).toISOString().substring(11, 16), // format to HH:mm
+          endTime: new Date(slot.endTime).toISOString().substring(11, 16), // format to HH:mm
+        })
+      ),
+    }));
+  };
+
   const remaining = { actions: commonActions, form, css: {} };
 
   const statusOptions = [
@@ -251,7 +265,7 @@ const EditServiceForm = () => {
         input: "serviceHourDay",
         label: "Service Hour / Day",
         showImportant: true,
-        defaultValue: dataToEdit?.serviceAvailability,
+        defaultValue: transformAvailability(dataToEdit?.serviceAvailability),
       }),
       options,
       ...remaining,
@@ -262,7 +276,7 @@ const EditServiceForm = () => {
         input: "availabilities",
         label: "Avaiability",
         showImportant: true,
-        defaultValue: dataToEdit?.status,
+        defaultValue: availabilityDefaultValue,
         icon: (
           <PersonSearchIcon
             className="text-[#6C757D]"
@@ -321,7 +335,10 @@ const EditServiceForm = () => {
               </div>
               <div
                 className="absolute top-3 right-4 text-red-600 cursor-pointer"
-                onClick={(e: any) => dispatch(setEditServiceFormTrue(false))}
+                onClick={(e: any) => {
+                  dispatch(setEditServiceFormTrue(false));
+                  dispatch(setEditServiceId(null));
+                }}
               >
                 <CloseIcon />
               </div>

@@ -69,7 +69,7 @@ const AddUserForm = () => {
     control,
   } = useForm({
     mode: "onSubmit",
-    // resolver: zodResolver(adminUserSchema),
+    resolver: zodResolver(adminUserSchema),
   });
 
   const form = {
